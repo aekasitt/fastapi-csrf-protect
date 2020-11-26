@@ -3,8 +3,6 @@
 [![Build Status](https://travis-ci.com/aekazitt/fastapi-csrf-protect.svg?branch=master)](https://travis-ci.com/aekazitt/fastapi-csrf-protect)
 ## Features
 
----
-
 FastAPI extension that provides Cross-Site Request Forgery (XSRF) Protection support (easy to use and lightweight).
 If you were familiar with `flask-wtf` library this extension suitable for you.
 This extension inspired by `fastapi-jwt-auth` 😀
@@ -13,8 +11,6 @@ This extension inspired by `fastapi-jwt-auth` 😀
 
 ## Installation
 
----
-
 The easiest way to start working with this extension with pip
 
 ```bash
@@ -22,8 +18,6 @@ pip install fastapi-csrf-protect
 ```
 
 ## Usage
-
----
 
 ### With Context and Headers
 
@@ -113,7 +107,5 @@ def csrf_protect_exception_handler(request: Request, exc: CsrfProtectError):
 ```
 
 ## License
-
----
 
 This project is licensed under the terms of the MIT license.
