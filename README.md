@@ -30,8 +30,8 @@ pip install fastapi-csrf-protect
 from fastapi import FastAPI, Request, Depends
 from fastapi.responses import ORJSONResponse
 from fastapi.templating import Jinja2Templates
-from fastapi_csrf_protect import FastapiCsrfProtect
-from fastapi_csrf_protect.exceptions import FastapiCsrfProtectError
+from fastapi_csrf_protect import CsrfProtect
+from fastapi_csrf_protect.exceptions import CsrfProtectError
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -40,12 +40,12 @@ templates = Jinja2Templates(directory='templates')
 class CsrfSettings(BaseModel):
   secret_key:str = 'asecrettoeverybody'
 
-@FastapiCsrfProtect.load_config
+@CsrfProtect.load_config
 def get_csrf_config():
   return CsrfSettings()
 
 @app.get('/form')
-def form(request: Request, csrf_protect:FastapiCsrfProtect = Depends()):
+def form(request: Request, csrf_protect:CsrfProtect = Depends()):
   '''
   Returns form template.
   '''
@@ -54,7 +54,7 @@ def form(request: Request, csrf_protect:FastapiCsrfProtect = Depends()):
   return response
 
 @app.post('/posts', response_class=ORJSONResponse)
-def create_post(request: Request, csrf_protect:FastapiCsrfProtect = Depends()):
+def create_post(request: Request, csrf_protect:CsrfProtect = Depends()):
   '''
   Creates a new Post
   '''
@@ -62,8 +62,8 @@ def create_post(request: Request, csrf_protect:FastapiCsrfProtect = Depends()):
   csrf_protect.validate_csrf(csrf_token)
   # Do stuff
 
-@app.exception_handler(FastapiCsrfProtectError)
-def csrf_protect_exception_handler(request: Request, exc: FastapiCsrfProtectError):
+@app.exception_handler(CsrfProtectError)
+def csrf_protect_exception_handler(request: Request, exc: CsrfProtectError):
   return ORJSONResponse(status_code=exc.status_code, content={ 'detail':  exc.message }) # Bad Request
 
 ```
@@ -74,8 +74,8 @@ def csrf_protect_exception_handler(request: Request, exc: FastapiCsrfProtectErro
 from fastapi import FastAPI, Request, Depends
 from fastapi.responses import ORJSONResponse
 from fastapi.templating import Jinja2Templates
-from fastapi_csrf_protect import FastapiCsrfProtect
-from fastapi_csrf_protect.exceptions import FastapiCsrfProtectError
+from fastapi_csrf_protect import CsrfProtect
+from fastapi_csrf_protect.exceptions import CsrfProtectError
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -84,12 +84,12 @@ templates = Jinja2Templates(directory='templates')
 class CsrfSettings(BaseModel):
   secret_key:str = 'asecrettoeverybody'
 
-@FastapiCsrfProtect.load_config
+@CsrfProtect.load_config
 def get_csrf_config():
   return CsrfSettings()
 
 @app.get('/form')
-def form(request: Request, csrf_protect:FastapiCsrfProtect = Depends()):
+def form(request: Request, csrf_protect:CsrfProtect = Depends()):
   '''
   Returns form template.
   '''
@@ -98,15 +98,15 @@ def form(request: Request, csrf_protect:FastapiCsrfProtect = Depends()):
   return response
 
 @app.post('/posts', response_class=ORJSONResponse)
-def create_post(request: Request, csrf_protect:FastapiCsrfProtect = Depends()):
+def create_post(request: Request, csrf_protect:CsrfProtect = Depends()):
   '''
   Creates a new Post
   '''
   csrf_protect.validate_csrf_in_cookies(request)
   # Do stuff
 
-@app.exception_handler(FastapiCsrfProtectError)
-def csrf_protect_exception_handler(request: Request, exc: FastapiCsrfProtectError):
+@app.exception_handler(CsrfProtectError)
+def csrf_protect_exception_handler(request: Request, exc: CsrfProtectError):
   return ORJSONResponse(status_code=exc.status_code, content={ 'detail':  exc.message }) # Bad Request
 
 ```

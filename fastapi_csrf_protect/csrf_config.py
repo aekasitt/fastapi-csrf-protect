@@ -12,7 +12,7 @@ from typing import Callable, List, Sequence
 from pydantic import ValidationError
 from fastapi_csrf_protect.load_config import LoadConfig
 
-class FastapiCsrfConfig(object):
+class CsrfConfig(object):
   _csrf_header_name:str = 'X-CSRF-Token'
   _csrf_header_type:str = None
   _csrf_in_cookies:bool = True
@@ -38,7 +38,7 @@ class FastapiCsrfConfig(object):
     return 'cookies' in self._token_locations
 
   @classmethod
-  def load_config(cls, settings: Callable[..., List[tuple]]) -> 'FastapiCsrfConfig':
+  def load_config(cls, settings: Callable[..., List[tuple]]) -> 'CsrfConfig':
     try:
       config = LoadConfig(**{key.lower():value for key,value in settings()})
       cls._csrf_header_name = config.csrf_header_name

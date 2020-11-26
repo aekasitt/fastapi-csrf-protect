@@ -14,10 +14,10 @@ from typing import Optional
 from fastapi import Request
 from fastapi.responses import Response
 from itsdangerous import BadData, SignatureExpired, URLSafeTimedSerializer
-from fastapi_csrf_protect.fastapi_csrf_config import FastapiCsrfConfig
+from fastapi_csrf_protect.csrf_config import CsrfConfig
 from fastapi_csrf_protect.exceptions import InvalidHeaderError, MissingTokenError, TokenValidationError
 
-class FastapiCsrfProtect(FastapiCsrfConfig):
+class CsrfProtect(CsrfConfig):
   def __init__(self,req: Request = None, res: Response = None):
     '''
     Retrieve response object if jwt in the cookie

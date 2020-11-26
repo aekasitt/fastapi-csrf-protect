@@ -8,19 +8,19 @@
 #
 # HISTORY:
 #*************************************************************
-class FastapiCsrfProtectError(Exception):
+class CsrfProtectError(Exception):
   def __init__(self, status_code, message):
     self.status_code = status_code
     self.message = message
 
-class InvalidHeaderError(FastapiCsrfProtectError):
+class InvalidHeaderError(CsrfProtectError):
   def __init__(self, message):
     super().__init__(422, message)
 
-class MissingTokenError(FastapiCsrfProtectError):
+class MissingTokenError(CsrfProtectError):
   def __init__(self, message):
     super().__init__(400, message)
 
-class TokenValidationError(FastapiCsrfProtectError):
+class TokenValidationError(CsrfProtectError):
   def __init__(self, message):
     super().__init__(401, message)
