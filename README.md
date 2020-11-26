@@ -1,10 +1,9 @@
 # FastAPI CSRF Protect
 
-[![Build Status](https://travis-ci.com/aekazitt/fastapi-csrf-protect.svg?branch=master)](https://travis-ci.com/aekazitt/fastapi-csrf-protect)
-
-<a href="https://pypi.org/project/fastapi-csrf-protect" target="_blank">
-  <img src="https://img.shields.io/badge/pypi%20package-v0.0.3-brightgreen" alt="Package version">
-</a>
+[![Package Vesion](https://img.shields.io/pypi/v/fastapi-csrf-protect)](https://pypi.org/project/fastapi-csrf-protect)
+[![Format](https://img.shields.io/pypi/format/fastapi-csrf-protect)](https://pypi.org/project/fastapi-csrf-protect)
+[![Python Version](https://img.shields.io/pypi/pyversions/fastapi-csrf-protect)](https://pypi.org/project/fastapi-csrf-protect)
+[![License](https://img.shields.io/pypi/l/fastapi-csrf-protect)](https://pypi.org/project/fastapi-csrf-protect)
 
 ## Features
 
