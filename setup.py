@@ -17,15 +17,21 @@ with open('README.md', 'r') as readme:
 
 setup(
   name='fastapi-csrf-protect',
-  version='0.0.2',
+  version='0.0.3',
   description='Simple integration of Cross-Site Request Forgery (XSRF) Protection by using either Cookies or Context combined with Headers',
   py_modules=['fastapi_csrf_protect'],
   package_dir={'': 'fastapi_csrf_protect'},
   classifiers=[
+    'Environment :: Web Environment',
+    'Intended Audience :: Developers',
     'License :: OSI Approved :: MIT License',
+    'Programming Language :: Python :: 3',
     'Programming Language :: Python :: 3.6',
     'Programming Language :: Python :: 3.7',
     'Programming Language :: Python :: 3.8'
+    'Operating System :: OS Independent',
+    'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+    'Topic :: Software Development :: Libraries :: Python Modules'
   ],
   long_description=long_description,
   long_description_content_type='text/markdown',
