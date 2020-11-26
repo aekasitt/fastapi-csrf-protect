@@ -17,7 +17,7 @@ with open('README.md', 'r') as readme:
 
 setup(
   name='fastapi-csrf-protect',
-  version='0.0.3',
+  version='0.0.4',
   description='Simple integration of Cross-Site Request Forgery (XSRF) Protection by using either Cookies or Context combined with Headers',
   py_modules=['fastapi_csrf_protect'],
   package_dir={'': 'fastapi_csrf_protect'},
@@ -40,9 +40,5 @@ setup(
     'itsdangerous ~= 1.1.0',
     'pydantic ~= 1.7.2'
   ],
-  extras_require={
-    'dev': [
-      'pytest >= 3.7'
-    ]
-  }
+  test_suite='tests',
 )
