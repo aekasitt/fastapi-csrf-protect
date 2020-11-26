@@ -50,7 +50,9 @@ def form(request: Request, csrf_protect:CsrfProtect = Depends()):
   Returns form template.
   '''
   csrf_token = csrf_protect.generate_csrf()
-  response = templates.TemplateResponse('form.html', { 'request': request, 'csrf_token': csrf_token })
+  response = templates.TemplateResponse('form.html', {
+    'request': request, 'csrf_token': csrf_token
+  })
   return response
 
 @app.post('/posts', response_class=ORJSONResponse)
@@ -64,7 +66,11 @@ def create_post(request: Request, csrf_protect:CsrfProtect = Depends()):
 
 @app.exception_handler(CsrfProtectError)
 def csrf_protect_exception_handler(request: Request, exc: CsrfProtectError):
-  return ORJSONResponse(status_code=exc.status_code, content={ 'detail':  exc.message }) # Bad Request
+  return ORJSONResponse(
+    status_code=exc.status_code,
+      content={ 'detail':  exc.message
+    }
+  )
 
 ```
 
@@ -107,7 +113,7 @@ def create_post(request: Request, csrf_protect:CsrfProtect = Depends()):
 
 @app.exception_handler(CsrfProtectError)
 def csrf_protect_exception_handler(request: Request, exc: CsrfProtectError):
-  return ORJSONResponse(status_code=exc.status_code, content={ 'detail':  exc.message }) # Bad Request
+  return ORJSONResponse(status_code=exc.status_code, content={ 'detail':  exc.message })
 
 ```
 
