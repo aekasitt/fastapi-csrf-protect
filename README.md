@@ -1,6 +1,11 @@
 # FastAPI CSRF Protect
 
 [![Build Status](https://travis-ci.com/aekazitt/fastapi-csrf-protect.svg?branch=master)](https://travis-ci.com/aekazitt/fastapi-csrf-protect)
+
+<a href="https://pypi.org/project/fastapi-csrf-protect" target="_blank">
+  <img src="https://img.shields.io/badge/pypi%20package-v0.0.3-brightgreen" alt="Package version">
+</a>
+
 ## Features
 
 FastAPI extension that provides Cross-Site Request Forgery (XSRF) Protection support (easy to use and lightweight).
