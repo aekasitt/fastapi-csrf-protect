@@ -1,5 +1,6 @@
 # FastAPI CSRF Protect
 
+![Travis](https://travis-ci.com/aekazitt/fastapi-csrf-protect.svg?branch=master)
 ## Features
 
 ---
