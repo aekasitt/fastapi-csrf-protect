@@ -28,7 +28,7 @@ pip install fastapi-csrf-protect
 
 ```python
 from fastapi import FastAPI, Request, Depends
-from fastapi.responses import ORJSONResponse
+from fastapi.responses import JSONResponse
 from fastapi.templating import Jinja2Templates
 from fastapi_csrf_protect import CsrfProtect
 from fastapi_csrf_protect.exceptions import CsrfProtectError
@@ -55,7 +55,7 @@ def form(request: Request, csrf_protect:CsrfProtect = Depends()):
   })
   return response
 
-@app.post('/posts', response_class=ORJSONResponse)
+@app.post('/posts', response_class=JSONResponse)
 def create_post(request: Request, csrf_protect:CsrfProtect = Depends()):
   '''
   Creates a new Post
@@ -66,7 +66,7 @@ def create_post(request: Request, csrf_protect:CsrfProtect = Depends()):
 
 @app.exception_handler(CsrfProtectError)
 def csrf_protect_exception_handler(request: Request, exc: CsrfProtectError):
-  return ORJSONResponse(
+  return JSONResponse(
     status_code=exc.status_code,
       content={ 'detail':  exc.message
     }
@@ -78,7 +78,7 @@ def csrf_protect_exception_handler(request: Request, exc: CsrfProtectError):
 
 ```python
 from fastapi import FastAPI, Request, Depends
-from fastapi.responses import ORJSONResponse
+from fastapi.responses import JSONResponse
 from fastapi.templating import Jinja2Templates
 from fastapi_csrf_protect import CsrfProtect
 from fastapi_csrf_protect.exceptions import CsrfProtectError
@@ -103,7 +103,7 @@ def form(request: Request, csrf_protect:CsrfProtect = Depends()):
   csrf_protect.set_csrf_cookie(response)
   return response
 
-@app.post('/posts', response_class=ORJSONResponse)
+@app.post('/posts', response_class=JSONResponse)
 def create_post(request: Request, csrf_protect:CsrfProtect = Depends()):
   '''
   Creates a new Post
@@ -113,7 +113,7 @@ def create_post(request: Request, csrf_protect:CsrfProtect = Depends()):
 
 @app.exception_handler(CsrfProtectError)
 def csrf_protect_exception_handler(request: Request, exc: CsrfProtectError):
-  return ORJSONResponse(status_code=exc.status_code, content={ 'detail':  exc.message })
+  return JSONResponse(status_code=exc.status_code, content={ 'detail':  exc.message })
 
 ```
 
