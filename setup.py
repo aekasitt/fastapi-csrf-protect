@@ -40,7 +40,8 @@ setup(
     'fastapi ~= 0.61.2',
     'itsdangerous ~= 1.1.0',
     'pydantic ~= 1.7.2',
-    'requests ~= 2.25.0'
+    'requests ~= 2.25.0',
+    'starlette ~= 0.13.6'
   ],
   test_suite='tests',
 )
