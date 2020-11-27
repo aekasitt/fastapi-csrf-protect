@@ -60,7 +60,7 @@ def create_post(request: Request, csrf_protect:CsrfProtect = Depends()):
   '''
   Creates a new Post
   '''
-  csrf_token = csrf_protect.get_csrf_from_headers(request.headers['X-CSRFToken'])
+  csrf_token = csrf_protect.get_csrf_from_headers(request.headers)
   csrf_protect.validate_csrf(csrf_token)
   # Do stuff
 

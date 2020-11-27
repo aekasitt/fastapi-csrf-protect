@@ -13,6 +13,7 @@ from hashlib import sha1
 from typing import Optional
 from fastapi import Request
 from fastapi.responses import Response
+from starlette.datastructures import Headers
 from itsdangerous import BadData, SignatureExpired, URLSafeTimedSerializer
 from fastapi_csrf_protect.csrf_config import CsrfConfig
 from fastapi_csrf_protect.exceptions import InvalidHeaderError, MissingTokenError, TokenValidationError
@@ -38,26 +39,31 @@ class CsrfProtect(CsrfConfig):
     token = serializer.dumps(sha1(urandom(64)).hexdigest())
     return token
 
-  def get_csrf_from_headers(self, auth: str) -> str:
+  def get_csrf_from_headers(self, headers: Headers) -> str:
     '''
     Get token from the headers
-    :param auth: value from HeaderName
+    :param headers: starlette Headers containing header with configured `csrf_header_name`
     '''
     header_name, header_type = self._csrf_header_name, self._csrf_header_type
-    parts = auth.split()
+    header_parts = None
+    try:
+      header_parts = headers[header_name].split()
+    except KeyError:
+      raise InvalidHeaderError(f'Bad headers. Expected "{header_name}" in headers')
     token = None
     # Make sure the header is in a valid format that we are expecting, ie
     if not header_type:
       # <HeaderName>: <Token>
-      if len(parts) != 1:
+      if len(header_parts) != 1:
         raise InvalidHeaderError(f'Bad {header_name} header. Expected value "<Token>"')
-      token = parts[0]
+      token = header_parts[0]
+      print(token)
     else:
       # <HeaderName>: <HeaderType> <Token>
       if not re.match(r"{}\s".format(header_type),auth) or len(parts) != 2:
         raise InvalidHeaderError(f'Bad {header_name} header. Expected value "{header_type} <Token>"')
-      token = parts[1]
-    return token # TODO Validate
+      token = header_parts[1]
+    return token
 
   def set_csrf_cookie(self, response: Optional[Response]= None) -> None:
     if response and not isinstance(response,Response):
