@@ -21,6 +21,7 @@ setup(
   description='Simple integration of Cross-Site Request Forgery (XSRF) Protection by using either Cookies or Context combined with Headers',
   py_modules=['fastapi_csrf_protect'],
   package_dir={'': 'fastapi_csrf_protect'},
+  url='https://github.com/aekazitt/fastapi-csrf-protect',
   classifiers=[
     'Environment :: Web Environment',
     'Intended Audience :: Developers',
