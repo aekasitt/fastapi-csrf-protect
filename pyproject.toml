@@ -1,0 +1,40 @@
+[tool.poetry]
+name = "fastapi-csrf"
+version = "0.2.0"
+description = "Simple integration of Cross-Site Request Forgery (XSRF) Protection by using either Cookies or Context combined with Headers"
+authors = ["Aekasitt Guruvanich <aekazitt@gmail.com>",]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/aekazitt/fastapi-csrf-protect"
+repository = "https://github.com/aekazitt/fastapi-csrf-protect"
+keywords = ["Python", "FastAPI", "CSRF"]
+classifiers = [
+    'Environment :: Web Environment',
+    'Intended Audience :: Developers',
+    'License :: OSI Approved :: MIT License',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.6',
+    'Programming Language :: Python :: 3.7',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Operating System :: OS Independent',
+    'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+    'Topic :: Software Development :: Libraries :: Python Modules'
+]
+packages = [
+    { include = "fastapi_csrf"}
+]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+fastapi = "^0.61.2"
+itsdangerous = "~1.1.0"
+pydantic = "~1.7.2"
+
+[tool.poetry.dev-dependencies]
+requests = "~2.25.0"
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
