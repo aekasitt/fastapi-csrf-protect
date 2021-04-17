@@ -8,7 +8,7 @@ install:
   - pip install poetry
   - poetry install
 before_script:
-  - poetry run unittest tests/**
+  - poetry run python -u -m unittest tests/**
 script:
   - poetry build
   - poetry publish -u $USERNAME -p $PASSWORD
