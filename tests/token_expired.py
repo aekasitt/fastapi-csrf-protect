@@ -10,7 +10,7 @@
 #*************************************************************
 import unittest
 from time import sleep
-from fastapi_csrf_protect import CsrfProtect
+from fastapi_csrf import CsrfProtect
 from tests.base import BaseTestCase
 
 global delay
