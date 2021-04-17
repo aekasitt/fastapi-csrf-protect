@@ -12,8 +12,8 @@ import unittest
 from fastapi import Depends, FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.testclient import TestClient
-from fastapi_csrf_protect import CsrfProtect
-from fastapi_csrf_protect.exceptions import CsrfProtectError
+from fastapi_csrf import CsrfProtect
+from fastapi_csrf.exceptions import CsrfProtectError
 
 class BaseTestCase(unittest.TestCase):
   def setUp(self):

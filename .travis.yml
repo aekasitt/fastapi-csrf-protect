@@ -1,12 +1,13 @@
 language: python
 python:
-  - '3.6'
-  - '3.7'
-  - '3.8'
-  - '3.9'
+  - "3.6"
+  - "3.7"
+  - "3.8"
+  - "3.9"
 install:
-  - python setup.py install
+  - poetry install --dev
 before_script:
-  - python setup.py test
+  - poetry run unittest tests/**
 script:
-  - python setup.py bdist_wheel sdist
+  - poetry build
+  - poetry publish -u $USERNAME -p $PASSWORD

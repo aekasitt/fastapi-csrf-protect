@@ -15,8 +15,8 @@ from fastapi import Request
 from fastapi.responses import Response
 from starlette.datastructures import Headers
 from itsdangerous import BadData, SignatureExpired, URLSafeTimedSerializer
-from fastapi_csrf_protect.csrf_config import CsrfConfig
-from fastapi_csrf_protect.exceptions import InvalidHeaderError, MissingTokenError, TokenValidationError
+from fastapi_csrf.csrf_config import CsrfConfig
+from fastapi_csrf.exceptions import InvalidHeaderError, MissingTokenError, TokenValidationError
 
 class CsrfProtect(CsrfConfig):
   def __init__(self,req: Request = None, res: Response = None):

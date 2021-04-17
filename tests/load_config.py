@@ -9,7 +9,7 @@
 # HISTORY:
 #*************************************************************
 import unittest
-from fastapi_csrf_protect import CsrfProtect
+from fastapi_csrf import CsrfProtect
 from tests.base import BaseTestCase
 from pydantic import ValidationError
 
