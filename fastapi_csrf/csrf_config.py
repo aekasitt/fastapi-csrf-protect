@@ -10,7 +10,7 @@
 #*************************************************************
 from typing import Callable, List, Sequence
 from pydantic import ValidationError
-from fastapi_csrf_protect.load_config import LoadConfig
+from fastapi_csrf.load_config import LoadConfig
 
 class CsrfConfig(object):
   _csrf_header_name:str = 'X-CSRF-Token'
