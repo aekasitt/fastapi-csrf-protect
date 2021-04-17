@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fastapi-csrf"
-version = "0.2.0"
+version = "0.2.1"
 description = "Simple integration of Cross-Site Request Forgery (XSRF) Protection by using either Cookies or Context combined with Headers"
 authors = ["Aekasitt Guruvanich <aekazitt@gmail.com>",]
 license = "MIT"
@@ -27,7 +27,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.8"
-fastapi = "^0.61.2"
+fastapi = "^0.63.0"
 itsdangerous = "~1.1.0"
 pydantic = "~1.7.2"
 
