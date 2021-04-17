@@ -5,7 +5,8 @@ python:
   - "3.8"
   - "3.9"
 install:
-  - poetry install --dev
+  - pip install poetry
+  - poetry install
 before_script:
   - poetry run unittest tests/**
 script:
