@@ -66,3 +66,5 @@ pythonenv*
 
 # Workspace Settings by VSCode
 .vscode
+.idea
+
