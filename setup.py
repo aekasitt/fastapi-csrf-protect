@@ -9,6 +9,7 @@
 # HISTORY:
 #*************************************************************
 from setuptools import setup
+from fastapi_csrf_protect import __version__
 
 # Load Long Description from README
 long_description = ''
@@ -17,7 +18,7 @@ with open('README.md', 'r') as readme:
 
 setup(
   name='fastapi-csrf-protect',
-  version='0.1.4',
+  version=__version__,
   description='Simple integration of Cross-Site Request Forgery (XSRF) Protection by using either Cookies or Context combined with Headers',
   packages=['fastapi_csrf_protect'],
   package_data={'': ['*']},
