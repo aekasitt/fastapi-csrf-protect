@@ -22,7 +22,9 @@ The easiest way to start working with this extension with pip
 pip install fastapi-csrf-protect
 ```
 
-## Usage
+## Getting Started
+
+The following examples show you how to integrate this extension to a FastAPI App
 
 ### With Context and Headers
 
@@ -116,6 +118,42 @@ def csrf_protect_exception_handler(request: Request, exc: CsrfProtectError):
   return JSONResponse(status_code=exc.status_code, content={ 'detail':  exc.message })
 
 ```
+
+## Contributions
+
+To contribute to the project, fork the repository and clone to your local device and install preferred testing dependency [pytest](https://github.com/pytest-dev/pytest)
+Alternatively, run the following command on your terminal to do so:
+
+```bash
+pip install -e .[dev]
+```
+
+Testing can be done by the following command post-installation:
+
+```bash
+pytest tests/*.py
+```
+
+### Run Examples
+
+To run the provided examples, first you must install extra dependencies [uvicorn](https://github.com/encode/uvicorn) and [jinja2](https://github.com/pallets/jinja/)
+Alternatively, run the following command on your terminal to do so
+
+```bash
+pip install -e .[examples]
+```
+
+1. Running the example utilizing Context and Headers
+
+    ```bash
+    uvicorn examples.context:app
+    ```
+
+2. Running the example utilizing Cookies
+
+    ```bash
+    uvicorn examples.cookies:app
+    ```
 
 ## License
 
