@@ -38,7 +38,7 @@ setup(
   long_description_content_type='text/markdown',
   install_requires=[
     'fastapi >= 0.61.2,<0.68.0',
-    'itsdangerous ~= 1.1.0',
+    'itsdangerous >= 2.0.1, < 3.0.0',
     'pydantic >=1.7.2,<2.0.0',
     'requests'
   ],
