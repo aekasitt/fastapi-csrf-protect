@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (C) 2019-2020 All rights reserved.
 # FILENAME:  fastapi_csrf_config.py
-# VERSION: 	 0.0.1
+# VERSION: 	 0.1.6
 # CREATED: 	 2020-11-25 14:35
 # AUTHOR: 	 Aekasitt Guruvanich <aekazitt@gmail.com>
 # DESCRIPTION:
@@ -13,21 +13,21 @@ from pydantic import ValidationError
 from fastapi_csrf_protect.load_config import LoadConfig
 
 class CsrfConfig(object):
-  _csrf_header_name:str = 'X-CSRF-Token'
-  _csrf_header_type:str = None
-  _csrf_in_cookies:bool = True
-  _csrf_methods:Sequence[str] = { 'POST', 'PUT', 'PATCH', 'DELETE' }
-  _max_age:int = 3600
-  _secret_key:str = None
-  _token_locations:Sequence[str] = { 'headers' }
+  _csrf_header_name: str          = 'X-CSRF-Token'
+  _csrf_header_type: str          = None
+  _csrf_in_cookies: bool          = True
+  _csrf_methods: Sequence[str]    = { 'POST', 'PUT', 'PATCH', 'DELETE' }
+  _max_age: int                   = 3600
+  _secret_key: str                = None
+  _token_locations: Sequence[str] = { 'headers' }
   # In case of using cookies
-  _cookie_key:str = 'fastapi-csrf-token'
-  _cookie_path:str = '/'
-  _cookie_domain:str = None
-  _cookie_secure:bool = False
-  _cookie_samesite:bool = None
-  _cookie_csrf_protect:bool = True
-  _httponly:bool = True
+  _cookie_key: str                = 'fastapi-csrf-token'
+  _cookie_path: str               = '/'
+  _cookie_domain: str             = None
+  _cookie_secure: bool            = False
+  _cookie_samesite: bool          = None
+  _cookie_csrf_protect: bool      = True
+  _httponly: bool                 = True
 
   @property
   def token_in_headers(self) -> bool:

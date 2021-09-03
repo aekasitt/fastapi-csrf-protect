@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (C) 2019-2020 All rights reserved.
 # FILENAME:  base.py
-# VERSION: 	 0.1.0
+# VERSION: 	 0.1.6
 # CREATED: 	 2020-11-26 18:50
 # AUTHOR: 	 Aekasitt Guruvanich <aekazitt@gmail.com>
 # DESCRIPTION:

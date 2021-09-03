@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 # Copyright (C) 2019-2020 All rights reserved.
 # FILENAME:  core.py
-# VERSION: 	 0.0.1
+# VERSION: 	 0.1.6
 # CREATED: 	 2020-11-25 14:35
 # AUTHOR: 	 Aekasitt Guruvanich <aekazitt@gmail.com>
 # DESCRIPTION:
 #
 # HISTORY:
 #*************************************************************
+import re
 from os import urandom
 from hashlib import sha1
 from typing import Optional
@@ -60,7 +61,7 @@ class CsrfProtect(CsrfConfig):
       print(token)
     else:
       # <HeaderName>: <HeaderType> <Token>
-      if not re.match(r"{}\s".format(header_type),auth) or len(parts) != 2:
+      if not re.match(r"{}\s".format(header_type), auth) or len(parts) != 2:
         raise InvalidHeaderError(f'Bad {header_name} header. Expected value "{header_type} <Token>"')
       token = header_parts[1]
     return token
