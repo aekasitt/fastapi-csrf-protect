@@ -8,168 +8,85 @@
 #
 # HISTORY:
 #*************************************************************
-import unittest
-from fastapi_csrf_protect import CsrfProtect
-from tests.base import BaseTestCase
+### Standard Packages ###
+from typing import Any
+### Third-Party Packages ###
+import pytest
 from pydantic import ValidationError
+### Local Modules ###
+from fastapi_csrf_protect import CsrfProtect
 
-class LoadConfigTestCase(BaseTestCase):
-  def test_missing_secret_key(self, route='/protected'):
-    error_called = False
-    try:
-      @CsrfProtect.load_config
-      def load_secret_key():
-        return [('secret_key', None)]
-      resp = self.client.get(route)
-    except Exception as err:
-      error_called = True
-      assert isinstance(err, RuntimeError)
-      assert err.args[0] == 'A secret key is required to use CSRF.'
-    assert error_called == True
 
-  def test_load_config(self, config_key:str='secret_key', config_value='', invalid=False):
-    error_called = False
-    try:
-      @CsrfProtect.load_config
-      def load_csrf_conifig():
-        return [(config_key, config_value)]
-    except Exception as err:
-      error_called = True
-      assert isinstance(err, ValidationError)
-    if invalid: assert error_called is True
-    else: assert error_called is False
+from . import setup
 
-  def test_load_secret_key_as_int(self):
-    self.test_load_config(config_key='secret_key', config_value=2, invalid=True)
+def test_missing_secret_key(setup, route: str='/protected'):
+  client = setup
+  error_called = False
+  try:
+    @CsrfProtect.load_config
+    def load_secret_key():
+      return [('secret_key', None)]
+    client.get(route)
+  except Exception as err:
+    error_called = True
+    assert isinstance(err, RuntimeError)
+    assert err.args[0] == 'A secret key is required to use CSRF.'
+  assert error_called == True
 
-  def test_load_secret_key_as_float(self):
-    self.test_load_config(config_key='secret_key', config_value=1.0, invalid=True)
-
-  def test_load_secret_key_as_bool(self):
-    self.test_load_config(config_key='secret_key', config_value=True, invalid=True)
-
-  def test_load_secret_key_as_bytes(self):
-    self.test_load_config(config_key='secret_key', config_value=b'secret', invalid=True)
-
-  def test_load_secret_key_as_str(self):
-    self.test_load_config(config_key='secret_key', config_value='secret', invalid=False)
-
-  def test_load_secret_key_as_list(self):
-    self.test_load_config(config_key='secret_key', config_value=[], invalid=True)
-
-  def test_load_secret_key_as_dict(self):
-    self.test_load_config(config_key='secret_key', config_value={}, invalid=True)
-
-  def test_load_csrf_header_name_as_int(self):
-    self.test_load_config(config_key='csrf_header_name', config_value=2, invalid=True)
-
-  def test_load_csrf_header_name_as_float(self):
-    self.test_load_config(config_key='csrf_header_name', config_value=1.0, invalid=True)
-
-  def test_load_csrf_header_name_as_bool(self):
-    self.test_load_config(config_key='csrf_header_name', config_value=bool, invalid=True)
-
-  def test_load_csrf_header_name_as_bytes(self):
-    self.test_load_config(config_key='csrf_header_name', config_value=b'secret', invalid=True)
-  
-  def test_load_csrf_header_name_as_str(self):
-    self.test_load_config(config_key='csrf_header_name', config_value='secret', invalid=False)
-
-  def test_load_csrf_header_name_as_list(self):
-    self.test_load_config(config_key='csrf_header_name', config_value=[], invalid=True)
-
-  def test_load_csrf_header_name_as_dict(self):
-    self.test_load_config(config_key='csrf_header_name', config_value={}, invalid=True)
-
-  def test_load_csrf_header_type_as_int(self):
-    self.test_load_config(config_key='csrf_header_type', config_value=2, invalid=True)
-
-  def test_load_csrf_header_type_as_float(self):
-    self.test_load_config(config_key='csrf_header_type', config_value=1.0, invalid=True)
-
-  def test_load_csrf_header_type_as_bool(self):
-    self.test_load_config(config_key='csrf_header_type', config_value=True, invalid=True)
-
-  def test_load_csrf_header_type_as_bytes(self):
-    self.test_load_config(config_key='csrf_header_type', config_value=b'secret', invalid=True)
-
-  def test_load_csrf_header_type_as_str(self):
-    self.test_load_config(config_key='csrf_header_type', config_value='secret', invalid=False)
-
-  def test_load_csrf_header_type_as_list(self):
-    self.test_load_config(config_key='csrf_header_type', config_value=[], invalid=True)
-
-  def test_load_csrf_header_type_as_dict(self):
-    self.test_load_config(config_key='csrf_header_type', config_value={}, invalid=True)
-
-  def test_load_csrf_in_cookies_as_int(self):
-    self.test_load_config(config_key='csrf_in_cookies', config_value=2, invalid=True)
-
-  def test_load_csrf_in_cookies_as_float(self):
-    self.test_load_config(config_key='csrf_in_cookies', config_value=1.0, invalid=True)
-
-  def test_load_csrf_in_cookies_as_bool(self):
-    self.test_load_config(config_key='csrf_in_cookies', config_value=True, invalid=False)
-
-  def test_load_csrf_in_cookies_as_bytes(self):
-    self.test_load_config(config_key='csrf_in_cookies', config_value=b'secret', invalid=True)
-
-  def test_load_csrf_in_cookies_as_str(self):
-    self.test_load_config(config_key='csrf_in_cookies', config_value='secret', invalid=True)
-
-  def test_load_csrf_in_cookies_as_list(self):
-    self.test_load_config(config_key='csrf_in_cookies', config_value=[], invalid=True)
-
-  def test_load_csrf_in_cookies_as_dict(self):
-    self.test_load_config(config_key='csrf_in_cookies', config_value={}, invalid=True)
-
-  def test_load_csrf_methods_as_int(self):
-    self.test_load_config(config_key='csrf_methods', config_value=2, invalid=True)
-
-  def test_load_csrf_methods_as_float(self):
-    self.test_load_config(config_key='csrf_methods', config_value=1.0, invalid=True)
-
-  def test_load_csrf_methods_as_bool(self):
-    self.test_load_config(config_key='csrf_methods', config_value=True, invalid=True)
-
-  def test_load_csrf_methods_as_bytes(self):
-    self.test_load_config(config_key='csrf_methods', config_value=b'secret', invalid=True)
-
-  def test_load_csrf_methods_as_str(self):
-    self.test_load_config(config_key='csrf_methods', config_value='secret', invalid=True)
-
-  def test_load_csrf_methods_as_empty_list(self):
-    self.test_load_config(config_key='csrf_methods', config_value=[], invalid=False)
-
-  def test_load_csrf_methods_as_list_int(self):
-    self.test_load_config(config_key='csrf_methods', config_value=[1, 2, 3], invalid=True)
-
-  def test_load_csrf_methods_as_tuple_int(self):
-    self.test_load_config(config_key='csrf_methods', config_value=(1, 2, 3), invalid=True)
-
-  def test_load_csrf_methods_as_set_int(self):
-    self.test_load_config(config_key='csrf_methods', config_value={1, 2, 3}, invalid=True)
-
-  def test_load_csrf_methods_as_list_str(self):
-    self.test_load_config(config_key='csrf_methods', config_value=['1', '2', '3'], invalid=True)
-
-  def test_load_csrf_methods_as_tuple_str(self):
-    self.test_load_config(config_key='csrf_methods', config_value=('1', '2', '3'), invalid=True)
-
-  def test_load_csrf_methods_as_set_str(self):
-    self.test_load_config(config_key='csrf_methods', config_value={'1', '2', '3'}, invalid=True)
-
-  def test_load_csrf_methods_as_list_valid_str(self):
-    self.test_load_config(config_key='csrf_methods', config_value=['GET', 'POST', 'DELETE'], invalid=False)
-
-  def test_load_csrf_methods_as_tuple_valid_str(self):
-    self.test_load_config(config_key='csrf_methods', config_value=('GET', 'POST', 'DELETE'), invalid=False)
-
-  def test_load_csrf_methods_as_set_valid_str(self):
-    self.test_load_config(config_key='csrf_methods', config_value={'GET', 'POST', 'DELETE'}, invalid=False)
-
-  def test_load_csrf_methods_as_dict(self):
-    self.test_load_config(config_key='csrf_methods', config_value={'key': 'value'}, invalid=True)
-
-if __name__ == '__main__':
-  unittest.main()
+@pytest.mark.parametrize('config_key, config_value, valid', [
+  ('secret_key', 2, False), \
+    ('secret_key', 1.0, False), \
+      ('secret_key', True, False), \
+        ('secret_key', b'secret', False), \
+          ('secret_key', 'secret', True), \
+            ('secret_key', [], False), \
+              ('secret_key', {}, False), \
+  ('csrf_header_name', 2, False), \
+    ('csrf_header_name', 1.0, False), \
+      ('csrf_header_name', True, False), \
+        ('csrf_header_name', b'header_name', False) ,\
+          ('csrf_header_name', 'header_name', True), \
+            ('csrf_header_name', [], False), \
+              ('csrf_header_name', {}, False), \
+  ('csrf_header_type', 2, False), \
+    ('csrf_header_type', 1.0, False), \
+      ('csrf_header_type', True, False), \
+        ('csrf_header_type', b'header_type', False) ,\
+          ('csrf_header_type', 'header_type', True), \
+            ('csrf_header_type', [], False), \
+              ('csrf_header_type', {}, False), \
+  ('csrf_in_cookies', 2, False), \
+    ('csrf_in_cookies', 1.0, False), \
+      ('csrf_in_cookies', True, True), \
+        ('csrf_in_cookies', b'in_cookies', False) ,\
+          ('csrf_in_cookies', 'in_cookies', False), \
+            ('csrf_in_cookies', [], False), \
+              ('csrf_in_cookies', {}, False), \
+  ('csrf_methods', 2, False), \
+    ('csrf_methods', 1.0, False), \
+      ('csrf_methods', True, False), \
+        ('csrf_methods', b'GET, POST', False) ,\
+          ('csrf_methods', 'GET, POST', False), \
+            ('csrf_methods', [], True), \
+              ('csrf_methods', {}, False), \
+                ('csrf_methods', [1, 2, 3], False), \
+                  ('csrf_methods', (1, 2, 3), False), \
+                    ('csrf_methods', {1, 2, 3}, False), \
+                      ('csrf_methods', ['1', '2', '3'], False), \
+                        ('csrf_methods', ('1', '2', '3'), False), \
+                          ('csrf_methods', {'1', '2', '3'}, False), \
+                            ('csrf_methods', ['GET', 'POST', 'DELETE'], True), \
+                              ('csrf_methods', ('GET', 'POST', 'DELETE'), True), \
+                                ('csrf_methods', {'GET', 'POST', 'DELETE'}, True), \
+                                  ('csrf_methods', {'key': 'value'}, False), \
+        ])
+def test_load_config(config_key:str, config_value: Any, valid: bool):
+  error_raised: bool = False
+  try:
+    @CsrfProtect.load_config
+    def load_csrf_configs():
+      return [(config_key, config_value)]
+  except Exception as err:
+    error_raised = True
+    assert isinstance(err, ValidationError)
+  assert error_raised is (True, False)[valid]

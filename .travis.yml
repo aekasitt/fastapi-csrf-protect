@@ -4,8 +4,8 @@ python:
   - '3.8'
   - '3.9'
 install:
-  - python setup.py install
+  - pip install -e .[test]
 before_script:
-  - python setup.py test
+  - pytest tests/*.py
 script:
   - python setup.py bdist_wheel sdist

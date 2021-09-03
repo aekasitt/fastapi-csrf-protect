@@ -8,18 +8,23 @@
 #
 # HISTORY:
 #*************************************************************
-import unittest
+### Third-Party Packages ###
+from fastapi.testclient import TestClient
+### Local Packages ###
 from fastapi_csrf_protect import CsrfProtect
-from tests.base import BaseTestCase
+from . import setup
 
-class MissingTokenTestCase(BaseTestCase):
-  def test_missing_token_request(self, route='/protected'):
-    @CsrfProtect.load_config
-    def get_secret_key():
-      return [('secret_key', 'secret')]
-    response = self.client.get(route)
-    assert response.status_code == 400
-    assert response.json() == {'detail': 'Missing Cookie fastapi-csrf-token'}
+def test_missing_token_request(setup, route='/protected'):
+  client: TestClient = setup
 
-if __name__ == '__main__':
-  unittest.main()
+  ### Loads Config ###
+  @CsrfProtect.load_config
+  def get_secret_key():
+    return [('secret_key', 'secret')]
+
+  ### Get ###
+  response           = client.get(route)
+
+  ### Assertions ###
+  assert response.status_code == 400
+  assert response.json() == {'detail': 'Missing Cookie fastapi-csrf-token'}

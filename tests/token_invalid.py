@@ -8,20 +8,29 @@
 #
 # HISTORY:
 #*************************************************************
-import unittest
+### Third-Party Packages ###
+from fastapi.testclient import TestClient
+### Local Modules ###
+from . import setup
 from fastapi_csrf_protect import CsrfProtect
-from tests.base import BaseTestCase
 
-class TokenInvalidTestCase(BaseTestCase):
-  def test_token_invalid_request(self, route='/protected'):
-    @CsrfProtect.load_config
-    def get_configs():
-      return [('secret_key', 'secret'), ('cookie-key', 'fastapi-csrf-token')]
-    response = self.client.get('/set-cookie')
-    assert response.status_code == 200
-    response = self.client.get(route, cookies={ 'fastapi-csrf-token': 'invalid' })
-    assert response.status_code == 401
-    assert response.json() == {'detail': 'The CSRF token is invalid.'}
 
-if __name__ == '__main__':
-  unittest.main()
+def test_token_invalid_request(setup, route='/protected'):
+  client: TestClient = setup
+
+  @CsrfProtect.load_config
+  def get_configs():
+    return [('secret_key', 'secret'), ('cookie-key', 'fastapi-csrf-token')]
+
+  ### Get ###
+  response           = client.get('/set-cookie')
+
+  ### Assertion ###
+  assert response.status_code == 200
+
+  ### Get ###
+  response           = client.get(route, cookies={ 'fastapi-csrf-token': 'invalid' })
+
+  ### Assertions ###
+  assert response.status_code == 401
+  assert response.json()      == {'detail': 'The CSRF token is invalid.'}

@@ -42,5 +42,7 @@ setup(
     'pydantic >=1.7.2,<2.0.0',
     'requests'
   ],
-  test_suite='tests',
+  extras_require={
+    'test': [ 'pytest' ]
+  }
 )

@@ -8,28 +8,41 @@
 #
 # HISTORY:
 #*************************************************************
-import unittest
+### Standard Packages ###
 from time import sleep
+### Third-Party Packages ###
+from fastapi.testclient import TestClient
+### Local Modules ###
+from . import setup
 from fastapi_csrf_protect import CsrfProtect
-from tests.base import BaseTestCase
 
-global delay
-delay = 2
+def test_token_expired(setup, route: str='/protected', delay: int = 2):
+  client: TestClient = setup
+  
+  ### Loads Config ###
+  @CsrfProtect.load_config
+  def get_configs():
+    return [('secret_key', 'secret'), ('max_age', delay)]
 
-class TokenExpiredTestCase(BaseTestCase):
-  def test_token_expired(self, route='/protected'):
-    @CsrfProtect.load_config
-    def get_configs():
-      return [('secret_key', 'secret'), ('max_age', delay)]
-    response = self.client.get('/set-cookie')
-    assert response.status_code == 200
-    response = self.client.get(route, cookies=response.cookies)
-    assert response.status_code == 200
-    assert response.json() == {'detail': 'OK'}
-    sleep(delay)
-    response = self.client.get(route, cookies=response.cookies)
-    assert response.status_code == 400
-    assert response.json() == {'detail': 'Missing Cookie fastapi-csrf-token'}
+  ### Get ###
+  response   = client.get('/set-cookie')
 
-if __name__ == '__main__':
-  unittest.main()
+  ### Assertion ###
+  assert response.status_code == 200
+
+  ### Get ###
+  response = client.get(route, cookies=response.cookies)
+
+  ### Assertions ###
+  assert response.status_code == 200
+  assert response.json() == {'detail': 'OK'}
+
+  ### Delays ###
+  sleep(delay)
+
+  ### Get ###
+  response = client.get(route, cookies=response.cookies)
+
+  ### Assertions ###
+  assert response.status_code == 400
+  assert response.json() == {'detail': 'Missing Cookie fastapi-csrf-token'}
