@@ -12,14 +12,15 @@
 from typing import Any
 ### Third-Party Packages ###
 import pytest
+from fastapi.testclient import TestClient
 from pydantic import ValidationError
 ### Local Modules ###
 from . import *
 from fastapi_csrf_protect import CsrfProtect
 
 def test_missing_secret_key(setup, route: str='/protected'):
-  client = setup
-  error_called = False
+  client: TestClient = setup
+  error_called: bool = False
   try:
     @CsrfProtect.load_config
     def load_secret_key():

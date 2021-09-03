@@ -19,7 +19,7 @@ from fastapi_csrf_protect import CsrfProtect
 from fastapi_csrf_protect.exceptions import CsrfProtectError
 
 @fixture
-def setup():
+def setup() -> TestClient:
   app = FastAPI()
   @app.get('/set-cookie')
   def cookie(csrf_protect: CsrfProtect = Depends()):
