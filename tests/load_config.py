@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (C) 2019-2020 All rights reserved.
 # FILENAME:  load_config.py
-# VERSION: 	 0.1.6
+# VERSION: 	 0.1.7
 # CREATED: 	 2020-11-26 16:14
 # AUTHOR: 	 Aekasitt Guruvanich <aekazitt@gmail.com>
 # DESCRIPTION:
