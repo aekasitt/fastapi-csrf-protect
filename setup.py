@@ -43,7 +43,7 @@ setup(
     'requests'
   ],
   extras_require={
-    'examples': [ 'uvicorn', 'jinja2' ],
-    'test': [ 'pytest' ]
+    'dev': [ 'pytest' ],
+    'examples': [ 'uvicorn', 'jinja2' ]
   }
 )

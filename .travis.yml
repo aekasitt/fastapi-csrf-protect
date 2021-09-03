@@ -4,7 +4,7 @@ python:
   - '3.8'
   - '3.9'
 install:
-  - pip install -e .[test]
+  - pip install -e .[dev]
 before_script:
   - pytest tests/*.py
 script:
