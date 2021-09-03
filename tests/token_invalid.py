@@ -11,7 +11,7 @@
 ### Third-Party Packages ###
 from fastapi.testclient import TestClient
 ### Local Modules ###
-from . import setup
+from . import *
 from fastapi_csrf_protect import CsrfProtect
 
 

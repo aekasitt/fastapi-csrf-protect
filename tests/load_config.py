@@ -14,10 +14,8 @@ from typing import Any
 import pytest
 from pydantic import ValidationError
 ### Local Modules ###
+from . import *
 from fastapi_csrf_protect import CsrfProtect
-
-
-from . import setup
 
 def test_missing_secret_key(setup, route: str='/protected'):
   client = setup

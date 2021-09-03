@@ -11,8 +11,8 @@
 ### Third-Party Packages ###
 from fastapi.testclient import TestClient
 ### Local Packages ###
+from . import *
 from fastapi_csrf_protect import CsrfProtect
-from . import setup
 
 def test_missing_token_request(setup, route='/protected'):
   client: TestClient = setup
