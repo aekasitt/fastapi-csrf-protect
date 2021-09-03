@@ -18,20 +18,6 @@ from pydantic import ValidationError
 from . import *
 from fastapi_csrf_protect import CsrfProtect
 
-def test_missing_secret_key(setup, route: str='/protected'):
-  client: TestClient = setup
-  error_called: bool = False
-  try:
-    @CsrfProtect.load_config
-    def load_secret_key():
-      return [('secret_key', None)]
-    client.get(route)
-  except Exception as err:
-    error_called = True
-    assert isinstance(err, RuntimeError)
-    assert err.args[0] == 'A secret key is required to use CSRF.'
-  assert error_called == True
-
 @pytest.mark.parametrize('config_key, config_value, valid', [
   ('secret_key', 2, False), \
     ('secret_key', 1.0, False), \
