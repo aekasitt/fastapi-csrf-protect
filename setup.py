@@ -39,7 +39,7 @@ setup(
   long_description=long_description,
   long_description_content_type='text/markdown',
   install_requires=[
-    'fastapi >= 0.61.2,<0.64.0',
+    'fastapi >= 0.61.2,<0.66.0',
     'itsdangerous ~= 1.1.0',
     'pydantic >=1.7.2,<2.0.0',
     'requests'
