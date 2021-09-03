@@ -60,7 +60,7 @@ class CsrfProtect(CsrfConfig):
       token = header_parts[0]
     else:
       # <HeaderName>: <HeaderType> <Token>
-      if not re.match(r"{}\s".format(header_type), auth) or len(parts) != 2:
+      if not re.match(r"{}\s".format(header_type), headers[header_name]) or len(header_parts) != 2:
         raise InvalidHeaderError(f'Bad {header_name} header. Expected value "{header_type} <Token>"')
       token = header_parts[1]
     return token
