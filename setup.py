@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (C) 2019-2020 All rights reserved.
 # FILENAME:  setup.py
-# VERSION: 	 0.1.8
+# VERSION: 	 0.1.9
 # CREATED: 	 2020-11-25 14:35
 # AUTHOR: 	 Aekasitt Guruvanich <aekazitt@gmail.com>
 # DESCRIPTION:
@@ -17,7 +17,7 @@ with open('README.md', 'r') as readme:
 
 setup(
   name='fastapi-csrf-protect',
-  version='0.1.8',
+  version='0.1.9',
   description='Simple integration of Cross-Site Request Forgery (XSRF) Protection by using either Cookies or Context combined with Headers',
   packages=['fastapi_csrf_protect'],
   package_data={'': ['*']},
