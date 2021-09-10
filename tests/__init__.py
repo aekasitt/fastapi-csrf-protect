@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (C) 2019-2020 All rights reserved.
 # FILENAME:  tests/__init__.py
-# VERSION: 	 0.1.9
+# VERSION: 	 0.2.0
 # CREATED: 	 2020-11-26 18:50
 # AUTHOR: 	 Aekasitt Guruvanich <aekazitt@gmail.com>
 # DESCRIPTION:

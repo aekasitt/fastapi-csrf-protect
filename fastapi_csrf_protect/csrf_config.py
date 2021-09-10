@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (C) 2019-2020 All rights reserved.
 # FILENAME:  fastapi_csrf_config.py
-# VERSION: 	 0.1.9
+# VERSION: 	 0.2.0
 # CREATED: 	 2020-11-25 14:35
 # AUTHOR: 	 Aekasitt Guruvanich <aekazitt@gmail.com>
 # DESCRIPTION:

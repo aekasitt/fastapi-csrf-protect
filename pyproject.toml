@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fastapi-csrf-protect"
-version = "0.1.9"
+version = "0.2.0"
 description = "Simple integration of Cross-Site Request Forgery (XSRF) Protection by using either Cookies or Context combined with Headers"
 authors = ["Sitt Guruvanich <aekazitt@gmail.com>"]
 license = "MIT"
