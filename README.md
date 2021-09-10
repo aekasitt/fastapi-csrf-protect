@@ -1,6 +1,6 @@
 # FastAPI CSRF Protect
 
-[![Build Status](https://travis-ci.com/aekasitt/fastapi-csrf-protect.svg?branch=master)](https://travis-ci.com/aekasitt/fastapi-csrf-protect)
+[![Build Status](https://travis-ci.com/aekasitt/fastapi-csrf-protect.svg?branch=master)](https://app.travis-ci.com/github/aekasitt/fastapi-csrf-protect)
 [![Package Vesion](https://img.shields.io/pypi/v/fastapi-csrf-protect)](https://pypi.org/project/fastapi-csrf-protect)
 [![Format](https://img.shields.io/pypi/format/fastapi-csrf-protect)](https://pypi.org/project/fastapi-csrf-protect)
 [![Python Version](https://img.shields.io/pypi/pyversions/fastapi-csrf-protect)](https://pypi.org/project/fastapi-csrf-protect)
@@ -20,6 +20,8 @@ The easiest way to start working with this extension with pip
 
 ```bash
 pip install fastapi-csrf-protect
+# or
+poetry add fastapi-csrf-protect
 ```
 
 ## Getting Started
@@ -125,13 +127,14 @@ To contribute to the project, fork the repository and clone to your local device
 Alternatively, run the following command on your terminal to do so:
 
 ```bash
-pip install -e .[dev]
+pip install -U poetry
+poetry install
 ```
 
 Testing can be done by the following command post-installation:
 
 ```bash
-pytest tests/*.py
+pytest
 ```
 
 ### Run Examples
@@ -140,7 +143,7 @@ To run the provided examples, first you must install extra dependencies [uvicorn
 Alternatively, run the following command on your terminal to do so
 
 ```bash
-pip install -e .[examples]
+poetry install --extras examples
 ```
 
 1. Running the example utilizing Context and Headers
