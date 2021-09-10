@@ -1,11 +1,13 @@
 language: python
 python:
+  - '3.6'
   - '3.7'
   - '3.8'
   - '3.9'
 install:
-  - pip install -e .[dev]
+  - pip install -U poetry
+  - poetry install
 before_script:
-  - pytest tests/*.py
+  - pytest
 script:
-  - python setup.py bdist_wheel sdist
+  - poetry build
