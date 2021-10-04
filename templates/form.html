@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      Registration Form
+    </title>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700' rel='stylesheet'>
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.4.1/css/all.css' integrity='sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz' crossorigin='anonymous'>
+    <link rel='stylesheet' href='./index.css'>
+    <style>
+      html,
+      body {
+        display: flex;
+        justify-content: center;
+        height: 100%;
+      }
+
+      body,
+      div,
+      h1,
+      form,
+      input,
+      p {
+        padding: 0;
+        margin: 0;
+        outline: none;
+        font-family: Roboto, Arial, sans-serif;
+        font-size: 16px;
+        color: #666;
+      }
+
+      h1 {
+        padding: 10px 0;
+        font-size: 32px;
+        font-weight: 300;
+        text-align: center;
+      }
+
+      p {
+        font-size: 12px;
+      }
+
+      hr {
+        color: #a9a9a9;
+        opacity: 0.3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class='main-block'>
+      <h1>
+        Registration
+      </h1>
+      <form action='/'>
+        <hr>
+        <label id='icon' for='name'>
+          <i class='fas fa-envelope'></i>
+        </label>
+        <input type='text' name='name' id='name' placeholder='Email' required/>
+        <hr>
+        <label id='icon' for='name'>
+          <i class='fas fa-user'></i>
+        </label>
+        <input type='text' name='name' id='name' placeholder='Name' required/>
+        <hr>
+        <label id='icon' for='name'>
+          <i class='fas fa-unlock-alt'></i>
+        </label>
+        <input type='password' name='name' id='name' placeholder='Password' required/>
+        <hr>
+      </form>
+    </div>
+  </body>
+</html>
