@@ -31,7 +31,8 @@ class CsrfProtect(CsrfConfig):
 
   def generate_csrf(self, secret_key:Optional[str]=None):
     '''
-    Generate a CSRF token. The token is cached for a request, so multiple
+    Generate a CSRF token.
+    TODO: The token should be cached for a request, so multiple
     calls to this function will generate the same token.
     '''
     secret_key = secret_key or self._secret_key
