@@ -15,22 +15,27 @@ from . import *
 from fastapi_csrf_protect import CsrfProtect
 
 
-def test_token_invalid_request(setup, route='/protected'):
-  client: TestClient = setup
+def validate_token_invalid_request(client: TestClient, route: str = '/set-cookie'):
 
   @CsrfProtect.load_config
   def get_configs():
     return [('secret_key', 'secret'), ('cookie-key', 'fastapi-csrf-token')]
 
   ### Get ###
-  response           = client.get('/set-cookie')
+  response           = client.get(route)
 
   ### Assertion ###
   assert response.status_code == 200
 
   ### Get ###
-  response           = client.get(route, cookies={ 'fastapi-csrf-token': 'invalid' })
+  response           = client.get('/protected', cookies={ 'fastapi-csrf-token': 'invalid' })
 
   ### Assertions ###
   assert response.status_code == 401
   assert response.json()      == {'detail': 'The CSRF token is invalid.'}
+
+def test_token_invalid_request_in_cookies(setup_cookies):
+  validate_token_invalid_request(setup_cookies, '/set-cookie')
+
+def test_token_invalid_request_in_context(setup_context):
+  validate_token_invalid_request(setup_context, '/set-context')

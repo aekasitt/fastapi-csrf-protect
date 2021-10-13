@@ -10,20 +10,21 @@
 #*************************************************************
 ### Third-Party Packages ###
 from fastapi.testclient import TestClient
+from pytest import raises
 ### Local Modules ###
 from . import *
 from fastapi_csrf_protect import CsrfProtect
 
-def test_missing_secret_key(setup, route: str='/protected'):
-  client: TestClient = setup
-  error_called: bool = False
-  try:
+def validate_missing_secret_key(client: TestClient):
+  with raises(RuntimeError) as err:
     @CsrfProtect.load_config
     def load_secret_key():
       return [('secret_key', None)]
-    client.get(route)
-  except Exception as err:
-    error_called = True
-    assert isinstance(err, RuntimeError)
-    assert err.args[0] == 'A secret key is required to use CSRF.'
-  assert error_called == True
+    client.get('/protected')
+  assert err.match('A secret key is required to use CSRF.')
+
+def test_missing_secret_key_in_cookies(setup_cookies):
+  validate_missing_secret_key(setup_cookies)
+
+def test_missing_secret_key_in_headers(setup_context):
+  validate_missing_secret_key(setup_context)

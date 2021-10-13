@@ -14,9 +14,7 @@ from fastapi.testclient import TestClient
 from . import *
 from fastapi_csrf_protect import CsrfProtect
 
-def test_missing_token_request(setup, route='/protected'):
-  client: TestClient = setup
-
+def validate_missing_token_request(client: TestClient, route: str = '/protected'):
   ### Loads Config ###
   @CsrfProtect.load_config
   def get_secret_key():
@@ -28,3 +26,9 @@ def test_missing_token_request(setup, route='/protected'):
   ### Assertions ###
   assert response.status_code == 400
   assert response.json() == {'detail': 'Missing Cookie fastapi-csrf-token'}
+
+def test_missing_token_request_in_cookies(setup_cookies):
+  validate_missing_token_request(setup_cookies)
+
+def test_missing_token_request_in_context(setup_context):
+  validate_missing_token_request(setup_context)
