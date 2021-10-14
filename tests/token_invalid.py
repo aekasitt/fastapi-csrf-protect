@@ -22,13 +22,15 @@ def validate_token_invalid_request(client: TestClient, route: str = '/set-cookie
     return [('secret_key', 'secret'), ('cookie-key', 'fastapi-csrf-token')]
 
   ### Get ###
-  response           = client.get(route)
+  response        = client.get(route)
+  csrf_token: str = response.json().get('csrf_token', None)
+  headers: dict   = { 'X-CSRF-Token': csrf_token } if csrf_token is not None else {}
 
   ### Assertion ###
   assert response.status_code == 200
 
   ### Get ###
-  response           = client.get('/protected', cookies={ 'fastapi-csrf-token': 'invalid' })
+  response        = client.get('/protected', cookies={ 'fastapi-csrf-token': 'invalid' }, headers=headers)
 
   ### Assertions ###
   assert response.status_code == 401

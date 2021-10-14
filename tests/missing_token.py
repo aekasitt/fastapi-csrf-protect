@@ -14,7 +14,8 @@ from fastapi.testclient import TestClient
 from . import *
 from fastapi_csrf_protect import CsrfProtect
 
-def validate_missing_token_request(client: TestClient, route: str = '/protected'):
+def validate_missing_token_request(client: TestClient, route: str, expected_status: int, expected_msg: str):
+
   ### Loads Config ###
   @CsrfProtect.load_config
   def get_secret_key():
@@ -24,11 +25,11 @@ def validate_missing_token_request(client: TestClient, route: str = '/protected'
   response           = client.get(route)
 
   ### Assertions ###
-  assert response.status_code == 400
-  assert response.json() == {'detail': 'Missing Cookie fastapi-csrf-token'}
+  assert response.status_code == expected_status
+  assert response.json()      == {'detail': expected_msg }
 
-def test_missing_token_request_in_cookies(setup_cookies):
-  validate_missing_token_request(setup_cookies)
+def test_missing_token_request_in_cookies(setup_cookies, route: str = '/protected'):
+  validate_missing_token_request(setup_cookies, route, 400, 'Missing Cookie fastapi-csrf-token')
 
-def test_missing_token_request_in_context(setup_context):
-  validate_missing_token_request(setup_context)
+def test_missing_token_request_in_context(setup_context, route: str = '/protected'):
+  validate_missing_token_request(setup_context, route, 422, 'Bad headers. Expected "X-CSRF-Token" in headers')

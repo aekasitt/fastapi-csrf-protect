@@ -24,12 +24,12 @@ def validate_token_expired(client: TestClient, route: str = '/set-cookie', max_a
     return [('secret_key', 'secret'), ('max_age', max_age)]
 
   ### Get ###
-  response   = client.get(route)
+  response = client.get(route)
 
   ### Assertion ###
   assert response.status_code == 200
   csrf_token: str = response.json().get('csrf_token', None)
-  headers: dict   = { 'fastapi-csrf-token': csrf_token } if csrf_token is not None else {}
+  headers: dict   = { 'X-CSRF-Token': csrf_token } if csrf_token is not None else {}
 
   ### Get ###
   response = client.get('/protected', cookies=response.cookies, headers=headers)
