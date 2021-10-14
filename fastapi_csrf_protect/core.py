@@ -125,7 +125,7 @@ class CsrfProtect(CsrfConfig):
     ---
     :param data: The signed CSRF token to be checked.
     :type data: Any
-    :param secret_key: (Optional) Used to securely sign the token.
+    :param secret_key: (Optional) secret key used to decrypt the token
         Default is set in CsrfConfig when `load_config` was called;
     :type secret_key: str
     :param time_limit: (Optional) Number of seconds that the token is valid.
@@ -134,6 +134,7 @@ class CsrfProtect(CsrfConfig):
     :raises TokenValidationError: Contains the reason that validation failed.
     '''
     secret_key = secret_key or self._secret_key
+    if secret_key is None: raise RuntimeError('A secret key is required to use CSRF.')
     time_limit = time_limit or self._max_age
     if not data:
       raise TokenValidationError('The CSRF token is missing.')
@@ -153,16 +154,13 @@ class CsrfProtect(CsrfConfig):
     ---
     :param request: all incoming request  
     :type request: fastapi.requests.Request
-    :param secret_key: (Optional)
-        Default is set in CsrfConfig when `load_config` was called;
+    :param secret_key: (Optional) secret key used to decrypt the token
     :type secret_key: str
     :param field_name: (Optional)
         Default is set in CsrfConfig when `load_config` was called;
     :type field_name: str
     '''
-    secret_key = secret_key or self._secret_key
-    if secret_key is None: raise RuntimeError('A secret key is required to use CSRF.')
     field_name = field_name or self._cookie_key
     cookie = request.cookies.get(field_name)
     if cookie is None: raise MissingTokenError(f'Missing Cookie {field_name}')
-    self.validate_csrf(cookie)
+    self.validate_csrf(cookie, secret_key)
