@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (C) 2019-2020 All rights reserved.
 # FILENAME:  missing_secret.py
-# VERSION: 	 0.2.0
+# VERSION: 	 0.2.1
 # CREATED: 	 2021-08-18 23:58
 # AUTHOR: 	 Aekasitt Guruvanich <aekazitt@gmail.com>
 # DESCRIPTION:
