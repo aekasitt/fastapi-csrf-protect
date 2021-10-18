@@ -16,7 +16,7 @@ from fastapi.testclient import TestClient
 from . import *
 from fastapi_csrf_protect import CsrfProtect
 
-def validate_token_expired(client: TestClient, route: str = '/set-cookie', max_age: int = 2):
+def validate_token_expired(client: TestClient, route: str = '/set-cookie', max_age: int = 2, err_status: int = 400, err_msg: str = 'The CSRF token has expired.'):
 
   ### Loads Config ###
   @CsrfProtect.load_config
@@ -45,11 +45,11 @@ def validate_token_expired(client: TestClient, route: str = '/set-cookie', max_a
   response = client.get('/protected', cookies=response.cookies, headers=headers)
 
   ### Assertions ###
-  assert response.status_code == 400
-  assert response.json() == {'detail': 'Missing Cookie fastapi-csrf-token'}
+  assert response.status_code == err_status
+  assert response.json()      == { 'detail': err_msg }
 
 def test_token_expired_in_cookies(setup_cookies):
-  validate_token_expired(setup_cookies, '/set-cookie')
+  validate_token_expired(setup_cookies, '/set-cookie', err_status=400, err_msg='Missing Cookie fastapi-csrf-token')
 
 def test_token_expired_in_context(setup_context):
-  validate_token_expired(setup_context, '/set-context')
+  validate_token_expired(setup_context, '/set-context', err_status=401, err_msg='The CSRF token has expired.')
