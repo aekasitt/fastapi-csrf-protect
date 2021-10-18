@@ -39,7 +39,7 @@ def validate_token_expired(client: TestClient, route: str = '/set-cookie', max_a
   assert response.json() == {'detail': 'OK'}
 
   ### Delays ###
-  sleep(max_age)
+  sleep(max_age + 1)
 
   ### Get ###
   response = client.get('/protected', cookies=response.cookies, headers=headers)
