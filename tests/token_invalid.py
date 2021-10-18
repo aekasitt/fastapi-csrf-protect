@@ -22,7 +22,7 @@ def validate_token_invalid_request(client: TestClient, route: str = '/set-cookie
     return [('secret_key', 'secret'), ('cookie-key', 'fastapi-csrf-token')]
 
   ### Get ###
-  headers: dict   = { 'X-CSRF-Token': 'invalid' } if csrf_token is not None else {}
+  headers: dict   = { 'X-CSRF-Token': 'invalid' }
   response        = client.get('/protected', cookies={ 'fastapi-csrf-token': 'invalid' }, headers=headers)
 
   ### Assertions ###
