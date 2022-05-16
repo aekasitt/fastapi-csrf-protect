@@ -19,7 +19,9 @@ app = FastAPI()
 templates = Jinja2Templates(directory='templates')
 
 class CsrfSettings(BaseModel):
-  secret_key:str = 'asecrettoeverybody'
+  secret_key: str      = 'asecrettoeverybody'
+  cookie_samesite: str = 'none'
+  cookie_secure: bool  = True
 
 @CsrfProtect.load_config
 def get_csrf_config():
