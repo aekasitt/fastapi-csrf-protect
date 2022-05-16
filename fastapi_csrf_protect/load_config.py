@@ -24,7 +24,7 @@ class LoadConfig(BaseModel):
   cookie_path: Optional[StrictStr]               = '/'
   cookie_domain: Optional[StrictStr]             = None
   cookie_secure: Optional[StrictBool]            = False
-  cookie_samesite: Optional[StrictStr]           = 'none'
+  cookie_samesite: Optional[StrictStr]           = 'lax'
   cookie_csrf_protect: Optional[StrictBool]      = True
   httponly: Optional[StrictBool]                 = True
 
