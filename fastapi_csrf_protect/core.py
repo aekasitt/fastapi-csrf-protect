@@ -159,7 +159,7 @@ class CsrfProtect(CsrfConfig):
             raise TokenValidationError("The CSRF token pair submitted do not match.")
         serializer = URLSafeTimedSerializer(secret_key, salt="fastapi-csrf-token")
         try:
-            token = serializer.loads(token, max_age=time_limit)
+            serializer.loads(token, max_age=time_limit)
         except SignatureExpired:
             raise TokenValidationError("The CSRF token has expired.")
         except BadData:
