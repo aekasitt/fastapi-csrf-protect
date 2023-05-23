@@ -39,7 +39,7 @@ def form(request: Request, csrf_protect: CsrfProtect = Depends()):
     response = templates.TemplateResponse(
         "form.html", {"request": request, "csrf_token": csrf_token}
     )
-    csrf_protect.set_csrf_cookie(response)
+    csrf_protect.set_csrf_cookie(csrf_token, response)
     return response
 
 
