@@ -28,7 +28,7 @@ def test_validate_missing_cookie_token_request(test_client: TestClient):
     headers: dict = {"X-CSRF-Token": csrf_token} if csrf_token is not None else {}
 
     ### Clear previously received cookies ###
-    test_client.cookies = None
+    test_client.cookies = None  # type: ignore
 
     ### Get protected contents ###
     response = test_client.get("/protected", headers=headers)
