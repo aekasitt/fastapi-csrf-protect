@@ -124,7 +124,7 @@ class CsrfProtect(CsrfConfig):
     def validate_csrf(
         self,
         request: Request,
-        field_name: Optional[str] = None,
+        cookie_key: Optional[str] = None,
         secret_key: Optional[str] = None,
         time_limit: Optional[int] = None,
     ):
@@ -135,9 +135,9 @@ class CsrfProtect(CsrfConfig):
         ---
         :param request: incoming Request instance
         :type request: fastapi.requests.Request
-        :param field_name: (Optional)
+        :param cookie_key: (Optional) field name for the CSRF token field stored in cookies
             Default is set in CsrfConfig when `load_config` was called;
-        :type field_name: str
+        :type cookie_key: str
         :param secret_key: (Optional) secret key used to decrypt the token
             Default is set in CsrfConfig when `load_config` was called;
         :type secret_key: str
@@ -146,22 +146,20 @@ class CsrfProtect(CsrfConfig):
         :type time_limit: int
         :raises TokenValidationError: Contains the reason that validation failed.
         """
-        field_name = field_name or self._cookie_key
         secret_key = secret_key or self._secret_key
         if secret_key is None:
             raise RuntimeError("A secret key is required to use CsrfProtect extension.")
+        cookie_key = cookie_key or self._cookie_key
+        cookie_token = request.cookies.get(cookie_key)
+        if cookie_token is None:
+            raise MissingTokenError(f"Missing Cookie: `{cookie_key}`.")
         time_limit = time_limit or self._max_age
-        data: str = self.get_csrf_from_headers(request.headers)
-        if not data:
-            raise MissingTokenError(f"Missing Header: `{self._header_name}`.")
-        cookie_data = request.cookies.get(field_name)
-        if cookie_data is None:
-            raise MissingTokenError(f"Missing Cookie: `{field_name}`.")
-        if data != cookie_data:
+        token: str = self.get_csrf_from_headers(request.headers)
+        if token != cookie_token:
             raise TokenValidationError("The CSRF token pair submitted do not match.")
         serializer = URLSafeTimedSerializer(secret_key, salt="fastapi-csrf-token")
         try:
-            token = serializer.loads(data, max_age=time_limit)
+            token = serializer.loads(token, max_age=time_limit)
         except SignatureExpired:
             raise TokenValidationError("The CSRF token has expired.")
         except BadData:
