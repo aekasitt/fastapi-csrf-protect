@@ -12,7 +12,6 @@
 from typing import Any
 ### Third-Party Packages ###
 import pytest
-from fastapi.testclient import TestClient
 from pydantic import ValidationError
 ### Local Modules ###
 from . import *
