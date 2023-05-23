@@ -37,7 +37,7 @@ class CsrfProtect(CsrfConfig):
         """
         secret_key = secret_key or self._secret_key
         if secret_key is None:
-            raise RuntimeError("A secret key is required to use CsrfProtect plugin.")
+            raise RuntimeError("A secret key is required to use CsrfProtect extension.")
         serializer = URLSafeTimedSerializer(secret_key, salt="fastapi-csrf-token")
         token = serializer.dumps(sha1(urandom(64)).hexdigest())
         return token
@@ -149,7 +149,7 @@ class CsrfProtect(CsrfConfig):
         field_name = field_name or self._cookie_key
         secret_key = secret_key or self._secret_key
         if secret_key is None:
-            raise RuntimeError("A secret key is required to use CsrfProtect plugin.")
+            raise RuntimeError("A secret key is required to use CsrfProtect extension.")
         time_limit = time_limit or self._max_age
         data: str = self.get_csrf_from_headers(request.headers)
         if not data:

@@ -25,4 +25,4 @@ def test_validate_missing_secret_key(test_client: TestClient):
             return [("secret_key", None)]
 
         test_client.get("/gen-token")
-    assert err.match("A secret key is required to use CsrfProtect plugin.")
+    assert err.match("A secret key is required to use CsrfProtect extension.")
