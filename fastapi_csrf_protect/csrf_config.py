@@ -32,7 +32,7 @@ class CsrfConfig(object):
     _secret_key: str = None
 
     @classmethod
-    def load_config(cls, settings: Callable[..., List[tuple]]) -> "CsrfConfig":
+    def load_config(cls, settings: Callable[..., List[tuple]]) -> None:
         try:
             config = LoadConfig(**{key.lower(): value for key, value in settings()})
             cls._cookie_key = config.cookie_key
