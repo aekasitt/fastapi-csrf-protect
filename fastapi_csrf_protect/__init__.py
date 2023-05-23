@@ -15,3 +15,5 @@ FastAPI extension that provides Csrf Protection Token support
 __version__ = "0.2.2"
 
 from .core import CsrfProtect
+
+__all__ = ["CsrfProtect"]
