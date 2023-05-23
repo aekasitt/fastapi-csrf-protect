@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (C) 2021-2023 All rights reserved.
 # FILENAME:  core.py
-# VERSION: 	 0.2.2
+# VERSION: 	 0.3.0
 # CREATED: 	 2020-11-25 14:35
 # AUTHOR: 	 Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:
