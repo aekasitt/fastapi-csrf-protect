@@ -117,7 +117,11 @@ class CsrfProtect(CsrfConfig):
         )
 
     def validate_csrf(
-        self, request: Request, field_name: Optional[str] = None, secret_key: Optional[str] = None, time_limit: Optional[int] = None
+        self,
+        request: Request,
+        field_name: Optional[str] = None,
+        secret_key: Optional[str] = None,
+        time_limit: Optional[int] = None,
     ):
         """
         Check if the given data is a valid CSRF token. This compares the given

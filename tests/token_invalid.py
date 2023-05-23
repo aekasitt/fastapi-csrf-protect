@@ -34,4 +34,3 @@ def test_validate_token_invalid_request(test_client: TestClient):
     ### Assertions ###
     assert response.status_code == 401
     assert response.json() == {"detail": "The CSRF token is invalid."}
-

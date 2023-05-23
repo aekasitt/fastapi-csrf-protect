@@ -21,7 +21,7 @@ def test_validate_missing_cookie_token_request(test_client: TestClient):
     @CsrfProtect.load_config
     def get_secret_key():
         return [("secret_key", "secret")]
-    
+
     ### Get CSRF Tokens ###
     response = test_client.get("/set-csrf-tokens")
     csrf_token: str = response.json().get("csrf_token", None)
@@ -49,4 +49,6 @@ def test_validate_missing_header_token_request(test_client: TestClient):
 
     ### Assertions ###
     assert response.status_code == 422
-    assert response.json() == {"detail": 'Bad headers. Expected "X-CSRF-Token" in headers'}
+    assert response.json() == {
+        "detail": 'Bad headers. Expected "X-CSRF-Token" in headers'
+    }

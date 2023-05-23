@@ -19,8 +19,10 @@ from fastapi_csrf_protect import CsrfProtect
 
 def test_validate_missing_secret_key(test_client: TestClient):
     with raises(RuntimeError) as err:
+
         @CsrfProtect.load_config
         def load_secret_key():
             return [("secret_key", None)]
+
         test_client.get("/set-csrf-tokens")
     assert err.match("A secret key is required to use CSRF.")
