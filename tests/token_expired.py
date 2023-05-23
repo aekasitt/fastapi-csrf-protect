@@ -7,53 +7,73 @@
 # DESCRIPTION:
 #
 # HISTORY:
-#*************************************************************
+# *************************************************************
 ### Standard Packages ###
 from time import sleep
 from warnings import filterwarnings
+
 ### Third-Party Packages ###
 from fastapi.testclient import TestClient
+
 ### Local Modules ###
 from . import *
 from fastapi_csrf_protect import CsrfProtect
 
-def validate_token_expired(client: TestClient, route: str = '/set-cookie', max_age: int = 2, err_status: int = 400, err_msg: str = 'The CSRF token has expired.'):
 
-  ### Loads Config ###
-  @CsrfProtect.load_config
-  def get_configs():
-    return [('secret_key', 'secret'), ('max_age', max_age)]
+def validate_token_expired(
+    client: TestClient,
+    route: str = "/set-cookie",
+    max_age: int = 2,
+    err_status: int = 400,
+    err_msg: str = "The CSRF token has expired.",
+):
+    ### Loads Config ###
+    @CsrfProtect.load_config
+    def get_configs():
+        return [("secret_key", "secret"), ("max_age", max_age)]
 
-  ### Get ###
-  response = client.get(route)
+    ### Get ###
+    response = client.get(route)
 
-  ### Assertion ###
-  assert response.status_code == 200
-  csrf_token: str = response.json().get('csrf_token', None)
-  headers: dict   = { 'X-CSRF-Token': csrf_token } if csrf_token is not None else {}
+    ### Assertion ###
+    assert response.status_code == 200
+    csrf_token: str = response.json().get("csrf_token", None)
+    headers: dict = {"X-CSRF-Token": csrf_token} if csrf_token is not None else {}
 
-  ### Ignore DeprecationWarnings when setting cookie manually with FastAPI TestClient ###
-  filterwarnings('ignore', category=DeprecationWarning)
+    ### Ignore DeprecationWarnings when setting cookie manually with FastAPI TestClient ###
+    filterwarnings("ignore", category=DeprecationWarning)
 
-  ### Get ###
-  response = client.get('/protected', cookies=response.cookies, headers=headers)
+    ### Get ###
+    response = client.get("/protected", cookies=response.cookies, headers=headers)
 
-  ### Assertions ###
-  assert response.status_code == 200
-  assert response.json() == {'detail': 'OK'}
+    ### Assertions ###
+    assert response.status_code == 200
+    assert response.json() == {"detail": "OK"}
 
-  ### Delays ###
-  sleep(max_age + 1)
+    ### Delays ###
+    sleep(max_age + 1)
 
-  ### Get ###
-  response = client.get('/protected', cookies=response.cookies, headers=headers)
+    ### Get ###
+    response = client.get("/protected", cookies=response.cookies, headers=headers)
 
-  ### Assertions ###
-  assert response.status_code == err_status
-  assert response.json()      == { 'detail': err_msg }
+    ### Assertions ###
+    assert response.status_code == err_status
+    assert response.json() == {"detail": err_msg}
+
 
 def test_token_expired_in_cookies(setup_cookies):
-  validate_token_expired(setup_cookies, '/set-cookie', err_status=400, err_msg='Missing Cookie fastapi-csrf-token')
+    validate_token_expired(
+        setup_cookies,
+        "/set-cookie",
+        err_status=400,
+        err_msg="Missing Cookie fastapi-csrf-token",
+    )
+
 
 def test_token_expired_in_context(setup_context):
-  validate_token_expired(setup_context, '/set-context', err_status=401, err_msg='The CSRF token has expired.')
+    validate_token_expired(
+        setup_context,
+        "/set-context",
+        err_status=401,
+        err_msg="The CSRF token has expired.",
+    )
