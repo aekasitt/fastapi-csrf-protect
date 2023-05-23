@@ -31,6 +31,14 @@ typing-extensions = {version = "*", markers = "python_version < \"3.8\""}
 tests = ["mypy (>=0.800)", "pytest", "pytest-asyncio"]
 
 [[package]]
+name = "certifi"
+version = "2023.5.7"
+description = "Python package for providing Mozilla's CA Bundle."
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+
+[[package]]
 name = "click"
 version = "8.1.3"
 description = "Composable command line interface toolkit"
@@ -84,11 +92,49 @@ name = "h11"
 version = "0.14.0"
 description = "A pure-Python, bring-your-own-I/O implementation of HTTP/1.1"
 category = "main"
-optional = true
+optional = false
 python-versions = ">=3.7"
 
 [package.dependencies]
 typing-extensions = {version = "*", markers = "python_version < \"3.8\""}
+
+[[package]]
+name = "httpcore"
+version = "0.17.1"
+description = "A minimal low-level HTTP client."
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+anyio = ">=3.0,<5.0"
+certifi = "*"
+h11 = ">=0.13,<0.15"
+sniffio = ">=1.0.0,<2.0.0"
+
+[package.extras]
+http2 = ["h2 (>=3,<5)"]
+socks = ["socksio (>=1.0.0,<2.0.0)"]
+
+[[package]]
+name = "httpx"
+version = "0.24.1"
+description = "The next generation HTTP client."
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+certifi = "*"
+httpcore = ">=0.15.0,<0.18.0"
+idna = "*"
+sniffio = "*"
+
+[package.extras]
+brotli = ["brotli", "brotlicffi"]
+cli = ["click (>=8.0.0,<9.0.0)", "pygments (>=2.0.0,<3.0.0)", "rich (>=10,<14)"]
+http2 = ["h2 (>=3,<5)"]
+socks = ["socksio (>=1.0.0,<2.0.0)"]
 
 [[package]]
 name = "idna"
@@ -285,7 +331,7 @@ examples = ["uvicorn", "Jinja2"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "4671cabfeca654d5343b04f57826698e031782b31475c6e71eca421c06721952"
+content-hash = "3361c2d016e51c5d1444085f135ff38f6948647800379bc04b15e584585b8759"
 
 [metadata.files]
 anyio = [
@@ -295,6 +341,10 @@ anyio = [
 asgiref = [
     {file = "asgiref-3.6.0-py3-none-any.whl", hash = "sha256:71e68008da809b957b7ee4b43dbccff33d1b23519fb8344e33f049897077afac"},
     {file = "asgiref-3.6.0.tar.gz", hash = "sha256:9567dfe7bd8d3c8c892227827c41cce860b368104c3431da67a0c5a65a949506"},
+]
+certifi = [
+    {file = "certifi-2023.5.7-py3-none-any.whl", hash = "sha256:c6c2e98f5c7869efca1f8916fed228dd91539f9f1b444c314c06eef02980c716"},
+    {file = "certifi-2023.5.7.tar.gz", hash = "sha256:0f0d56dc5a6ad56fd4ba36484d6cc34451e1c6548c61daad8c320169f91eddc7"},
 ]
 click = [
     {file = "click-8.1.3-py3-none-any.whl", hash = "sha256:bb4d8133cb15a609f44e8213d9b391b0809795062913b383c62be0ee95b1db48"},
@@ -315,6 +365,14 @@ fastapi = [
 h11 = [
     {file = "h11-0.14.0-py3-none-any.whl", hash = "sha256:e3fe4ac4b851c468cc8363d500db52c2ead036020723024a109d37346efaa761"},
     {file = "h11-0.14.0.tar.gz", hash = "sha256:8f19fbbe99e72420ff35c00b27a34cb9937e902a8b810e2c88300c6f0a3b699d"},
+]
+httpcore = [
+    {file = "httpcore-0.17.1-py3-none-any.whl", hash = "sha256:628e768aaeec1f7effdc6408ba1c3cdbd7487c1fc570f7d66844ec4f003e1ca4"},
+    {file = "httpcore-0.17.1.tar.gz", hash = "sha256:caf508597c525f9b8bfff187e270666309f63115af30f7d68b16143a403c8356"},
+]
+httpx = [
+    {file = "httpx-0.24.1-py3-none-any.whl", hash = "sha256:06781eb9ac53cde990577af654bd990a4949de37a28bdb4a230d434f3a30b9bd"},
+    {file = "httpx-0.24.1.tar.gz", hash = "sha256:5853a43053df830c20f8110c5e69fe44d035d850b2dfe795e196f00fdb774bdd"},
 ]
 idna = [
     {file = "idna-3.4-py3-none-any.whl", hash = "sha256:90b77e79eaa3eba6de819a0c442c0b4ceefc341a7a2ab77d7562bf49f425c5c2"},
