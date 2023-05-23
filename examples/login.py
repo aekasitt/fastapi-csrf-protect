@@ -46,11 +46,9 @@ def form(request: Request, csrf_protect: CsrfProtect = Depends()):
 @app.post("/login", response_class=JSONResponse)
 def login(request: Request, csrf_protect: CsrfProtect = Depends()):
     """
-    Login from from data
+    Login using form data
     """
-    csrf_protect.validate_csrf_in_cookies(request)
-    csrf_token = csrf_protect.get_csrf_from_headers(request.headers)
-    csrf_protect.validate_csrf(csrf_token)
+    csrf_protect.validate_csrf(request)
     # Do stuff
 
 

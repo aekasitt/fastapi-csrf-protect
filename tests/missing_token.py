@@ -12,33 +12,41 @@
 from fastapi.testclient import TestClient
 
 ### Local Packages ###
-from . import *
+from . import test_client
 from fastapi_csrf_protect import CsrfProtect
 
 
-def validate_missing_token_request(
-    client: TestClient, route: str, expected_status: int, expected_msg: str
-):
+def test_validate_missing_cookie_token_request(test_client: TestClient):
+    ### Loads Config ###
+    @CsrfProtect.load_config
+    def get_secret_key():
+        return [("secret_key", "secret")]
+    
+    ### Get CSRF Tokens ###
+    response = test_client.get("/set-csrf-tokens")
+    csrf_token: str = response.json().get("csrf_token", None)
+    headers: dict = {"X-CSRF-Token": csrf_token} if csrf_token is not None else {}
+
+    ### Get Protected Contents ###
+    response = test_client.get("/protected", headers=headers)
+
+    ### Assertions ###
+    assert response.status_code == 401
+    assert response.json() == {"detail": "The CSRF token pair submitted do not match."}
+
+
+def test_validate_missing_header_token_request(test_client: TestClient):
     ### Loads Config ###
     @CsrfProtect.load_config
     def get_secret_key():
         return [("secret_key", "secret")]
 
-    ### Get ###
-    response = client.get(route)
+    ### Get CSRF Tokens ###
+    response = test_client.get("/set-csrf-tokens")
+
+    ### Get Protected Contents ###
+    response = test_client.get("/protected", cookies=response.cookies)
 
     ### Assertions ###
-    assert response.status_code == expected_status
-    assert response.json() == {"detail": expected_msg}
-
-
-def test_missing_token_request_in_cookies(setup_cookies, route: str = "/protected"):
-    validate_missing_token_request(
-        setup_cookies, route, 400, "Missing Cookie fastapi-csrf-token"
-    )
-
-
-def test_missing_token_request_in_context(setup_context, route: str = "/protected"):
-    validate_missing_token_request(
-        setup_context, route, 422, 'Bad headers. Expected "X-CSRF-Token" in headers'
-    )
+    assert response.status_code == 422
+    assert response.json() == {"detail": 'Bad headers. Expected "X-CSRF-Token" in headers'}

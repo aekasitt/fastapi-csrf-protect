@@ -8,7 +8,8 @@
 
 ## Features
 
-FastAPI extension that provides Cross-Site Request Forgery (XSRF) Protection support (easy to use and lightweight).
+FastAPI extension that provides stateless Cross-Site Request Forgery (XSRF) Protection support.
+Aimed to be easy to use and lightweight, we adopt [Double Submit Cookie](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#double-submit-cookie) mitigation pattern.
 If you were familiar with `flask-wtf` library this extension suitable for you.
 This extension inspired by `fastapi-jwt-auth` 😀
 
@@ -28,7 +29,7 @@ poetry add fastapi-csrf-protect
 
 The following examples show you how to integrate this extension to a FastAPI App
 
-### With Context and Headers
+### Example Login Form
 
 ```python
 from fastapi import FastAPI, Request, Depends
@@ -39,85 +40,41 @@ from fastapi_csrf_protect.exceptions import CsrfProtectError
 from pydantic import BaseModel
 
 app = FastAPI()
-templates = Jinja2Templates(directory='templates')
+templates = Jinja2Templates(directory="templates")
 
 class CsrfSettings(BaseModel):
-  secret_key:str = 'asecrettoeverybody'
+  secret_key: str = "asecrettoeverybody"
+  cookie_samesite: str = "none"
 
 @CsrfProtect.load_config
 def get_csrf_config():
   return CsrfSettings()
 
-@app.get('/form')
-def form(request: Request, csrf_protect:CsrfProtect = Depends()):
-  '''
+@app.get("/login")
+def form(request: Request, csrf_protect: CsrfProtect = Depends()):
+  """
   Returns form template.
-  '''
+  """
   csrf_token = csrf_protect.generate_csrf()
-  response = templates.TemplateResponse('form.html', {
-    'request': request, 'csrf_token': csrf_token
-  })
+  response = templates.TemplateResponse(
+    "form.html", {"request": request, "csrf_token": csrf_token}
+  )
+  csrf_protect.set_csrf_cookie(response)
   return response
 
-@app.post('/posts', response_class=JSONResponse)
-def create_post(request: Request, csrf_protect:CsrfProtect = Depends()):
-  '''
+@app.post("/login", response_class=JSONResponse)
+def create_post(request: Request, csrf_protect: CsrfProtect = Depends()):
+  """
   Creates a new Post
-  '''
+  """
+  csrf_protect.validate_csrf_in_cookies(request)
   csrf_token = csrf_protect.get_csrf_from_headers(request.headers)
   csrf_protect.validate_csrf(csrf_token)
   # Do stuff
 
 @app.exception_handler(CsrfProtectError)
 def csrf_protect_exception_handler(request: Request, exc: CsrfProtectError):
-  return JSONResponse(
-    status_code=exc.status_code,
-      content={ 'detail':  exc.message
-    }
-  )
-
-```
-
-### With Cookies
-
-```python
-from fastapi import FastAPI, Request, Depends
-from fastapi.responses import JSONResponse
-from fastapi.templating import Jinja2Templates
-from fastapi_csrf_protect import CsrfProtect
-from fastapi_csrf_protect.exceptions import CsrfProtectError
-from pydantic import BaseModel
-
-app = FastAPI()
-templates = Jinja2Templates(directory='templates')
-
-class CsrfSettings(BaseModel):
-  secret_key:str = 'asecrettoeverybody'
-
-@CsrfProtect.load_config
-def get_csrf_config():
-  return CsrfSettings()
-
-@app.get('/form')
-def form(request: Request, csrf_protect:CsrfProtect = Depends()):
-  '''
-  Returns form template.
-  '''
-  response = templates.TemplateResponse('form.html', { 'request': request })
-  csrf_protect.set_csrf_cookie(response)
-  return response
-
-@app.post('/posts', response_class=JSONResponse)
-def create_post(request: Request, csrf_protect:CsrfProtect = Depends()):
-  '''
-  Creates a new Post
-  '''
-  csrf_protect.validate_csrf_in_cookies(request)
-  # Do stuff
-
-@app.exception_handler(CsrfProtectError)
-def csrf_protect_exception_handler(request: Request, exc: CsrfProtectError):
-  return JSONResponse(status_code=exc.status_code, content={ 'detail':  exc.message })
+  return JSONResponse(status_code=exc.status_code, content={"detail": exc.message})
 
 ```
 
@@ -134,6 +91,7 @@ poetry install
 Testing can be done by the following command post-installation:
 
 ```bash
+poetry install --with test
 pytest
 ```
 
@@ -143,20 +101,14 @@ To run the provided examples, first you must install extra dependencies [uvicorn
 Alternatively, run the following command on your terminal to do so
 
 ```bash
-poetry install --extras examples
+poetry install --with examples
 ```
 
-1. Running the example utilizing Context and Headers
+Running the example utilizing Context and Headers
 
-    ```bash
-    uvicorn examples.context:app
-    ```
-
-2. Running the example utilizing Cookies
-
-    ```bash
-    uvicorn examples.cookies:app
-    ```
+```bash
+uvicorn examples.login:app
+```
 
 ## License
 
