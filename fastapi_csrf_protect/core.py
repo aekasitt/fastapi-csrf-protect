@@ -148,7 +148,7 @@ class CsrfProtect(CsrfConfig):
         time_limit = time_limit or self._max_age
         data: str = self.get_csrf_from_headers(request.headers)
         if not data:
-            raise MissingTokenError(f"Missing Header {self.header_name}.")
+            raise MissingTokenError(f"Missing Header {self._header_name}.")
         cookie_data = request.cookies.get(field_name)
         if cookie_data is None:
             raise MissingTokenError(f"Missing Cookie {field_name}")
