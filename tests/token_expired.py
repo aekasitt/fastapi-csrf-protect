@@ -10,6 +10,7 @@
 #*************************************************************
 ### Standard Packages ###
 from time import sleep
+from warnings import filterwarnings
 ### Third-Party Packages ###
 from fastapi.testclient import TestClient
 ### Local Modules ###
@@ -30,6 +31,9 @@ def validate_token_expired(client: TestClient, route: str = '/set-cookie', max_a
   assert response.status_code == 200
   csrf_token: str = response.json().get('csrf_token', None)
   headers: dict   = { 'X-CSRF-Token': csrf_token } if csrf_token is not None else {}
+
+  ### Ignore DeprecationWarnings when setting cookie manually with FastAPI TestClient ###
+  filterwarnings('ignore', category=DeprecationWarning)
 
   ### Get ###
   response = client.get('/protected', cookies=response.cookies, headers=headers)
