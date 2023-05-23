@@ -53,5 +53,5 @@ def login(request: Request, csrf_protect: CsrfProtect = Depends()):
 
 
 @app.exception_handler(CsrfProtectError)
-def csrf_protect_exception_handler(request: Request, exc: CsrfProtectError):
+def csrf_protect_exception_handler(_: Request, exc: CsrfProtectError):
     return JSONResponse(status_code=exc.status_code, content={"detail": exc.message})
