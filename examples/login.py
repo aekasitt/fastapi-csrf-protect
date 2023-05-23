@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # Copyright (C) 2021-2023 All rights reserved.
-# FILENAME:  examples/context.py
+# FILENAME:  examples/login.py
 # VERSION: 	 0.2.2
-# CREATED: 	 2021-08-19 14:02
+# CREATED: 	 2023-05-23 16:56
 # AUTHOR: 	 Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:
 #
@@ -30,7 +30,7 @@ def get_csrf_config():
     return CsrfSettings()
 
 
-@app.get("/form")
+@app.get("/login")
 def form(request: Request, csrf_protect: CsrfProtect = Depends()):
     """
     Returns form template.
@@ -39,14 +39,16 @@ def form(request: Request, csrf_protect: CsrfProtect = Depends()):
     response = templates.TemplateResponse(
         "form.html", {"request": request, "csrf_token": csrf_token}
     )
+    csrf_protect.set_csrf_cookie(response)
     return response
 
 
-@app.post("/posts", response_class=JSONResponse)
-def create_post(request: Request, csrf_protect: CsrfProtect = Depends()):
+@app.post("/login", response_class=JSONResponse)
+def login(request: Request, csrf_protect: CsrfProtect = Depends()):
     """
-    Creates a new Post
+    Login from from data
     """
+    csrf_protect.validate_csrf_in_cookies(request)
     csrf_token = csrf_protect.get_csrf_from_headers(request.headers)
     csrf_protect.validate_csrf(csrf_token)
     # Do stuff
