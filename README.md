@@ -59,7 +59,7 @@ def form(request: Request, csrf_protect: CsrfProtect = Depends()):
   response = templates.TemplateResponse(
     "form.html", {"request": request, "csrf_token": csrf_token}
   )
-  csrf_protect.set_csrf_cookie(response)
+  csrf_protect.set_csrf_cookie(csrf_token, response)
   return response
 
 @app.post("/login", response_class=JSONResponse)
@@ -67,9 +67,7 @@ def create_post(request: Request, csrf_protect: CsrfProtect = Depends()):
   """
   Creates a new Post
   """
-  csrf_protect.validate_csrf_in_cookies(request)
-  csrf_token = csrf_protect.get_csrf_from_headers(request.headers)
-  csrf_protect.validate_csrf(csrf_token)
+  csrf_protect.validate_csrf(request)
   # Do stuff
 
 @app.exception_handler(CsrfProtectError)
