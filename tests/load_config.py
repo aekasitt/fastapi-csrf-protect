@@ -16,7 +16,6 @@ import pytest
 from pydantic import ValidationError
 
 ### Local Modules ###
-from . import *
 from fastapi_csrf_protect import CsrfProtect
 
 
