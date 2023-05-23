@@ -3,7 +3,7 @@
 # FILENAME:  missing_secret.py
 # VERSION: 	 0.2.2
 # CREATED: 	 2021-08-18 23:58
-# AUTHOR: 	 Aekasitt Guruvanich <aekazitt@gmail.com>
+# AUTHOR: 	 Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:
 #
 # HISTORY:

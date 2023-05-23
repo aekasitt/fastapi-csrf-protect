@@ -3,7 +3,7 @@
 # FILENAME:  core.py
 # VERSION: 	 0.2.2
 # CREATED: 	 2020-11-25 14:35
-# AUTHOR: 	 Aekasitt Guruvanich <aekazitt@gmail.com>
+# AUTHOR: 	 Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:
 #
 # HISTORY:

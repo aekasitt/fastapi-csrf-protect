@@ -3,7 +3,7 @@
 # FILENAME:  examples/cookies.py
 # VERSION: 	 0.2.2
 # CREATED: 	 2021-08-19 14:02
-# AUTHOR: 	 Aekasitt Guruvanich <aekazitt@gmail.com>
+# AUTHOR: 	 Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:
 #
 # HISTORY:

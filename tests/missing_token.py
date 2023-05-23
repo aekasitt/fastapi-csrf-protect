@@ -3,7 +3,7 @@
 # FILENAME:  missing_token.py
 # VERSION: 	 0.2.2
 # CREATED: 	 2020-11-26 16:14
-# AUTHOR: 	 Aekasitt Guruvanich <aekazitt@gmail.com>
+# AUTHOR: 	 Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:
 #
 # HISTORY:
