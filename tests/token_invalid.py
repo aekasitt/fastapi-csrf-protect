@@ -25,7 +25,7 @@ def test_validate_token_invalid_request(test_client: TestClient):
     ### Ignore DeprecationWarnings when setting cookie manually with FastAPI TestClient ###
     filterwarnings("ignore", category=DeprecationWarning)
 
-    ### Get ###
+    ### Get protected contents ###
     headers: dict = {"X-CSRF-Token": "invalid"}
     response = test_client.get(
         "/protected", cookies={"fastapi-csrf-token": "invalid"}, headers=headers

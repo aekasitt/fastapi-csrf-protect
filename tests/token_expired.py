@@ -10,14 +10,13 @@
 # *************************************************************
 ### Standard Packages ###
 from time import sleep
-from warnings import filterwarnings
 
 ### Third-Party Packages ###
 from . import test_client
 from fastapi.testclient import TestClient
 
 ### Local Modules ###
-from . import *
+from . import test_client
 from fastapi_csrf_protect import CsrfProtect
 
 
@@ -27,19 +26,18 @@ def test_validate_token_expired(test_client: TestClient, max_age: int = 2):
     def get_configs():
         return [("secret_key", "secret"), ("max_age", max_age)]
 
-    ### Get ###
-    response = test_client.get("/set-csrf-tokens")
+    ### Generate token ###
+    response = test_client.get("/gen-token")
 
     ### Assertion ###
     assert response.status_code == 200
+
+    ### Extract `csrf_token` from response to be set as next request's header ###
     csrf_token: str = response.json().get("csrf_token", None)
     headers: dict = {"X-CSRF-Token": csrf_token} if csrf_token is not None else {}
 
-    ### Ignore DeprecationWarnings when setting cookie manually with FastAPI TestClient ###
-    filterwarnings("ignore", category=DeprecationWarning)
-
-    ### Get Protected Contents ###
-    response = test_client.get("/protected", cookies=response.cookies, headers=headers)
+    ### Get protected contents ###
+    response = test_client.get("/protected", headers=headers)
 
     ### Assertions ###
     assert response.status_code == 200
@@ -48,9 +46,9 @@ def test_validate_token_expired(test_client: TestClient, max_age: int = 2):
     ### Delays ###
     sleep(max_age + 1)
 
-    ### Get Protected Contents ###
-    response = test_client.get("/protected", cookies=response.cookies, headers=headers)
+    ### Get protected contents ###
+    response = test_client.get("/protected", headers=headers)
 
     ### Assertions ###
-    assert response.status_code == 401
-    assert response.json() == {"detail": "The CSRF token has expired."}
+    assert response.status_code == 400
+    assert response.json() == {"detail": "Missing Cookie: `fastapi-csrf-token`."}

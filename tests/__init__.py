@@ -31,13 +31,13 @@ def test_client() -> TestClient:
     """
     app = FastAPI()
 
-    @app.get("/set-csrf-tokens")
+    @app.get("/gen-token")
     def context(csrf_protect: CsrfProtect = Depends()):
         csrf_token: str = csrf_protect.generate_csrf()
         response = JSONResponse(
             status_code=200, content={"detail": "OK", "csrf_token": csrf_token}
         )
-        csrf_protect.set_csrf_cookie(response)
+        csrf_protect.set_csrf_cookie(csrf_token, response)
         return response
 
     @app.get("/protected")

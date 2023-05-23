@@ -24,5 +24,5 @@ def test_validate_missing_secret_key(test_client: TestClient):
         def load_secret_key():
             return [("secret_key", None)]
 
-        test_client.get("/set-csrf-tokens")
+        test_client.get("/gen-token")
     assert err.match("A secret key is required to use CSRF.")

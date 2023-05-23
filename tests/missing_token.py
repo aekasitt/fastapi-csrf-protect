@@ -17,22 +17,25 @@ from fastapi_csrf_protect import CsrfProtect
 
 
 def test_validate_missing_cookie_token_request(test_client: TestClient):
-    ### Loads Config ###
+    ### Loads config ###
     @CsrfProtect.load_config
     def get_secret_key():
         return [("secret_key", "secret")]
 
-    ### Get CSRF Tokens ###
-    response = test_client.get("/set-csrf-tokens")
+    ### Generate token ###
+    response = test_client.get("/gen-token")
     csrf_token: str = response.json().get("csrf_token", None)
     headers: dict = {"X-CSRF-Token": csrf_token} if csrf_token is not None else {}
 
-    ### Get Protected Contents ###
+    ### Clear previously received cookies ###
+    test_client.cookies = None
+
+    ### Get protected contents ###
     response = test_client.get("/protected", headers=headers)
 
     ### Assertions ###
-    assert response.status_code == 401
-    assert response.json() == {"detail": "The CSRF token pair submitted do not match."}
+    assert response.status_code == 400
+    assert response.json() == {"detail": "Missing Cookie: `fastapi-csrf-token`."}
 
 
 def test_validate_missing_header_token_request(test_client: TestClient):
@@ -42,10 +45,10 @@ def test_validate_missing_header_token_request(test_client: TestClient):
         return [("secret_key", "secret")]
 
     ### Get CSRF Tokens ###
-    response = test_client.get("/set-csrf-tokens")
+    response = test_client.get("/gen-token")
 
-    ### Get Protected Contents ###
-    response = test_client.get("/protected", cookies=response.cookies)
+    ### Get protected contents ###
+    response = test_client.get("/protected")
 
     ### Assertions ###
     assert response.status_code == 422

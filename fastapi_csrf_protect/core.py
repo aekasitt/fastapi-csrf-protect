@@ -79,20 +79,25 @@ class CsrfProtect(CsrfConfig):
             token = header_parts[1]
         return token
 
-    def set_csrf_cookie(self, response: Optional[Response] = None) -> None:
+    def set_csrf_cookie(
+        self, csrf_token: Optional[str] = None, response: Optional[Response] = None
+    ) -> None:
         """
         Sets Csrf Protection token to the response cookies
 
         ---
+        :param csrf_token: (Optional) pre-determined token data
+        :type csrf_token: str
         :param response: The FastAPI response object to sets the access cookies in.
         :type response: fastapi.responses.Response
         """
+        csrf_token = csrf_token or self.generate_csrf(self._secret_key)
         if response and not isinstance(response, Response):
             raise TypeError("The response must be an object response FastAPI")
         response = response or self._response
         response.set_cookie(
             self._cookie_key,
-            self.generate_csrf(self._secret_key),
+            csrf_token,
             max_age=self._max_age,
             path=self._cookie_path,
             domain=self._cookie_domain,
@@ -148,10 +153,10 @@ class CsrfProtect(CsrfConfig):
         time_limit = time_limit or self._max_age
         data: str = self.get_csrf_from_headers(request.headers)
         if not data:
-            raise MissingTokenError(f"Missing Header {self._header_name}.")
+            raise MissingTokenError(f"Missing Header: `{self._header_name}`.")
         cookie_data = request.cookies.get(field_name)
         if cookie_data is None:
-            raise MissingTokenError(f"Missing Cookie {field_name}")
+            raise MissingTokenError(f"Missing Cookie: `{field_name}`.")
         if data != cookie_data:
             raise TokenValidationError("The CSRF token pair submitted do not match.")
         serializer = URLSafeTimedSerializer(secret_key, salt="fastapi-csrf-token")
