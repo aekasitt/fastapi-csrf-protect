@@ -16,7 +16,8 @@ class LoadConfig(BaseModel):
     cookie_key: Optional[StrictStr] = "fastapi-csrf-token"
     cookie_path: Optional[StrictStr] = "/"
     cookie_domain: Optional[StrictStr] = None
-    cookie_secure: Optional[StrictBool] = False  # must be placed before `cookie_samesite`
+    # NOTE: `cookie_secure` must be placed before `cookie_samesite`
+    cookie_secure: Optional[StrictBool] = False
     cookie_samesite: Optional[StrictStr] = "lax"
     header_name: Optional[StrictStr] = "X-CSRF-Token"
     header_type: Optional[StrictStr] = None

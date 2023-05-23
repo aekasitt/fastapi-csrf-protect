@@ -8,8 +8,13 @@
 #
 # HISTORY:
 # *************************************************************
-from typing import Callable, List, Sequence
+### Standard Packages ###
+from typing import Callable, List, Literal, Optional, Sequence
+
+### Third-Party Modules ###
 from pydantic import ValidationError
+
+### Local Modules ###
 from fastapi_csrf_protect.load_config import LoadConfig
 
 
@@ -17,7 +22,7 @@ class CsrfConfig(object):
     _cookie_key: str = "fastapi-csrf-token"
     _cookie_path: str = "/"
     _cookie_domain: str = None
-    _cookie_samesite: bool = None
+    _cookie_samesite: Optional[Literal["lax", "strict", "none"]] = None
     _cookie_secure: bool = False
     _header_name: str = "X-CSRF-Token"
     _header_type: str = None
