@@ -21,19 +21,6 @@ from fastapi_csrf_protect.exceptions import InvalidHeaderError, MissingTokenErro
 
 class CsrfProtect(CsrfConfig):
 
-  def __init__(self, request: Request = None, response: Response = None):
-    '''
-    Retrieve response object if jwt in the cookie
-
-    ---
-    :param request: all incoming request  
-    :type request: fastapi.requests.Request  
-    :param response: response from endpoint  
-    :type response: fastapi.responses.Response  
-    '''
-    if response and self.token_in_cookies:
-      self._response = response
-
   def generate_csrf(self, secret_key: Optional[str] = None):
     '''
     Generate a CSRF token.
@@ -55,10 +42,10 @@ class CsrfProtect(CsrfConfig):
     Get token from the headers
 
     ---
-    :param headers: Headers containing header with configured `csrf_header_name`
+    :param headers: Headers containing header with configured `header_name`
     :type headers: starlette.datastructures.Headers
     '''
-    header_name, header_type = self._csrf_header_name, self._csrf_header_type
+    header_name, header_type = self._header_name, self._header_type
     header_parts = None
     try:
       header_parts = headers[header_name].split()
