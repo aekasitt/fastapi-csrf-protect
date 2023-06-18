@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (C) 2021-2023 All rights reserved.
 # FILENAME:  examples/login.py
-# VERSION: 	 0.3.0
+# VERSION: 	 0.3.1
 # CREATED: 	 2023-05-23 16:56
 # AUTHOR: 	 Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:
