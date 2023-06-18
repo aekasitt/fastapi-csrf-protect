@@ -15,6 +15,16 @@ This extension inspired by `fastapi-jwt-auth` 😀
 
 - Storing `fastapi-csrf-token` in cookies or serve it in template's context
 
+## 🚧 Breaking Changes (0.3.0 -> 0.3.1)
+
+* The `generate_csrf` method has now been marked for deprecation
+* The recommended method is now `generate_csrf_tokens` which returns a tuple of tokens, first unsigned
+  and the latter signed
+* Recommended pattern is for the first token is aimed for returning as part of context
+* Recommended pattern is for the signed token to be set in client's cookie completing [Double Submit Cookie](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#double-submit-cookie)
+* To prevent token reuse, protected endpoint can unset the signed CSRF Token in client's cookies as
+  per example code and recommended pattern.
+
 ## Installation
 
 The easiest way to start working with this extension with pip
@@ -55,11 +65,11 @@ def form(request: Request, csrf_protect: CsrfProtect = Depends()):
   """
   Returns form template.
   """
-  csrf_token = csrf_protect.generate_csrf()
+  csrf_token, signed_token = csrf_protect.generate_csrf_tokens()
   response = templates.TemplateResponse(
     "form.html", {"request": request, "csrf_token": csrf_token}
   )
-  csrf_protect.set_csrf_cookie(csrf_token, response)
+  csrf_protect.set_csrf_cookie(signed_token, response)
   return response
 
 @app.post("/login", response_class=JSONResponse)
@@ -68,7 +78,9 @@ def create_post(request: Request, csrf_protect: CsrfProtect = Depends()):
   Creates a new Post
   """
   csrf_protect.validate_csrf(request)
-  # Do stuff
+  response: JSONResponse = JSONResponse(status_code=200, content={"detail": "OK"})
+  csrf_protect.unset_csrf_cookie(response)  # prevent token reuse
+  return response
 
 @app.exception_handler(CsrfProtectError)
 def csrf_protect_exception_handler(request: Request, exc: CsrfProtectError):
