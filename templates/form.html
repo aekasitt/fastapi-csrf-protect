@@ -22,7 +22,6 @@
       body,
       div,
       h1,
-      form,
       input,
       p {
         padding: 0;
@@ -48,6 +47,7 @@
         color: #a9a9a9;
         opacity: 0.3;
       }
+
       button {
         float: right;
       }
@@ -61,7 +61,7 @@
       <h1>
         Registration
       </h1>
-      <form action='/login' method='post'>
+      <div>
         <hr>
         <label for='email'>
           <i class='fas fa-envelope'></i>
@@ -78,10 +78,10 @@
         </label>
         <input type='password' name='password' id='password' placeholder='Password' required/>
         <hr>
-      </form>
-      <button id="submit">
-        Submit
-      </button>
+        <button id="submit">
+          Submit
+        </button>
+      </div>
       <script lang='javascript' type='module'>
         window.onload = () => {
           let btn = document.getElementById('submit')
