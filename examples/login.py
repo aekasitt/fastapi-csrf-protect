@@ -35,11 +35,11 @@ def form(request: Request, csrf_protect: CsrfProtect = Depends()):
     """
     Returns form template.
     """
-    csrf_token = csrf_protect.generate_csrf()
+    csrf_token, signed_token = csrf_protect.generate_csrf_tokens()
     response = templates.TemplateResponse(
         "form.html", {"request": request, "csrf_token": csrf_token}
     )
-    csrf_protect.set_csrf_cookie(csrf_token, response)
+    csrf_protect.set_csrf_cookie(signed_token, response)
     return response
 
 

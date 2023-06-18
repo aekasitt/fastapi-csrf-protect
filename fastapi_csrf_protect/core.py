@@ -11,7 +11,7 @@
 import re
 from os import urandom
 from hashlib import sha1
-from typing import Optional
+from typing import Optional, Tuple
 from fastapi.requests import Request
 from fastapi.responses import Response
 from starlette.datastructures import Headers
@@ -22,25 +22,37 @@ from fastapi_csrf_protect.exceptions import (
     MissingTokenError,
     TokenValidationError,
 )
+from warnings import warn
 
 
 class CsrfProtect(CsrfConfig):
-    def generate_csrf(self, secret_key: Optional[str] = None):
+    def generate_csrf(self, secret_key: Optional[str] = None) -> Tuple[str, str]:
         """
-        Generate a CSRF token.
-        TODO: The token should be cached for a request, so multiple
-        calls to this function will generate the same token.
+        Deprecated. Please use `generate_csrf_tokens` method instead.
 
         ---
-        :param secret_key: (Optional) the secret key used when generating a new token for users
-        :type secret_key: str
+        :param secret_key: (Optional) the secret key used when generating tokens for users
+        :type secret_key: (str | None) Defaults to None.
+        """
+        warn("This is deprecated; version=0.3.0", DeprecationWarning, stacklevel=2)
+        return self.generate_csrf_tokens(secret_key)
+
+    def generate_csrf_tokens(self, secret_key: Optional[str] = None) -> Tuple[str, str]:
+        """
+        Generate a CSRF token and a signed CSRF token using server's secret key to be stored in
+        cookie. R
+
+        ---
+        :param secret_key: (Optional) the secret key used when generating tokens for users
+        :type secret_key: (str | None) Defaults to None.
         """
         secret_key = secret_key or self._secret_key
         if secret_key is None:
             raise RuntimeError("A secret key is required to use CsrfProtect extension.")
         serializer = URLSafeTimedSerializer(secret_key, salt="fastapi-csrf-token")
-        token = serializer.dumps(sha1(urandom(64)).hexdigest())
-        return token
+        token = sha1(urandom(64)).hexdigest()
+        signed = serializer.dumps(token)
+        return token, signed
 
     def get_csrf_from_headers(self, headers: Headers) -> str:
         """
@@ -79,25 +91,21 @@ class CsrfProtect(CsrfConfig):
             token = header_parts[1]
         return token
 
-    def set_csrf_cookie(
-        self, csrf_token: Optional[str] = None, response: Optional[Response] = None
-    ) -> None:
+    def set_csrf_cookie(self, csrf_signed_token: str, response: Response) -> None:
         """
         Sets Csrf Protection token to the response cookies
 
         ---
-        :param csrf_token: (Optional) pre-determined token data
-        :type csrf_token: str
+        :param csrf_signed_token: signed CSRF token from `generate_csrf_token` method
+        :type csrf_signed_token: str
         :param response: The FastAPI response object to sets the access cookies in.
         :type response: fastapi.responses.Response
         """
-        csrf_token = csrf_token or self.generate_csrf(self._secret_key)
-        if response and not isinstance(response, Response):
+        if not isinstance(response, Response):
             raise TypeError("The response must be an object response FastAPI")
-        response = response or self._response
         response.set_cookie(
             self._cookie_key,
-            csrf_token,
+            csrf_signed_token,
             max_age=self._max_age,
             path=self._cookie_path,
             domain=self._cookie_domain,
@@ -106,17 +114,16 @@ class CsrfProtect(CsrfConfig):
             samesite=self._cookie_samesite,
         )
 
-    def unset_csrf_cookie(self, response: Optional[Response] = None) -> None:
+    def unset_csrf_cookie(self, response: Response) -> None:
         """
         Remove Csrf Protection token from the response cookies
 
         ---
-        :param response: (Optional) The FastAPI response object to delete the access cookies in.
+        :param response: The FastAPI response object to delete the access cookies in.
         :type response: fastapi.responses.Response
         """
-        if response and not isinstance(response, Response):
+        if not isinstance(response, Response):
             raise TypeError("The response must be an object response FastAPI")
-        response = response or self._response
         response.delete_cookie(
             self._cookie_key, path=self._cookie_path, domain=self._cookie_domain
         )
@@ -150,16 +157,18 @@ class CsrfProtect(CsrfConfig):
         if secret_key is None:
             raise RuntimeError("A secret key is required to use CsrfProtect extension.")
         cookie_key = cookie_key or self._cookie_key
-        cookie_token = request.cookies.get(cookie_key)
-        if cookie_token is None:
+        signed_token = request.cookies.get(cookie_key)
+        if signed_token is None:
             raise MissingTokenError(f"Missing Cookie: `{cookie_key}`.")
         time_limit = time_limit or self._max_age
         token: str = self.get_csrf_from_headers(request.headers)
-        if token != cookie_token:
-            raise TokenValidationError("The CSRF token pair submitted do not match.")
         serializer = URLSafeTimedSerializer(secret_key, salt="fastapi-csrf-token")
         try:
-            serializer.loads(token, max_age=time_limit)
+            signature: str = serializer.loads(signed_token, max_age=time_limit)
+            if token != signature:
+                raise TokenValidationError(
+                    "The CSRF signatures submitted do not match."
+                )
         except SignatureExpired:
             raise TokenValidationError("The CSRF token has expired.")
         except BadData:

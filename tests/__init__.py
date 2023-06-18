@@ -33,11 +33,11 @@ def test_client() -> TestClient:
 
     @app.get("/gen-token", response_class=JSONResponse)
     def generate(csrf_protect: CsrfProtect = Depends()):
-        csrf_token: str = csrf_protect.generate_csrf()
+        csrf_token, signed_token = csrf_protect.generate_csrf_tokens()
         response: JSONResponse = JSONResponse(
             status_code=200, content={"detail": "OK", "csrf_token": csrf_token}
         )
-        csrf_protect.set_csrf_cookie(csrf_token, response)
+        csrf_protect.set_csrf_cookie(signed_token, response)
         return response
 
     @app.get("/protected", response_class=JSONResponse)
