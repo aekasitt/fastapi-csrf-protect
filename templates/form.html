@@ -48,32 +48,60 @@
         color: #a9a9a9;
         opacity: 0.3;
       }
+      button {
+        float: right;
+      }
     </style>
   </head>
   <body>
+    <noscript>
+      This page requires JavaScript enabled to work.
+    </noscript>
     <div class='main-block'>
       <h1>
         Registration
       </h1>
       <form action='/login' method='post'>
         <hr>
-        <label id='icon' for='name'>
+        <label for='email'>
           <i class='fas fa-envelope'></i>
         </label>
-        <input type='text' name='name' id='name' placeholder='Email' required/>
+        <input type='text' name='email' id='email' placeholder='Email' required/>
         <hr>
-        <label id='icon' for='name'>
+        <label for='name'>
           <i class='fas fa-user'></i>
         </label>
         <input type='text' name='name' id='name' placeholder='Name' required/>
         <hr>
-        <label id='icon' for='name'>
+        <label for='password'>
           <i class='fas fa-unlock-alt'></i>
         </label>
-        <input type='password' name='name' id='name' placeholder='Password' required/>
+        <input type='password' name='password' id='password' placeholder='Password' required/>
         <hr>
-        <input type='submit' value='Submit'/>
       </form>
+      <button id="submit">
+        Submit
+      </button>
+      <script lang='javascript' type='module'>
+        window.onload = () => {
+          let btn = document.getElementById('submit')
+          !!btn
+            ? btn.addEventListener('click', (event) => {
+              let email = document.getElementById('email')?.value;
+              let name = document.getElementById('name')?.value;
+              let password = document.getElementById('password')?.value;
+              fetch('/login', {
+                  data: { email, name, password },
+                  headers: { 'X-CSRF-Token': '{{ csrf_token }}' },
+                  method: 'POST'
+                }
+              )
+              .then(resp => alert(resp.statusText))
+              .catch(err => alert(err.detail))
+            })
+            : void 0;
+        };
+      </script>
     </div>
   </body>
 </html>
