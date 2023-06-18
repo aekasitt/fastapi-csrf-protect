@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # Copyright (C) 2021-2023 All rights reserved.
-# FILENAME:  token_expired.py
+# FILENAME:  token_reuse.py
 # VERSION: 	 0.3.0
-# CREATED: 	 2020-11-26 16:14
+# CREATED: 	 2023-06-18 15:07
 # AUTHOR: 	 Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:
 #
@@ -20,7 +20,7 @@ from . import test_client
 from fastapi_csrf_protect import CsrfProtect
 
 
-def test_validate_token_expired(test_client: TestClient, max_age: int = 2):
+def test_disallow_token_reuse(test_client: TestClient, max_age: int = 2):
     ### Loads Config ###
     @CsrfProtect.load_config
     def get_configs():
@@ -36,10 +36,14 @@ def test_validate_token_expired(test_client: TestClient, max_age: int = 2):
     csrf_token: str = response.json().get("csrf_token", None)
     headers: dict = {"X-CSRF-Token": csrf_token} if csrf_token is not None else {}
 
-    ### Delays ###
-    sleep(max_age + 1)
-
     ### Get protected contents ###
+    response = test_client.get("/protected", headers=headers)
+
+    ### Assertions ###
+    assert response.status_code == 200
+    assert response.json() == {"detail": "OK"}
+
+    ### Immediately get protected contents again ###
     response = test_client.get("/protected", headers=headers)
 
     ### Assertions ###

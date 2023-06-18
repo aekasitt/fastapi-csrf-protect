@@ -49,7 +49,9 @@ def login(request: Request, csrf_protect: CsrfProtect = Depends()):
     Login using form data
     """
     csrf_protect.validate_csrf(request)
-    # Do stuff
+    response: JSONResponse = JSONResponse(status_code=200, content={"detail": "OK"})
+    csrf_protect.unset_csrf_cookie(response)  # prevent token reuse
+    return response
 
 
 @app.exception_handler(CsrfProtectError)

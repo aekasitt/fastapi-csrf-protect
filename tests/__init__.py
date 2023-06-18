@@ -43,7 +43,9 @@ def test_client() -> TestClient:
     @app.get("/protected")
     def protected(request: Request, csrf_protect: CsrfProtect = Depends()):
         csrf_protect.validate_csrf(request)
-        return JSONResponse(status_code=200, content={"detail": "OK"})
+        response: JSONResponse = JSONResponse(status_code=200, content={"detail": "OK"})
+        csrf_protect.unset_csrf_cookie(response)  # prevent token reuse
+        return response
 
     @app.exception_handler(CsrfProtectError)
     def csrf_protect_error_handler(request: Request, exc: CsrfProtectError):
