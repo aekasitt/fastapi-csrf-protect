@@ -8,7 +8,7 @@
 #
 # HISTORY:
 # *************************************************************
-from typing import Optional, Sequence
+from typing import Optional, Set
 from pydantic import BaseModel, validator, StrictBool, StrictInt, StrictStr
 
 
@@ -23,7 +23,7 @@ class LoadConfig(BaseModel):
     header_type: Optional[StrictStr] = None
     httponly: Optional[StrictBool] = True
     max_age: Optional[StrictInt] = 3600
-    methods: Optional[Sequence[StrictStr]] = {"POST", "PUT", "PATCH", "DELETE"}
+    methods: Optional[Set[StrictStr]] = {"POST", "PUT", "PATCH", "DELETE"}
     secret_key: Optional[StrictStr] = None
 
     @validator("methods", each_item=True)
