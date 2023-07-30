@@ -47,6 +47,7 @@ optional = true
 [tool.poetry.group.test.dependencies]
 httpx = "^0.24.1"
 pytest = "^7.3.1"
+python-multipart = "^0.0.6"
 
 [tool.pytest.ini_options]
 addopts = "--strict-markers --tb=short -s"

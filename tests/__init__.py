@@ -12,7 +12,7 @@
 from pytest import fixture
 
 ### Third-Party Packages ###
-from fastapi import Depends, FastAPI, Request
+from fastapi import Depends, FastAPI, Form, Request
 from fastapi.responses import JSONResponse
 from fastapi.testclient import TestClient
 
@@ -43,6 +43,13 @@ def test_client() -> TestClient:
     @app.get("/protected", response_class=JSONResponse)
     def protected(request: Request, csrf_protect: CsrfProtect = Depends()):
         csrf_protect.validate_csrf(request)
+        response: JSONResponse = JSONResponse(status_code=200, content={"detail": "OK"})
+        csrf_protect.unset_csrf_cookie(response)  # prevent token reuse
+        return response
+
+    @app.post("/form", response_class=JSONResponse)
+    def form(request: Request, csrf_token=Form(default=None), csrf_protect: CsrfProtect = Depends()):
+        csrf_protect.validate_csrf(request, token=csrf_token)
         response: JSONResponse = JSONResponse(status_code=200, content={"detail": "OK"})
         csrf_protect.unset_csrf_cookie(response)  # prevent token reuse
         return response

@@ -134,6 +134,7 @@ class CsrfProtect(CsrfConfig):
         cookie_key: Optional[str] = None,
         secret_key: Optional[str] = None,
         time_limit: Optional[int] = None,
+        token: Optional[str] = None,
     ):
         """
         Check if the given data is a valid CSRF token. This compares the given
@@ -151,6 +152,9 @@ class CsrfProtect(CsrfConfig):
         :param time_limit: (Optional) Number of seconds that the token is valid.
             Default is set in CsrfConfig when `load_config` was called;
         :type time_limit: int
+        :param token: (Optional) Unsigned token to be validated.
+            Default is taken from "X-CSRF-Token" header. See `get_csrf_from_headers`;
+        :type time_limit: str
         :raises TokenValidationError: Contains the reason that validation failed.
         """
         secret_key = secret_key or self._secret_key
@@ -161,7 +165,7 @@ class CsrfProtect(CsrfConfig):
         if signed_token is None:
             raise MissingTokenError(f"Missing Cookie: `{cookie_key}`.")
         time_limit = time_limit or self._max_age
-        token: str = self.get_csrf_from_headers(request.headers)
+        token: str = token or self.get_csrf_from_headers(request.headers)
         serializer = URLSafeTimedSerializer(secret_key, salt="fastapi-csrf-token")
         try:
             signature: str = serializer.loads(signed_token, max_age=time_limit)
