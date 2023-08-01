@@ -73,11 +73,11 @@ def form(request: Request, csrf_protect: CsrfProtect = Depends()):
   return response
 
 @app.post("/login", response_class=JSONResponse)
-def create_post(request: Request, csrf_protect: CsrfProtect = Depends()):
+async def create_post(request: Request, csrf_protect: CsrfProtect = Depends()):
   """
   Creates a new Post
   """
-  csrf_protect.validate_csrf(request)
+  await csrf_protect.validate_csrf(request)
   response: JSONResponse = JSONResponse(status_code=200, content={"detail": "OK"})
   csrf_protect.unset_csrf_cookie(response)  # prevent token reuse
   return response
