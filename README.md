@@ -114,10 +114,16 @@ Alternatively, run the following command on your terminal to do so
 poetry install --with examples
 ```
 
-Running the example utilizing Context and Headers
+Running the example utilizing form submission
 
 ```bash
-uvicorn examples.login:app
+uvicorn examples.body:app
+```
+
+Running the example utilizing headers via JavaScript
+
+```bash
+uvicorn examples.header:app
 ```
 
 ## License

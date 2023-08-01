@@ -9,19 +9,20 @@
 # HISTORY:
 # *************************************************************
 import re
-from os import urandom
-from hashlib import sha1
-from typing import Optional, Tuple
 from fastapi.requests import Request
 from fastapi.responses import Response
-from starlette.datastructures import Headers
-from itsdangerous import BadData, SignatureExpired, URLSafeTimedSerializer
 from fastapi_csrf_protect.csrf_config import CsrfConfig
 from fastapi_csrf_protect.exceptions import (
     InvalidHeaderError,
     MissingTokenError,
     TokenValidationError,
 )
+from itsdangerous import BadData, SignatureExpired, URLSafeTimedSerializer
+from hashlib import sha1
+from os import urandom
+from pydantic import create_model
+from starlette.datastructures import Headers
+from typing import Any, Dict, Optional, Tuple
 from warnings import warn
 
 
@@ -54,9 +55,25 @@ class CsrfProtect(CsrfConfig):
         signed = serializer.dumps(token)
         return token, signed
 
+    def get_csrf_from_body(self, data: bytes) -> str:
+        """
+        Get token from the request body
+
+        ---
+        :param data: attached request body containing cookie data with configured `token_key`
+        :type data: bytes
+        """
+        fields: Dict[str, Any] = {self._token_key: (str, "csrf-token")}
+        Body = create_model("Body", **fields)
+        content: str = (
+            '{"' + data.decode("utf-8").replace("&", '","').replace("=", '":"') + '"}'
+        )
+        body: Body = Body.parse_raw(content)
+        return body.dict()[self._token_key]
+
     def get_csrf_from_headers(self, headers: Headers) -> str:
         """
-        Get token from the headers
+        Get token from the request headers
 
         ---
         :param headers: Headers containing header with configured `header_name`
@@ -128,7 +145,7 @@ class CsrfProtect(CsrfConfig):
             self._cookie_key, path=self._cookie_path, domain=self._cookie_domain
         )
 
-    def validate_csrf(
+    async def validate_csrf(
         self,
         request: Request,
         cookie_key: Optional[str] = None,
@@ -161,7 +178,11 @@ class CsrfProtect(CsrfConfig):
         if signed_token is None:
             raise MissingTokenError(f"Missing Cookie: `{cookie_key}`.")
         time_limit = time_limit or self._max_age
-        token: str = self.get_csrf_from_headers(request.headers)
+        token: str
+        if self._token_location == "header":
+            token = self.get_csrf_from_headers(request.headers)
+        else:
+            token = self.get_csrf_from_body(await request.body())
         serializer = URLSafeTimedSerializer(secret_key, salt="fastapi-csrf-token")
         try:
             signature: str = serializer.loads(signed_token, max_age=time_limit)
