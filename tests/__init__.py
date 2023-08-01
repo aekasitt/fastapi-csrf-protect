@@ -41,8 +41,8 @@ def test_client() -> TestClient:
         return response
 
     @app.get("/protected", response_class=JSONResponse)
-    def protected(request: Request, csrf_protect: CsrfProtect = Depends()):
-        csrf_protect.validate_csrf(request)
+    async def protected(request: Request, csrf_protect: CsrfProtect = Depends()):
+        await csrf_protect.validate_csrf(request)
         response: JSONResponse = JSONResponse(status_code=200, content={"detail": "OK"})
         csrf_protect.unset_csrf_cookie(response)  # prevent token reuse
         return response
