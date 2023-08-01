@@ -60,6 +60,10 @@ from fastapi_csrf_protect import CsrfProtect
         ("secret_key", "secret", True),
         ("secret_key", [], False),
         ("secret_key", {}, False),
+        ("token_location", "body", False),  # missing token_key
+        ("token_location", b"body", False),
+        ("token_location", "header", True),
+        ("token_location", b"header", False),
     ],
 )
 def test_load_config(config_key: str, config_value: Any, valid: bool):
