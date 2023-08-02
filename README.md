@@ -15,16 +15,6 @@ This extension inspired by `fastapi-jwt-auth` 😀
 
 - Storing `fastapi-csrf-token` in cookies or serve it in template's context
 
-## 🚧 Breaking Changes (0.3.0 -> 0.3.1)
-
-* The `generate_csrf` method has now been marked for deprecation
-* The recommended method is now `generate_csrf_tokens` which returns a tuple of tokens, first unsigned
-  and the latter signed
-* Recommended pattern is for the first token is aimed for returning as part of context
-* Recommended pattern is for the signed token to be set in client's cookie completing [Double Submit Cookie](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#double-submit-cookie)
-* To prevent token reuse, protected endpoint can unset the signed CSRF Token in client's cookies as
-  per example code and recommended pattern.
-
 ## Installation
 
 The easiest way to start working with this extension with pip
@@ -104,6 +94,25 @@ Testing can be done by the following command post-installation:
 poetry install --with test
 pytest
 ```
+
+## Changelog
+
+### 🚧 Breaking Changes (0.3.0 -> 0.3.1) The double submit update
+
+* The `generate_csrf` method has now been marked for deprecation
+* The recommended method is now `generate_csrf_tokens` which returns a tuple of tokens, first unsigned
+  and the latter signed
+* Recommended pattern is for the first token is aimed for returning as part of context
+* Recommended pattern is for the signed token to be set in client's cookie completing [Double Submit Cookie](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#double-submit-cookie)
+* To prevent token reuse, protected endpoint can unset the signed CSRF Token in client's cookies as
+  per example code and recommended pattern.
+
+### 🚧 Breaking Changes (0.3.1 -> 0.3.2) The anti-JavaScript update
+
+* New keys are added at setup `token_location` (either `body` or `header`) and `token_key` is key
+  where form-encoded keeps the csrf token stored, cross-checked with csrf secret in cookies.
+* Asynchronous `validate_csrf` method now needs to be awaited therefore protected endpoints need to
+  be asynchronous as well.
 
 ### Run Examples
 
