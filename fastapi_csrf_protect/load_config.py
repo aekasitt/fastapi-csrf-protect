@@ -57,6 +57,6 @@ class LoadConfig(BaseModel):
         token_location: str = values.get("token_location", "header")
         if token_location == "body" and value is None:
             raise ValueError(
-                'The "body_key" must be present when "token_location" is "body"'
+                'The "token_key" must be present when "token_location" is "body"'
             )
         return value
