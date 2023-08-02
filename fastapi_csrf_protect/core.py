@@ -182,7 +182,12 @@ class CsrfProtect(CsrfConfig):
         if self._token_location == "header":
             token = self.get_csrf_from_headers(request.headers)
         else:
-            token = self.get_csrf_from_body(await request.body())
+            if hasattr(request, "_json"):
+                token = request._json.get(self._token_key, "")
+            elif hasattr(request, "_form") and request._form is not None:
+                token = request._form.get(self._token_key, "")
+            else:
+                token = self.get_csrf_from_body(await request.body())
         serializer = URLSafeTimedSerializer(secret_key, salt="fastapi-csrf-token")
         try:
             signature: str = serializer.loads(signed_token, max_age=time_limit)
