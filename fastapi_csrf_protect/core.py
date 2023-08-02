@@ -20,9 +20,8 @@ from fastapi_csrf_protect.exceptions import (
 from itsdangerous import BadData, SignatureExpired, URLSafeTimedSerializer
 from hashlib import sha1
 from os import urandom
-from pydantic import create_model
-from starlette.datastructures import Headers
-from typing import Any, Dict, Optional, Tuple
+from starlette.datastructures import Headers, FormData
+from typing import Optional, Tuple
 from warnings import warn
 
 
@@ -55,21 +54,17 @@ class CsrfProtect(CsrfConfig):
         signed = serializer.dumps(token)
         return token, signed
 
-    def get_csrf_from_body(self, data: bytes) -> str:
+    def get_csrf_from_body(self, data: FormData) -> str:
         """
-        Get token from the request body
-
+        Get token from the form data
+    
         ---
-        :param data: attached request body containing cookie data with configured `token_key`
-        :type data: bytes
+        :param data: request form data containing token data with configured `token_key`
+        :type data: FormData
         """
-        fields: Dict[str, Any] = {self._token_key: (str, "csrf-token")}
-        Body = create_model("Body", **fields)
-        content: str = (
-            '{"' + data.decode("utf-8").replace("&", '","').replace("=", '":"') + '"}'
-        )
-        body: Body = Body.parse_raw(content)
-        return body.dict()[self._token_key]
+        if self._token_key not in data:
+            raise MissingTokenError(f"Missing form field {self._token_key}")
+        return data[self._token_key]
 
     def get_csrf_from_headers(self, headers: Headers) -> str:
         """
@@ -182,7 +177,7 @@ class CsrfProtect(CsrfConfig):
         if self._token_location == "header":
             token = self.get_csrf_from_headers(request.headers)
         else:
-            token = self.get_csrf_from_body(await request.body())
+            token = self.get_csrf_from_body(await request.form())
         serializer = URLSafeTimedSerializer(secret_key, salt="fastapi-csrf-token")
         try:
             signature: str = serializer.loads(signed_token, max_age=time_limit)
