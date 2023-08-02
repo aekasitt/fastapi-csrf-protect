@@ -8,14 +8,15 @@
 #
 # HISTORY:
 # *************************************************************
-### Standard Packages ###
+
+### Standard packages ###
 from typing import Any
 
-### Third-Party Packages ###
+### Third-party packages ###
 import pytest
 from pydantic import ValidationError
 
-### Local Modules ###
+### Local modules ###
 from fastapi_csrf_protect import CsrfProtect
 
 

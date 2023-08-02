@@ -8,10 +8,11 @@
 #
 # HISTORY:
 # *************************************************************
-### Third-Party Packages ###
+
+### Third-party packages ###
 from fastapi.testclient import TestClient
 
-### Local Packages ###
+### Local packages ###
 from . import test_client
 from fastapi_csrf_protect import CsrfProtect
 

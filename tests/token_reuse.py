@@ -8,14 +8,12 @@
 #
 # HISTORY:
 # *************************************************************
-### Standard Packages ###
-from time import sleep
 
-### Third-Party Packages ###
+### Third-party packages ###
 from . import test_client
 from fastapi.testclient import TestClient
 
-### Local Modules ###
+### Local modules ###
 from . import test_client
 from fastapi_csrf_protect import CsrfProtect
 

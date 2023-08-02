@@ -8,11 +8,11 @@
 #
 # HISTORY:
 # *************************************************************
-### Third-Party Packages ###
+### Third-Party packages ###
 from fastapi.testclient import TestClient
 from warnings import filterwarnings
 
-### Local Modules ###
+### Local modules ###
 from . import test_client
 from fastapi_csrf_protect import CsrfProtect
 
