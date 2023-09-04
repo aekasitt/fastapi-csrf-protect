@@ -145,6 +145,43 @@ class CsrfProtect(CsrfConfig):
             self._cookie_key, path=self._cookie_path, domain=self._cookie_domain
         )
 
+    # pylint: disable=too-many-try-statements,raise-missing-from
+    @staticmethod
+    def compare(
+        signed_token: str,
+        submitted_token: str,
+        secret_key: str,
+        time_limit: int,
+        salt: str = "fastapi-csrf-token",
+    ) -> None:
+        """Compare the given signed token to the one stored in the session.
+
+        The `signed token` can be extracted either using:
+            `request.cookies.get(cookie_key)` or
+            `websocket.cookies.get(cookie_key)`
+
+        ---
+        :param signed_token: signed CSRF token from `generate_csrf_token` method
+        :type signed_token: str
+        :param submitted_token: CSRF token from the header or body
+        :type submitted_token: str
+        :param secret_key: secret key used to decrypt the token
+        :type secret_key: str
+        :param time_limit: Number of seconds that the token is valid.
+        :type time_limit: int
+        :param salt: (Optional) salt used to decrypt the token
+        :type salt: str
+        """
+        serializer = URLSafeTimedSerializer(secret_key, salt=salt)
+        try:
+            signature: str = serializer.loads(signed_token, max_age=time_limit)
+            if submitted_token != signature:
+                raise TokenValidationError("The CSRF signatures submitted do not match.")
+        except SignatureExpired:
+            raise TokenValidationError("The CSRF token has expired.")
+        except BadData:
+            raise TokenValidationError("The CSRF token is invalid.")
+
     async def validate_csrf(
         self,
         request: Request,
@@ -189,13 +226,4 @@ class CsrfProtect(CsrfConfig):
             else:
                 token = self.get_csrf_from_body(await request.body())
         serializer = URLSafeTimedSerializer(secret_key, salt="fastapi-csrf-token")
-        try:
-            signature: str = serializer.loads(signed_token, max_age=time_limit)
-            if token != signature:
-                raise TokenValidationError(
-                    "The CSRF signatures submitted do not match."
-                )
-        except SignatureExpired:
-            raise TokenValidationError("The CSRF token has expired.")
-        except BadData:
-            raise TokenValidationError("The CSRF token is invalid.")
+        self.compare(signed_token, token, secret_key, time_limit)
