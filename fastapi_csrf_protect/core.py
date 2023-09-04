@@ -225,5 +225,4 @@ class CsrfProtect(CsrfConfig):
                 token = request._form.get(self._token_key, "")
             else:
                 token = self.get_csrf_from_body(await request.body())
-        serializer = URLSafeTimedSerializer(secret_key, salt="fastapi-csrf-token")
         self.compare(signed_token, token, secret_key, time_limit)
