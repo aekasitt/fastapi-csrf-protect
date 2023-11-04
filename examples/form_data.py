@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
 # Copyright (C) 2021-2023 All rights reserved.
-# FILENAME:  examples/body.py
+# FILENAME:  examples/form_data.py
 # VERSION: 	 0.3.2
-# CREATED: 	 2023-08-01 22:44
+# CREATED: 	 2023-11-04 14:50
 # AUTHOR: 	 Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:
 #
 # HISTORY:
 # *************************************************************
-from fastapi import FastAPI, Request, Depends
+from fastapi import FastAPI, Form, Request, Depends
 from fastapi.responses import JSONResponse
 from fastapi.templating import Jinja2Templates
 from fastapi_csrf_protect import CsrfProtect
 from fastapi_csrf_protect.exceptions import CsrfProtectError
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr, StrictStr
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
@@ -46,7 +46,13 @@ async def form(request: Request, csrf_protect: CsrfProtect = Depends()):
 
 
 @app.post("/login", response_class=JSONResponse)
-async def login(request: Request, csrf_protect: CsrfProtect = Depends()):
+async def login(
+    request: Request,
+    email: EmailStr = Form(),
+    name: StrictStr = Form(),
+    password: StrictStr = Form(),
+    csrf_protect: CsrfProtect = Depends(),
+) -> None:
     """
     Login using form data
     """

@@ -39,6 +39,8 @@ optional = true
 
 [tool.poetry.group.examples.dependencies]
 Jinja2 = "^3.0.1"
+python-multipart = "^0.0.6"
+pydantic = {version = ">=1.7.2,<3.0.0", extras = ["email"]}
 uvicorn = "^0.15.0"
 
 [tool.poetry.group.test]
