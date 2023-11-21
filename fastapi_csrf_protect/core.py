@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (C) 2021-2023 All rights reserved.
 # FILENAME:  core.py
-# VERSION: 	 0.3.2
+# VERSION: 	 0.3.3
 # CREATED: 	 2020-11-25 14:35
 # AUTHOR: 	 Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:
@@ -35,7 +35,7 @@ class CsrfProtect(CsrfConfig):
         :param secret_key: (Optional) the secret key used when generating tokens for users
         :type secret_key: (str | None) Defaults to None.
         """
-        warn("This is deprecated; version=0.3.2", DeprecationWarning, stacklevel=2)
+        warn("This is deprecated; version=0.3.3", DeprecationWarning, stacklevel=2)
         return self.generate_csrf_tokens(secret_key)
 
     def generate_csrf_tokens(self, secret_key: Optional[str] = None) -> Tuple[str, str]:
