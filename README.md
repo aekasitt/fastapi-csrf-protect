@@ -5,6 +5,10 @@
 [![Format](https://img.shields.io/pypi/format/fastapi-csrf-protect)](https://pypi.org/project/fastapi-csrf-protect)
 [![Python Version](https://img.shields.io/pypi/pyversions/fastapi-csrf-protect)](https://pypi.org/project/fastapi-csrf-protect)
 [![License](https://img.shields.io/pypi/l/fastapi-csrf-protect)](https://pypi.org/project/fastapi-csrf-protect)
+[![Top](https://img.shields.io/github/languages/top/aekasitt/fastapi-csrf-protect)](.)
+[![Languages](https://img.shields.io/github/languages/count/aekasitt/fastapi-csrf-protect)](.)
+[![Size](https://img.shields.io/github/repo-size/aekasitt/fastapi-csrf-protect)](.)
+[![Last commit](https://img.shields.io/github/last-commit/aekasitt/fastapi-csrf-protect/master)](.)
 
 ## Features
 
