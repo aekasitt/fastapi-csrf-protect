@@ -10,6 +10,8 @@
 [![Size](https://img.shields.io/github/repo-size/aekasitt/fastapi-csrf-protect)](.)
 [![Last commit](https://img.shields.io/github/last-commit/aekasitt/fastapi-csrf-protect/master)](.)
 
+[![Protect Banner](https://github.com/aekasitt/fastapi-csrf-protect/blob/static/protect-banner.svg)](static/protect-banner.svg)
+
 ## Features
 
 FastAPI extension that provides stateless Cross-Site Request Forgery (XSRF) Protection support.
