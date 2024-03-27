@@ -10,7 +10,7 @@
 [![Size](https://img.shields.io/github/repo-size/aekasitt/fastapi-csrf-protect)](.)
 [![Last commit](https://img.shields.io/github/last-commit/aekasitt/fastapi-csrf-protect/master)](.)
 
-[![Protect Banner](static/protect-banner.svg)](https://github.com/aekasitt/fastapi-csrf-protect/blob/static/protect-banner.svg)
+[![Protect Banner](static/protect-banner.svg)](https://github.com/aekasitt/fastapi-csrf-protect/blob/master/static/protect-banner.svg)
 
 ## Features
 
