@@ -9,10 +9,16 @@
 # HISTORY:
 # *************************************************************
 ### Standard Packages ###
-from typing import Callable, List, Literal, Optional, Sequence
+from typing import Callable, List, Literal, Optional, Sequence, TYPE_CHECKING
 
 ### Third-Party Modules ###
 from pydantic import ValidationError
+
+if TYPE_CHECKING:
+    try:
+        from pydantic_settings import BaseSettings
+    except ImportError as e:
+        BaseSettings = List[tuple] # `pydantic_settings` module doesn't exist, fallback
 
 ### Local Modules ###
 from fastapi_csrf_protect.load_config import LoadConfig
@@ -34,7 +40,7 @@ class CsrfConfig(object):
     _token_key: Optional[str] = None
 
     @classmethod
-    def load_config(cls, settings: Callable[..., List[tuple]]) -> None:
+    def load_config(cls, settings: Callable[..., List[tuple] | "BaseSettings"]) -> None:
         try:
             config = LoadConfig(**{key.lower(): value for key, value in settings()})
             cls._cookie_key = config.cookie_key
