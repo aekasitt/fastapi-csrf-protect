@@ -54,6 +54,9 @@ doc/_build/
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow
 __pypackages__/
 
+# PyPI Token
+pypi-token.pypi
+
 # Environments
 .env
 .venv
@@ -67,4 +70,3 @@ pythonenv*
 # Workspace Settings by VSCode
 .vscode
 .idea
-
