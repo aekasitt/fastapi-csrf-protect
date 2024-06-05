@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-# Copyright (C) 2021-2023 All rights reserved.
-# FILENAME:  core.py
-# VERSION: 	 0.3.3
-# CREATED: 	 2020-11-25 14:35
-# AUTHOR: 	 Sitt Guruvanich <aekazitt+github@gmail.com>
+# Copyright (C) 2020-2024 All rights reserved.
+# FILENAME:    ~~/src/fastapi_csrf_protect/core.py
+# VERSION:     0.3.4
+# CREATED:     2020-11-25 14:35
+# AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:
 #
 # HISTORY:
@@ -35,7 +35,7 @@ class CsrfProtect(CsrfConfig):
     :param secret_key: (Optional) the secret key used when generating tokens for users
     :type secret_key: (str | None) Defaults to None.
     """
-    warn("This is deprecated; version=0.3.3", DeprecationWarning, stacklevel=2)
+    warn("This is deprecated; version=0.3.4", DeprecationWarning, stacklevel=2)
     return self.generate_csrf_tokens(secret_key)
 
   def generate_csrf_tokens(self, secret_key: Optional[str] = None) -> Tuple[str, str]:
@@ -186,3 +186,6 @@ class CsrfProtect(CsrfConfig):
       raise TokenValidationError("The CSRF token has expired.")
     except BadData:
       raise TokenValidationError("The CSRF token is invalid.")
+
+
+__all__ = ("CsrfProtect",)

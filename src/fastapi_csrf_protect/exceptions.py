@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-# Copyright (C) 2021-2023 All rights reserved.
-# FILENAME:  exceptions.py
-# VERSION: 	 0.3.3
-# CREATED: 	 2020-11-25 14:35
-# AUTHOR: 	 Sitt Guruvanich <aekazitt+github@gmail.com>
+# Copyright (C) 2020-2024 All rights reserved.
+# FILENAME:    ~~/src/fastapi_csrf_protect/exceptions.py
+# VERSION:     0.3.4
+# CREATED:     2020-11-25 14:35
+# AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:
 #
 # HISTORY:
@@ -27,3 +27,6 @@ class MissingTokenError(CsrfProtectError):
 class TokenValidationError(CsrfProtectError):
   def __init__(self, message: str):
     super().__init__(401, message)
+
+
+__all__ = ("CsrfProtectError", "InvalidHeaderError", "MissingTokenError", "TokenValidationError")

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-# Copyright (C) 2021-2023 All rights reserved.
-# FILENAME:  load_config.py
-# VERSION: 	 0.3.3
-# CREATED: 	 2020-11-25 14:35
-# AUTHOR: 	 Sitt Guruvanich <aekazitt+github@gmail.com>
+# Copyright (C) 2020-2024 All rights reserved.
+# FILENAME:    ~~/src/fastapi_csrf_protect/load_config.py
+# VERSION:     0.3.4
+# CREATED:     2020-11-25 14:35
+# AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:
 #
 # HISTORY:
@@ -54,3 +54,6 @@ class LoadConfig(BaseModel):
     if token_location == "body" and value is None:
       raise ValueError('The "token_key" must be present when "token_location" is "body"')
     return value
+
+
+__all__ = ("LoadConfig",)

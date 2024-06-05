@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-# Copyright (C) 2021-2023 All rights reserved.
-# FILENAME:  missing_token.py
-# VERSION: 	 0.3.3
-# CREATED: 	 2020-11-26 16:14
-# AUTHOR: 	 Sitt Guruvanich <aekazitt+github@gmail.com>
+# Copyright (C) 2020-2024 All rights reserved.
+# FILENAME:    ~~/tests/missing_token.py
+# VERSION:     0.3.4
+# CREATED:     2020-11-26 16:14
+# AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:
 #
 # HISTORY:

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-# Copyright (C) 2021-2023 All rights reserved.
-# FILENAME:  missing_secret.py
-# VERSION: 	 0.3.3
-# CREATED: 	 2021-08-18 23:58
-# AUTHOR: 	 Sitt Guruvanich <aekazitt+github@gmail.com>
+# Copyright (C) 2020-2024 All rights reserved.
+# FILENAME:    ~~/tests/missing_secret.py
+# VERSION:     0.3.4
+# CREATED:     2021-08-18 23:58
+# AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:
 #
 # HISTORY:

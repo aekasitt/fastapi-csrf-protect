@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-# Copyright (C) 2021-2023 All rights reserved.
-# FILENAME:  fastapi_csrf_config.py
-# VERSION: 	 0.3.3
-# CREATED: 	 2020-11-25 14:35
-# AUTHOR: 	 Sitt Guruvanich <aekazitt+github@gmail.com>
+# Copyright (C) 2020-2024 All rights reserved.
+# FILENAME:    ~~/src/fastapi_csrf_protect/csrf_config.py
+# VERSION:     0.3.4
+# CREATED:     2020-11-25 14:35
+# AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:
 #
 # HISTORY:
@@ -57,3 +57,6 @@ class CsrfConfig(object):
     except Exception as err:
       print(err)
       raise TypeError('CsrfConfig must be pydantic "BaseSettings" or list of tuple')
+
+
+__all__ = ("CsrfConfig",)
