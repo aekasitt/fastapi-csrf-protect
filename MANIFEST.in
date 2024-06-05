@@ -1,2 +1,0 @@
-include LICENSE
-recursive-include fastapi_csrf_protect *.py
