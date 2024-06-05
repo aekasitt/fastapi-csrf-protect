@@ -8,7 +8,6 @@
 #
 # HISTORY:
 # *************************************************************
-import re
 from fastapi.requests import Request
 from fastapi.responses import Response
 from fastapi_csrf_protect.csrf_config import CsrfConfig
@@ -19,6 +18,7 @@ from fastapi_csrf_protect.exceptions import (
 )
 from itsdangerous import BadData, SignatureExpired, URLSafeTimedSerializer
 from hashlib import sha1
+from re import match
 from os import urandom
 from pydantic import create_model
 from starlette.datastructures import Headers
@@ -99,7 +99,7 @@ class CsrfProtect(CsrfConfig):
         else:
             # <HeaderName>: <HeaderType> <Token>
             if (
-                not re.match(r"{}\s".format(header_type), headers[header_name])
+                not match(r"{}\s".format(header_type), headers[header_name])
                 or len(header_parts) != 2
             ):
                 raise InvalidHeaderError(

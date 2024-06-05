@@ -1,60 +1,94 @@
+[build-system]
+requires = ['poetry-core>=1.0.0']
+build-backend = 'poetry.core.masonry.api'
+
+
 [tool.poetry]
-name = "fastapi-csrf-protect"
-version = "0.3.3"
-description = "Stateless implementation of Cross-Site Request Forgery (XSRF) Protection by using Double Submit Cookie mitigation pattern"
-authors = ["Sitt Guruvanich <aekazitt@gmail.com>"]
-license = "MIT"
-readme = "README.md"
-homepage = "https://github.com/aekasitt/fastapi-csrf-protect"
-repository = "https://github.com/aekasitt/fastapi-csrf-protect"
-keywords = ["starlette", "fastapi", "csrf", "xsrf", "cross-site request forgery", "samesite", "asynchronous"]
-classifiers = [
-  "Environment :: Web Environment",
-  "Intended Audience :: Developers",
-  "License :: OSI Approved :: MIT License",
-  "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.7",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3 :: Only",
-  "Operating System :: OS Independent",
-  "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
-  "Topic :: Software Development :: Libraries :: Python Modules"
+authors = [
+  'Sitt Guruvanich <aekazitt+github@gmail.com>',
 ]
+classifiers = [
+  'Environment :: Web Environment',
+  'Framework :: AsyncIO',
+  'Intended Audience :: Developers',
+  'License :: OSI Approved :: MIT License',
+  'Programming Language :: Python :: 3',
+  'Programming Language :: Python :: 3.7',
+  'Programming Language :: Python :: 3.8',
+  'Programming Language :: Python :: 3.9',
+  'Programming Language :: Python :: 3.10',
+  'Programming Language :: Python :: 3.11',
+  'Programming Language :: Python :: 3 :: Only',
+  'Operating System :: OS Independent',
+  'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+  'Topic :: Software Development :: Libraries :: Python Modules',
+]
+description = 'Stateless implementation of Cross-Site Request Forgery (XSRF) Protection by using Double Submit Cookie mitigation pattern'
+homepage = 'https://github.com/aekasitt/fastapi-csrf-protect'
+keywords = [
+  'asynchronous',
+  'cross-site request forgery',
+  'csrf',
+  'fastapi',
+  'samesite',
+  'starlette',
+  'xsrf',
+]
+license = 'MIT'
+name = 'fastapi-csrf-protect'
+readme = 'README.md'
+repository = 'https://github.com/aekasitt/fastapi-csrf-protect'
+version = '0.3.3'
+
 
 [tool.poetry.dependencies]
-python = "^3.7"
-fastapi = "^0"
-itsdangerous = ">=2.0.1,<3.0.0"
-pydantic = ">=1.7.2,<3.0.0"
+fastapi = '^0'
+itsdangerous = '>=2.0.1,<3.0.0'
+pydantic = '^2.0.0'
+pydantic-settings = '^2.0.0'
+python = '^3.8'
+
+
+[tool.poetry.group.dev]
+optional = true
+
 
 [tool.poetry.group.dev.dependencies]
-black = "^23.3.0"
-mypy = "^1.3.0"
+mypy = '^1.3.0'
+ruff = '^0.4.7'
+
 
 [tool.poetry.group.examples]
 optional = true
 
+
 [tool.poetry.group.examples.dependencies]
-Jinja2 = "^3.0.1"
-python-multipart = "^0.0.6"
-pydantic = {version = ">=1.7.2,<3.0.0", extras = ["email"]}
-uvicorn = "^0.15.0"
+Jinja2 = '^3.0.1'
+python-multipart = '^0.0.6'
+pydantic = {version = '>=1.7.2,<3.0.0', extras = ['email']}
+uvicorn = '^0.15.0'
+
 
 [tool.poetry.group.test]
 optional = true
 
+
 [tool.poetry.group.test.dependencies]
-httpx = "^0.24.1"
-pytest = "^7.3.1"
+httpx = '^0.24.1'
+pytest = '^7.3.1'
+
 
 [tool.pytest.ini_options]
-addopts = "--strict-markers --tb=short -s"
-testpaths = [ "tests" ]
-python_files = "*.py"
+addopts = '--strict-markers --tb=short -s'
+testpaths = [ 'tests' ]
+python_files = '*.py'
 
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+indent-width = 2
+line-length = 100
+target-version = 'py38'
+
+
+[tool.ruff.lint.per-file-ignores]
+'__init__.py' = ['F401']  # Ignore empty imports
