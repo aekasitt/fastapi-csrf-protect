@@ -19,31 +19,31 @@ from fastapi_csrf_protect import CsrfProtect
 
 
 def test_disallow_token_reuse(test_client: TestClient, max_age: int = 2):
-    ### Loads Config ###
-    @CsrfProtect.load_config
-    def get_configs():
-        return [("secret_key", "secret"), ("max_age", max_age)]
+  ### Loads Config ###
+  @CsrfProtect.load_config
+  def get_configs():
+    return [("secret_key", "secret"), ("max_age", max_age)]
 
-    ### Generate token ###
-    response = test_client.get("/gen-token")
+  ### Generate token ###
+  response = test_client.get("/gen-token")
 
-    ### Assertion ###
-    assert response.status_code == 200
+  ### Assertion ###
+  assert response.status_code == 200
 
-    ### Extract `csrf_token` from response to be set as next request's header ###
-    csrf_token: str = response.json().get("csrf_token", None)
-    headers: dict = {"X-CSRF-Token": csrf_token} if csrf_token is not None else {}
+  ### Extract `csrf_token` from response to be set as next request's header ###
+  csrf_token: str = response.json().get("csrf_token", None)
+  headers: dict = {"X-CSRF-Token": csrf_token} if csrf_token is not None else {}
 
-    ### Get protected contents ###
-    response = test_client.get("/protected", headers=headers)
+  ### Get protected contents ###
+  response = test_client.get("/protected", headers=headers)
 
-    ### Assertions ###
-    assert response.status_code == 200
-    assert response.json() == {"detail": "OK"}
+  ### Assertions ###
+  assert response.status_code == 200
+  assert response.json() == {"detail": "OK"}
 
-    ### Immediately get protected contents again ###
-    response = test_client.get("/protected", headers=headers)
+  ### Immediately get protected contents again ###
+  response = test_client.get("/protected", headers=headers)
 
-    ### Assertions ###
-    assert response.status_code == 400
-    assert response.json() == {"detail": "Missing Cookie: `fastapi-csrf-token`."}
+  ### Assertions ###
+  assert response.status_code == 400
+  assert response.json() == {"detail": "Missing Cookie: `fastapi-csrf-token`."}
