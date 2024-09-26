@@ -13,14 +13,14 @@
 from typing import Any
 
 ### Third-party packages ###
-import pytest
 from pydantic import ValidationError
+from pytest import mark
 
 ### Local modules ###
 from fastapi_csrf_protect import CsrfProtect
 
 
-@pytest.mark.parametrize(
+@mark.parametrize(
   "config_key, config_value, valid",
   [
     ("header_name", 2, False),

@@ -8,8 +8,17 @@
 #
 # HISTORY:
 # *************************************************************
-from typing import Any, Dict, Optional, Set
-from pydantic import BaseModel, StrictBool, StrictInt, StrictStr, validator
+from typing import Any, Dict, Literal, Optional, Set
+from pydantic import (
+  BaseModel,
+  Field,
+  StrictBool,
+  StrictInt,
+  StrictStr,
+  ValidationInfo,
+  field_validator,
+  model_validator,
+)
 
 
 class LoadConfig(BaseModel):
@@ -23,37 +32,35 @@ class LoadConfig(BaseModel):
   header_type: Optional[StrictStr] = None
   httponly: Optional[StrictBool] = True
   max_age: Optional[StrictInt] = 3600
-  methods: Optional[Set[StrictStr]] = {"POST", "PUT", "PATCH", "DELETE"}
+  methods: Optional[Set[Literal["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]]] = Field(
+    {"DELETE", "PATCH", "POST", "PUT"}, validate_default=True
+  )
   secret_key: Optional[StrictStr] = None
   token_location: Optional[StrictStr] = "header"
   token_key: Optional[StrictStr] = None
 
-  @validator("methods", each_item=True)
-  def validate_csrf_methods(cls, value):
-    if value.upper() not in {"GET", "HEAD", "POST", "PUT", "DELETE", "PATCH"}:
-      raise ValueError('The "csrf_methods" must be between http request methods')
-    return value.upper()
-
-  @validator("cookie_samesite", always=True)
-  def validate_cookie_samesite(cls, value: str, values: Dict[str, Any]):
+  @field_validator("cookie_samesite")
+  def validate_cookie_samesite(cls, value: str, info: ValidationInfo) -> str:
+    values: Dict[str, Any] = dict(info.data.values())
     if value not in {"strict", "lax", "none"}:
       raise ValueError('The "cookie_samesite" must be between "strict", "lax", or "none".')
     elif value == "none" and values.get("cookie_secure", False) is not True:
       raise ValueError('The "cookie_secure" must be True if "cookie_samesite" set to "none".')
     return value
 
-  @validator("token_location")
+  @field_validator("token_location")
   def validate_token_location(cls, value: str):
     if value not in {"body", "header"}:
       raise ValueError('The "token_location" must be either "body" or "header".')
     return value
 
-  @validator("token_key", always=True)
-  def validate_token_key(cls, value: Optional[str], values: Dict[str, Any]):
-    token_location: str = values.get("token_location", "header")
-    if token_location == "body" and value is None:
-      raise ValueError('The "token_key" must be present when "token_location" is "body"')
-    return value
+  @model_validator(mode="after")
+  def validate_token_key(self, _: ValidationInfo) -> "LoadConfig":
+    token_location: str = self.token_location if self.token_location is not None else "header"
+    if token_location == "body":
+      if self.token_key is None:
+        raise ValueError('The "token_key" must be present when "token_location" is "body"')
+    return self
 
 
 __all__ = ("LoadConfig",)
