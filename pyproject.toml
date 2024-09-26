@@ -43,7 +43,6 @@ keywords = [
 license = 'MIT'
 readme = 'README.md'
 name = 'fastapi-csrf-protect'
-# packages = [{from='src', include='fastapi_csrf_protect'}]
 repository = 'https://github.com/aekasitt/fastapi-csrf-protect'
 requires-python = '>=3.8'
 version = '0.3.4'
