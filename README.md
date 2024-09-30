@@ -119,6 +119,12 @@ pytest
 * Asynchronous `validate_csrf` method now needs to be awaited therefore protected endpoints need to
   be asynchronous as well.
 
+### Error in version 0.3.5 after updating to Pydantic V2
+
+* Made a blunder when updating from Pydantic V1 to Pydantic V2 and caused an error to occur when
+  setting `cookie_samesite` in settings
+* Fixed in version `0.3.6`
+
 ### Run Examples
 
 To run the provided examples, first you must install extra dependencies [uvicorn](https://github.com/encode/uvicorn) and [jinja2](https://github.com/pallets/jinja/)
