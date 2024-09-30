@@ -55,8 +55,6 @@ examples = [
   'pydantic[email] >=1.7.2,<3.0.0',
   'uvicorn >=0.15.0',
 ]
-
-
 tests = [
   'httpx >=0.24.1',
   'pytest >=7.3.1',
