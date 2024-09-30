@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (C) 2020-2024 All rights reserved.
 # FILENAME:    ~~/tests/token_reuse.py
-# VERSION:     0.3.5
+# VERSION:     0.3.6
 # CREATED:     2023-06-18 15:07
 # AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:
