@@ -15,7 +15,6 @@ from pydantic import (
   StrictBool,
   StrictInt,
   StrictStr,
-  ValidationInfo,
   model_validator,
 )
 
@@ -44,7 +43,7 @@ class LoadConfig(BaseModel):
     return self
 
   @model_validator(mode="after")
-  def validate_token_key(self, _: ValidationInfo) -> "LoadConfig":
+  def validate_token_key(self) -> "LoadConfig":
     token_location: str = self.token_location if self.token_location is not None else "header"
     if token_location == "body":
       if self.token_key is None:
