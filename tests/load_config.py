@@ -65,6 +65,27 @@ from fastapi_csrf_protect import CsrfProtect
     ("token_location", b"body", False),
     ("token_location", "header", True),
     ("token_location", b"header", False),
+    ("cookie_samesite", None, False),  # missing cookie_secure
+    ("cookie_samesite", "lax", True),
+    ("cookie_samesite", "none", False),  # missing cookie_secure
+    ("cookie_samesite", "strict", True),
+    ("cookie_samesite", b"lax", False),
+    ("cookie_samesite", b"none", False),
+    ("cookie_samesite", b"strict", False),
+    ("cookie_samesite", "null", False),
+    ("cookie_samesite", b"null", False),
+    ("cookie_samesite", 0, False),
+    ("cookie_samesite", 1, False),
+    ("cookie_samesite", True, False),
+    ("cookie_samesite", False, False),
+    ("cookie_samesite", 2.0, False),
+    ("cookie_samesite", {1, 2, 3}, False),
+    ("cookie_samesite", {1.0, 2.0, 3.0}, False),
+    ("cookie_samesite", {"1", "2", "3"}, False),
+    ("cookie_samesite", [1, 2, 3], False),
+    ("cookie_samesite", [1.0, 2.0, 3.0], False),
+    ("cookie_samesite", ["1", "2", "3"], False),
+    ("cookie_samesite", {"key": "value"}, False),
   ],
 )
 def test_load_config(config_key: str, config_value: Any, valid: bool):
