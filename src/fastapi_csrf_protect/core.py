@@ -66,8 +66,8 @@ class CsrfProtect(CsrfConfig):
     fields: Dict[str, Any] = {self._token_key: (str, "csrf-token")}
     Body = create_model("Body", **fields)
     content: str = '{"' + data.decode("utf-8").replace("&", '","').replace("=", '":"') + '"}'
-    body = Body.model_validate(content)
-    return body.dict()[self._token_key]
+    body = Body.model_validate_json(content)
+    return body.model_dump()[self._token_key]
 
   def get_csrf_from_headers(self, headers: Headers) -> str:
     """
