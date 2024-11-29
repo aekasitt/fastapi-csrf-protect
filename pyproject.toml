@@ -13,11 +13,11 @@ classifiers = [
   'Intended Audience :: Developers',
   'License :: OSI Approved :: MIT License',
   'Programming Language :: Python :: 3',
-  'Programming Language :: Python :: 3.7',
-  'Programming Language :: Python :: 3.8',
   'Programming Language :: Python :: 3.9',
   'Programming Language :: Python :: 3.10',
   'Programming Language :: Python :: 3.11',
+  'Programming Language :: Python :: 3.12',
+  'Programming Language :: Python :: 3.13',
   'Programming Language :: Python :: 3 :: Only',
   'Operating System :: OS Independent',
   'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
@@ -70,7 +70,7 @@ python_files = '*.py'
 [tool.ruff]
 indent-width = 2
 line-length = 100
-target-version = 'py38'
+target-version = 'py39'
 
 
 [tool.ruff.lint.per-file-ignores]
