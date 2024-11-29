@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (C) 2020-2024 All rights reserved.
 # FILENAME:    ~~/src/fastapi_csrf_protect/core.py
-# VERSION:     0.3.6
+# VERSION:     0.3.7
 # CREATED:     2020-11-25 14:35
 # AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:
