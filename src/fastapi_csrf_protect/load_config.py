@@ -8,7 +8,7 @@
 #
 # HISTORY:
 # *************************************************************
-from typing import Literal, Optional, Self, Set
+from typing import Literal, Optional, Set
 from pydantic import (
   BaseModel,
   Field,
@@ -37,7 +37,7 @@ class LoadConfig(BaseModel):
   token_key: Optional[StrictStr] = None
 
   @model_validator(mode="after")
-  def validate_cookie_samesite_none_secure(self) -> Self:
+  def validate_cookie_samesite_none_secure(self) -> "LoadConfig":
     if self.cookie_samesite in {None, "none"} and self.cookie_secure is not True:
       raise ValueError('The "cookie_secure" must be True if "cookie_samesite" set to "none".')
     return self
