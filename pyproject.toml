@@ -55,10 +55,6 @@ examples = [
   'pydantic[email] >=1.7.2,<3.0.0',
   'uvicorn >=0.15.0',
 ]
-tests = [
-  'httpx >=0.24.1',
-  'pytest >=7.3.1',
-]
 
 
 [tool.pytest.ini_options]
@@ -84,6 +80,8 @@ target-version = 'py39'
 
 [tool.uv]
 dev-dependencies = [
+  'httpx >=0.24.1',
   'mypy >=1.3.0',
+  'pytest >=7.3.1',
   'ruff >=0.4.7',
 ]
