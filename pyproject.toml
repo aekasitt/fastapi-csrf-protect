@@ -74,7 +74,12 @@ target-version = 'py38'
 
 
 [tool.ruff.lint.per-file-ignores]
-'__init__.py' = ['F401']  # Ignore empty imports
+'__init__.py' = ['F401']  # Ignore unused imports
+'tests/**/*.py' = [
+  'F401',  # Ignore unused imports
+  'F811',  # Ignore redefinition of unused variable
+  'F841',  # Ignore local variable assigned but never used
+]
 
 
 [tool.uv]
