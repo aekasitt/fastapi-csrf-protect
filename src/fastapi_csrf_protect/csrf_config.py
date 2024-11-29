@@ -33,7 +33,7 @@ class CsrfConfig(object):
   _methods: Set[str] = {"POST", "PUT", "PATCH", "DELETE"}
   _secret_key: Optional[str] = None
   _token_location: str = "header"
-  _token_key: Optional[str] = None
+  _token_key: str = "csrf-token"
 
   @classmethod
   def load_config(cls, settings: Callable[..., List[tuple] | BaseSettings]) -> None:
