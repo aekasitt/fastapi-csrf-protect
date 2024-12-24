@@ -145,15 +145,13 @@ open-sourced registry defined under `pyproject.toml` file.
   pyenv shell 3.11.9
   uv venv  --python-preference system
   source .venv/bin/activate
-  uv sync --dev
   ```
 </details>
 
-Now you have the entire project set-up and ready to be tinkered with. Try out the
-standard `arise` command which brings up a help menu.
-
 ### Getting started
-To contribute to the project, fork the repository and clone to your local device and install preferred testing dependency [pytest](https://github.com/pytest-dev/pytest)
+
+To contribute to the project, fork the repository and clone to your local device
+and install preferred testing dependency [pytest](https://github.com/pytest-dev/pytest)
 Alternatively, run the following command on your terminal to do so:
 
 ```bash
