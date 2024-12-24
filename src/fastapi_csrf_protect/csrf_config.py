@@ -10,7 +10,7 @@
 # *************************************************************
 
 ### Standard Packages ###
-from typing import Callable, List, Literal, Optional, Set
+from typing import Any, Callable, List, Literal, Optional, Set, Tuple
 
 ### Third-Party Modules ###
 from pydantic import ValidationError
@@ -30,13 +30,18 @@ class CsrfConfig(object):
   _header_type: Optional[str] = None
   _httponly: bool = True
   _max_age: int = 3600
-  _methods: Set[str] = {"POST", "PUT", "PATCH", "DELETE"}
+  _methods: Set[Literal["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]] = {
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE",
+  }
   _secret_key: Optional[str] = None
   _token_location: str = "header"
   _token_key: str = "csrf-token"
 
   @classmethod
-  def load_config(cls, settings: Callable[..., List[tuple] | BaseSettings]) -> None:
+  def load_config(cls, settings: Callable[..., List[Tuple[str, Any]] | BaseSettings]) -> None:
     try:
       config = LoadConfig(**{key.lower(): value for key, value in settings()})
       cls._cookie_key = config.cookie_key or cls._cookie_key
@@ -51,7 +56,7 @@ class CsrfConfig(object):
       cls._methods = config.methods or cls._methods
       cls._secret_key = config.secret_key
       cls._token_location = config.token_location or cls._token_location
-      cls._token_key = config.token_key
+      cls._token_key = config.token_key or cls._token_key
     except ValidationError:
       raise
     except Exception as err:
