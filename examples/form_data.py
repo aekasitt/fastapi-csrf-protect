@@ -13,13 +13,14 @@ from fastapi.responses import JSONResponse
 from fastapi.templating import Jinja2Templates
 from fastapi_csrf_protect import CsrfProtect
 from fastapi_csrf_protect.exceptions import CsrfProtectError
-from pydantic import BaseModel, EmailStr, StrictStr
+from pydantic import EmailStr, StrictStr
+from pydantic_settings import BaseSettings
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
 
-class CsrfSettings(BaseModel):
+class CsrfSettings(BaseSettings):
   secret_key: str = "asecrettoeverybody"
   cookie_samesite: str = "none"
   cookie_secure: bool = True

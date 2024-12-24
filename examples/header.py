@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # Copyright (C) 2021-2023 All rights reserved.
-# FILENAME:  examples/header.py
-# VERSION: 	 0.3.3
-# CREATED: 	 2023-05-23 16:56
-# AUTHOR: 	 Sitt Guruvanich <aekazitt+github@gmail.com>
+# FILENAME:    examples/header.py
+# VERSION:     0.3.7
+# CREATED:     2023-05-23 16:56
+# AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:
 #
 # HISTORY:
@@ -13,13 +13,13 @@ from fastapi.responses import JSONResponse
 from fastapi.templating import Jinja2Templates
 from fastapi_csrf_protect import CsrfProtect
 from fastapi_csrf_protect.exceptions import CsrfProtectError
-from pydantic import BaseModel
+from pydantic_settings import BaseSettings
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
 
-class CsrfSettings(BaseModel):
+class CsrfSettings(BaseSettings):
   secret_key: str = "asecrettoeverybody"
   cookie_samesite: str = "none"
   cookie_secure: bool = True
