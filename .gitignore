@@ -1,13 +1,18 @@
-### Python ###
-# Byte-compiled / optimized / DLL files
+### byte-compiled ###
 __pycache__/
 *.py[cod]
 *$py.class
 
-# C extensions
+
+### c extensions ###
 *.so
 
-# Distribution / packaging
+
+### chaindata ###
+.bitcoin
+
+
+### distribution / packaging ###
 .Python
 build/
 develop-eggs/
@@ -21,53 +26,49 @@ parts/
 sdist/
 var/
 wheels/
-pip-wheel-metadata/
 share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
-pytestdebug.log
+### environment variables ###
+.env
 
-# Sphinx documentation
-docs/_build/
-doc/_build/
 
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow
-__pypackages__/
+### virtual environments ###
+.venv
+venv/
+venv.bak/
 
-# PyPI Token
+
+### osx finder indexer ###
+**/.DS_Store
+
+
+### mypy ###
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+
+### pdoc ###
+docs/
+
+
+### pyenv / uv ###
+.python-version
+
+
+### ruff ###
+.ruff_cache
+
+
+### security token ###
 pypi-token.pypi
 
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-pythonenv*
 
-# Workspace Settings by VSCode
-.vscode
+### workspace settings ###
 .idea
 .ignore
+.vscode
