@@ -1,6 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1"
-  xmlns:xlink="http://www.w3.org/1999/xlink"
-  xmlns:svgjs="http://svgjs.dev/svgjs" viewBox="0 0 800 800">
+<svg
+  version='1.10'
+  viewBox='0 0 800 800'
+  xmlns='http://www.w3.org/2000/svg'
+  xmlns:svgjs='http://svgjs.dev/svgjs'
+  xmlns:xlink='http://www.w3.org/1999/xlink'
+  >
   <defs>
     <filter
       height='200%'
@@ -21,10 +25,10 @@
         result='matrixOut'
         type='matrix'
         values='
-          0.1 0 0 0
-          0 0 0.1 0 0
-          0 0 0 0.1 0
-          0 0 0 0 0.2 0
+          0.10 0 0 0
+          0 0 0.10 0 0
+          0 0 0 0.10 0
+          0 0 0 0 0.20 0
         '>
       </feColorMatrix>
       <feGaussianBlur
@@ -40,147 +44,244 @@
         >
       </feBlend>
     </filter>
-    <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="targetGradient">
-      <stop stop-color="hsl(184, 74%, 44%)" stop-opacity="1" offset="45%"></stop>
-      <stop stop-color="hsl(332, 87%, 70%)" stop-opacity="1" offset="100%"></stop>
+    <linearGradient x1='50%' y1='0%' x2='50%' y2='100%' id='targetGradient'>
+      <stop stop-color='hsl(184, 74%, 44%)' stop-opacity='1' offset='45%'></stop>
+      <stop stop-color='hsl(332, 87%, 70%)' stop-opacity='1' offset='100%'></stop>
     </linearGradient>
-    <linearGradient id="fenceGradient"
-      gradientTransform="rotate(-188, 0.5, 0.5)"
-      x1="50%"
-      y1="0%"
-      x2="50%"
-      y2="100%">
-      <stop stop-color="hsla(194, 83%, 49%, 0.13)" stop-opacity="1" offset="-0%"/>
-      <stop stop-color="rgba(255,255,255,0)" stop-opacity="0" offset="100%"/>
+    <linearGradient id='fenceGradient'
+      gradientTransform='rotate(-188, 0.50, 0.50)'
+      x1='50%'
+      y1='0%'
+      x2='50%'
+      y2='100%'>
+      <stop stop-color='hsla(194, 83%, 49%, 0.13)' stop-opacity='1' offset='-0%'/>
+      <stop stop-color='rgba(255,255,255,0)' stop-opacity='0' offset='100%'/>
     </linearGradient>
-    <linearGradient id="fenceGradient2"
-      gradientTransform="rotate(188, 0.5, 0.5)"
-      x1="50%"
-      y1="0%"
-      x2="50%"
-      y2="100%"
+    <linearGradient id='fenceGradient2'
+      gradientTransform='rotate(188, 0.50, 0.50)'
+      x1='50%'
+      y1='0%'
+      x2='50%'
+      y2='100%'
       >
-      <stop stop-color="hsl(0, 0%, 58%)" stop-opacity="1"/>
-      <stop stop-color="rgba(255,255,255,0)" stop-opacity="0" offset="100%"/>
+      <stop stop-color='hsl(0, 0%, 58%)' stop-opacity='1'/>
+      <stop stop-color='rgba(255,255,255,0)' stop-opacity='0' offset='100%'/>
     </linearGradient>
-    <filter id="grainFilter"
-      x="-20%"
-      y="-20%"
-      width="140%"
-      height="140%"
-      filterUnits="objectBoundingBox"
-      primitiveUnits="userSpaceOnUse"
-      color-interpolation-filters="sRGB"
+    <filter id='grainFilter'
+      x='-20%'
+      y='-20%'
+      width='140%'
+      height='140%'
+      filterUnits='objectBoundingBox'
+      primitiveUnits='userSpaceOnUse'
+      color-interpolation-filters='sRGB'
       >
-      <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="2" seed="2" stitchTiles="stitch" x="0%" y="0%" width="100%" height="100%" result="turbulence"></feTurbulence>
-      <feColorMatrix type="saturate" values="0" x="0%" y="0%" width="100%" height="100%" in="turbulence" result="colormatrix"></feColorMatrix>
-      <feComponentTransfer x="0%" y="0%" width="100%" height="100%" in="colormatrix" result="componentTransfer">
-        <feFuncR type="linear" slope="3"></feFuncR>
-        <feFuncG type="linear" slope="3"></feFuncG>
-        <feFuncB type="linear" slope="3"></feFuncB>
+      <feTurbulence
+        type='fractalNoise'
+        baseFrequency='0.55'
+        numOctaves='2'
+        seed='2'
+        stitchTiles='stitch'
+        x='0%'
+        y='0%'
+        width='100%'
+        height='100%'
+        result='turbulence'
+        />
+      <feColorMatrix
+        height='100%'
+        in='turbulence'
+        type='saturate'
+        values='0'
+        width='100%'
+        x='0%'
+        y='0%'
+        result='colormatrix'
+        />
+      <feComponentTransfer
+        height='100%'
+        in='colormatrix'
+        result='componentTransfer'
+        width='100%'
+        x='0%'
+        y='0%'
+        >
+        <feFuncR type='linear' slope='3'/>
+        <feFuncG type='linear' slope='3'/>
+        <feFuncB type='linear' slope='3'/>
       </feComponentTransfer>
       <feColorMatrix
-        x="0%"
-        y="0%"
-        width="100%"
-        height="100%"
-        in="componentTransfer"
-        result="colormatrix2"
-        type="matrix"
-        values="
+        x='0%'
+        y='0%'
+        width='100%'
+        height='100%'
+        in='componentTransfer'
+        result='colormatrix2'
+        type='matrix'
+        values='
           1 0 0 0 0
           0 1 0 0 0
           0 0 1 0 0
           0 0 0 15 -7
-        "/>
+        '/>
     </filter>
-    <clipPath id="SvgjsClipPath1000">
-      <rect width="66.66666666666667" height="800" x="0" y="0"/>
-      <rect width="66.66666666666667" height="800" x="133.33333333333334" y="0"/>
-      <rect width="66.66666666666667" height="800" x="266.6666666666667" y="0"/>
-      <rect width="66.66666666666667" height="800" x="400" y="0"/>
-      <rect width="66.66666666666667" height="800" x="533.3333333333334" y="0"/>
-      <rect width="66.66666666666667" height="800" x="666.6666666666667" y="0"/>
-      <rect width="66.66666666666667" height="800" x="800" y="0"/>
-      <rect width="66.66666666666667" height="800" x="933.3333333333334" y="0"/>
-      <rect width="66.66666666666667" height="800" x="1066.6666666666667" y="0"/>
-      <rect width="66.66666666666667" height="800" x="1200" y="0"/>
-      <rect width="66.66666666666667" height="800" x="1333.3333333333335" y="0"/>
-      <rect width="66.66666666666667" height="800" x="1466.6666666666667" y="0"/>
-      <rect width="66.66666666666667" height="800" x="1600" y="0"/>
+    <clipPath id='SvgjsClipPath1000'>
+      <rect width='66.67' height='800' x='0' y='0'/>
+      <rect width='66.67' height='800' x='133.33' y='0'/>
+      <rect width='66.67' height='800' x='266.67' y='0'/>
+      <rect width='66.67' height='800' x='400' y='0'/>
+      <rect width='66.67' height='800' x='533.33' y='0'/>
+      <rect width='66.67' height='800' x='666.67' y='0'/>
+      <rect width='66.67' height='800' x='800' y='0'/>
+      <rect width='66.67' height='800' x='933.33' y='0'/>
+      <rect width='66.67' height='800' x='1066.67' y='0'/>
+      <rect width='66.67' height='800' x='1200' y='0'/>
+      <rect width='66.67' height='800' x='1333.33' y='0'/>
+      <rect width='66.67' height='800' x='1466.67' y='0'/>
+      <rect width='66.67' height='800' x='1600' y='0'/>
     </clipPath>
-    <clipPath id="SvgjsClipPath1001">
-      <rect width="66.66666666666667" height="800" x="66.66666666666667" y="0"/>
-      <rect width="66.66666666666667" height="800" x="200" y="0"/>
-      <rect width="66.66666666666667" height="800" x="333.3333333333333" y="0"/>
-      <rect width="66.66666666666667" height="800" x="466.6666666666667" y="0"/>
-      <rect width="66.66666666666667" height="800" x="600.0000000000001" y="0"/>
-      <rect width="66.66666666666667" height="800" x="733.3333333333334" y="0"/>
-      <rect width="66.66666666666667" height="800" x="866.6666666666667" y="0"/>
-      <rect width="66.66666666666667" height="800" x="1000.0000000000001" y="0"/>
-      <rect width="66.66666666666667" height="800" x="1133.3333333333333" y="0"/>
-      <rect width="66.66666666666667" height="800" x="1266.6666666666667" y="0"/>
-      <rect width="66.66666666666667" height="800" x="1400" y="0"/>
-      <rect width="66.66666666666667" height="800" x="1533.3333333333333" y="0"/>
+    <clipPath id='SvgjsClipPath1001'>
+      <rect width='66.67' height='800' x='66.67' y='0'/>
+      <rect width='66.67' height='800' x='200' y='0'/>
+      <rect width='66.67' height='800' x='333.33' y='0'/>
+      <rect width='66.67' height='800' x='466.67' y='0'/>
+      <rect width='66.67' height='800' x='600.00' y='0'/>
+      <rect width='66.67' height='800' x='733.33' y='0'/>
+      <rect width='66.67' height='800' x='866.67' y='0'/>
+      <rect width='66.67' height='800' x='1000.00' y='0'/>
+      <rect width='66.67' height='800' x='1133.33' y='0'/>
+      <rect width='66.67' height='800' x='1266.67' y='0'/>
+      <rect width='66.67' height='800' x='1400' y='0'/>
+      <rect width='66.67' height='800' x='1533.33' y='0'/>
     </clipPath>
   </defs>
-  <rect width="100%" height="100%" fill="hsl(10, 0%, 95%)"/>
-  <g stroke-width="45" stroke="url(#targetGradient)" fill="none" transform="rotate(45)" transform-origin="center">
-    <circle r="365" cx="400" cy="400" fill="none" opacity="0.25" clip-path="url(&quot;#SvgjsClipPath1000&quot;)"></circle>
-    <circle r="265" cx="400" cy="400" fill="none" opacity="0.25" clip-path="url(&quot;#SvgjsClipPath1000&quot;)"></circle>
-    <circle r="165" cx="400" cy="400" fill="none" opacity="0.25" clip-path="url(&quot;#SvgjsClipPath1000&quot;)"></circle>
-    <circle r="65" cx="400" cy="400" fill="none" opacity="0.25" clip-path="url(&quot;#SvgjsClipPath1000&quot;)"></circle>
-    <circle r="377.5" cx="400" cy="400" fill="none" clip-path="url(&quot;#SvgjsClipPath1001&quot;)"></circle>
-    <circle r="277.5" cx="400" cy="400" fill="none" clip-path="url(&quot;#SvgjsClipPath1001&quot;)"></circle>
-    <circle r="177.5" cx="400" cy="400" fill="none" clip-path="url(&quot;#SvgjsClipPath1001&quot;)"></circle>
-    <circle r="77.5" cx="400" cy="400" fill="none" clip-path="url(&quot;#SvgjsClipPath1001&quot;)"></circle>
-    
+  <rect width='100%' height='100%' fill='hsl(10, 0%, 95%)'/>
+  <g stroke-width='45' stroke='url(#targetGradient)' fill='none' transform='rotate(45)' transform-origin='center'>
+    <circle r='365' cx='400' cy='400' fill='none' opacity='0.25' clip-path='url(#SvgjsClipPath1000)'></circle>
+    <circle r='265' cx='400' cy='400' fill='none' opacity='0.25' clip-path='url(#SvgjsClipPath1000)'></circle>
+    <circle r='165' cx='400' cy='400' fill='none' opacity='0.25' clip-path='url(#SvgjsClipPath1000)'></circle>
+    <circle r='65' cx='400' cy='400' fill='none' opacity='0.25' clip-path='url(#SvgjsClipPath1000)'></circle>
+    <circle r='377.50' cx='400' cy='400' fill='none' clip-path='url(#SvgjsClipPath1001)'></circle>
+    <circle r='277.50' cx='400' cy='400' fill='none' clip-path='url(#SvgjsClipPath1001)'></circle>
+    <circle r='177.50' cx='400' cy='400' fill='none' clip-path='url(#SvgjsClipPath1001)'></circle>
+    <circle r='77.50' cx='400' cy='400' fill='none' clip-path='url(#SvgjsClipPath1001)'></circle>
   </g>
-  <path id="fence"
-    d="
+  <path id='fence'
+    d='
       M59.04 23.11
-      l-35.3 93.59 25.96-14.9
+      l-35.30 93.59 25.96-14.90
       V158
-      c-1.32 18-13.82 32.6-30.39 36.7
-      v19.1
-      c11.64-2 22.12-7.5 30.39-15.3
-      v97.3
-      c-11.62 1.9-22.1 7.3-30.39 15.1
-      v39.4
-      c1.68-17.5 14.08-31.5 30.39-35.4
-      v177.5
+      c-1.32 18-13.82 32.60-30.39 36.70
+      v19.10
+      c11.64-2 22.12-7.50 30.39-15.30
+      v97.30
+      c-11.62 1.90-22.10 7.30-30.39 15.10
+      v39.40
+      c1.68-17.50 14.08-31.50 30.39-35.40
+      v177.50
       h18.69
-      V314.9
-      c16.46 4 28.96 18.4 30.55 36.1
-      v141.5
+      V314.90
+      c16.46 4 28.96 18.40 30.55 36.10
+      v141.50
       h18.66
-      V354.4
-      c3.9-18.9 15.1-39.3 31.2-39.6
-      v177.6h18.7V314.9c17.4 4.4 30.4 20.3 30.6 39.5
-      v138.1h18.6V354.3c.3-19.4 13.5-35.4 31.2-39.5v177.6h18.7
-      V315c17.4 4.4 30.2 20.3 30.4 39.4.4 45.6.2 92.2.2 138.1h18.7
-      V350.9c1.6-17.8 14.2-32.2 30.8-36.1v177.6h18.7V315
-      c17.4 4.3 30.3 20.1 30.3 39.3.5 45.5.2 92.3.2 138.2h18.7V349.7
-      c2-17.4 14.6-31.3 31-35v177.7h18.7V315.1c16.4 4.3 28.7 18.9 30 36.7
-      v-40.7c-8.2-7.7-18.5-13.1-30-15.1v-97.6c8.1 7.8 18.5 13.2 30 15.3
-      v-19.1c-17-4.5-29.5-19.9-30-38.6v-54.2l25.9 14.9-35.3-93.59-35.3 93.59 26-14.9
-      v53.5c-5 23-22.7 40.1-40.2 40.6-22.1 0-40-18-40-40.5-.1-17.8 0-35.8 0-53.6
-      l26 14.9L356 23.11l-35.3 93.59 26-14.9v55.6
-      c-1 21.6-18.5 38.5-39.9 38.5-22.1 0-40-18-40.2-40.6v-53.5
-      l26 14.9-35.3-93.59L222 116.7l25.9-14.9v53.6
-      c-.2 22.5-18.1 40.5-40.1 40.5-22.1 0-40-18-40.2-40.6-.2-17.7-.1-35.7-.1-53.5
-      l26 14.9-35.3-93.59-35.3 93.59 25.9-14.9v55.4
-      c-1.2 21.7-18.7 38.7-40.1 38.7-22.09 0-39.99-18-40.19-40.6-.25-17.6-.13-35.7-.13-53.5l25.96 14.9-35.3-93.59zm9.35 175.19c8.28 7.9 18.82 13.4 30.55 15.5v97.3c-8.31-7.8-18.85-13.3-30.55-15.2zm99.11 0c8.3 7.9 18.8 13.5 30.6 15.5v97.5c-8.3-7.9-18.9-13.5-30.6-15.4v-97.6zm278.1 0v97.4c-11.9 1.8-22.5 7.3-31 15.1v-97c11.9-1.9 22.6-7.4 31-15.5zm-179 .1c8.3 7.9 18.9 13.4 30.6 15.4v97.7c-8.3-8-18.8-13.6-30.6-15.6v-97.5zm-18.7 0v97.4c-11.9 1.9-22.7 7.4-31.2 15.5v-97.4c12.2-3.2 23.4-8.3 31.2-15.5zm-99.1 0v97.4c-12 1.9-22.7 7.5-31.2 15.7v-97.6c12.2-3.1 23.4-8.2 31.2-15.5zm216.6.1c8.3 7.9 18.8 13.4 30.5 15.3v97.5c-8.2-7.9-18.8-13.4-30.5-15.4v-97.4z
-      m-18.7.1v97.2c-11.8 1.9-22.5 7.4-30.8 15.3
-      v-97.2c12-3.1 23.1-8.1 30.8-15.3z
-    "
-    fill="hsl(0, 0%, 100%)"
-    filter="url(#dropShadow)"
-    transform="translate(240, 270) scale(1.7, 1.4)"
-    transform-origin="center"
+      V354.40
+      c3.90-18.90 15.10-39.30 31.20-39.60
+      v177.60
+      h18.70
+      V314.90
+      c17.40 4.40 30.40 20.30 30.60 39.50
+      v138.10
+      h18.60
+      V354.30
+      c.3-19.40 13.50-35.40 31.20-39.50
+      v177.60
+      h18.70
+      V315
+      c17.40 4.40 30.20 20.30 30.40 39.40.4 45.60.2 92.20.2 138.10
+      h18.70
+      V350.90
+      c1.60-17.80 14.20-32.20 30.80-36.10
+      v177.60
+      h18.70
+      V315
+      c17.40 4.30 30.30 20.10 30.30 39.30.5 45.50.2 92.30.2 138.20
+      h18.70
+      V349.70
+      c2-17.40 14.60-31.30 31-35
+      v177.70
+      h18.70
+      V315.10
+      c16.40 4.30 28.70 18.90 30 36.70
+      v-40.70
+      c-8.20-7.70-18.50-13.10-30-15.10
+      v-97.60
+      c8.10 7.80 18.50 13.20 30 15.30
+      v-19.10
+      c-17-4.50-29.50-19.90-30-38.60
+      v-54.20
+      l25.90 14.90-35.30-93.59-35.30 93.59 26-14.90
+      v53.50
+      c-5 23-22.70 40.10-40.20 40.60-22.10 0-40-18-40-40.50-.1-17.80 0-35.80 0-53.60
+      l26 14.90
+      L356 23.11
+      l-35.30 93.59 26-14.90
+      v55.60
+      c-1 21.60-18.50 38.50-39.90 38.50-22.10 0-40-18-40.20-40.60
+      v-53.50
+      l26 14.90-35.30-93.59
+      L222 116.70
+      l25.90-14.90
+      v53.60
+      c-.2 22.50-18.10 40.50-40.10 40.50-22.10 0-40-18-40.20-40.60-.2-17.70-.1-35.70-.1-53.50
+      l26 14.90-35.30-93.59-35.30 93.59 25.90-14.90
+      v55.40
+      c-1.20 21.70-18.70 38.70-40.10 38.70-22.09 0-39.99-18-40.19-40.60-.25-17.60-.13-35.70-.13-53.50
+      l25.96 14.90-35.30-93.59z
+      m9.35 175.19
+      c8.28 7.90 18.82 13.40 30.55 15.50
+      v97.30
+      c-8.31-7.80-18.85-13.30-30.55-15.20z
+      m99.11 0
+      c8.30 7.90 18.80 13.50 30.60 15.50
+      v97.50
+      c-8.30-7.90-18.90-13.50-30.60-15.40
+      v-97.60z
+      m278.10 0
+      v97.40
+      c-11.90 1.80-22.50 7.30-31 15.10
+      v-97
+      c11.90-1.90 22.60-7.40 31-15.50z
+      m-179 .1
+      c8.30 7.90 18.90 13.40 30.60 15.40
+      v97.70
+      c-8.30-8-18.80-13.60-30.60-15.60
+      v-97.50z
+      m-18.70 0
+      v97.40
+      c-11.90 1.90-22.70 7.40-31.20 15.50
+      v-97.40
+      c12.20-3.20 23.40-8.30 31.20-15.50z
+      m-99.10 0
+      v97.40
+      c-12 1.90-22.70 7.50-31.20 15.70
+      v-97.60
+      c12.20-3.10 23.40-8.20 31.20-15.50z
+      m216.60.1
+      c8.30 7.90 18.80 13.40 30.50 15.30
+      v97.50
+      c-8.20-7.90-18.80-13.40-30.50-15.40
+      v-97.40z
+      m-18.70.1
+      v97.20
+      c-11.80 1.90-22.50 7.40-30.80 15.30
+      v-97.20c12-3.10 23.10-8.10 30.80-15.30z
+    '
+    fill='hsl(0, 0%, 100%)'
+    filter='url(#dropShadow)'
+    transform='translate(240, 270) scale(1.70, 1.40)'
+    transform-origin='center'
     />
-  <use fill="url(#fenceGradient2)" href="#fence"/>
-  <use fill="url(#fenceGradient)" href="#fence"/>
-  <use fill="transparent" filter="url(#grainFilter)" href="#fence" opacity="0.27" style="mix-blend-mode: soft-light"/>
-
+  <use fill='url(#fenceGradient2)' href='#fence'/>
+  <use fill='url(#fenceGradient)' href='#fence'/>
+  <use fill='transparent' filter='url(#grainFilter)' href='#fence' opacity='0.27' style='mix-blend-mode: soft-light'/>
 </svg>
