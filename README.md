@@ -28,7 +28,7 @@ The easiest way to start working with this extension with pip
 ```bash
 pip install fastapi-csrf-protect
 # or
-poetry add fastapi-csrf-protect
+uv add fastapi-csrf-protect
 ```
 
 ## Getting Started
@@ -86,18 +86,84 @@ def csrf_protect_exception_handler(request: Request, exc: CsrfProtectError):
 
 ## Contributions
 
+### Prerequisites
+
+
+* [python](https://www.python.org) version 3.9 and above
+* [uv](https://docs.astral.sh/uv)
+
+### Setting up
+
+The following guide walks through setting up your local working environment using `pyenv`
+as Python version manager and `uv` as Python package manager. If you do not have `pyenv`
+installed, run the following command.
+
+<details>
+  <summary> Install using Homebrew (Darwin) </summary>
+  
+  ```sh
+  brew install pyenv --head
+  ```
+</details>
+
+<details>
+  <summary> Install using standalone installer (Darwin and Linux) </summary>
+  
+  ```sh
+  curl https://pyenv.run | bash
+  ```
+</details>
+
+If you do not have `uv` installed, run the following command.
+
+<details>
+  <summary> Install using Homebrew (Darwin) </summary>
+
+  ```sh
+  brew install uv
+  ```
+</details>
+
+<details>
+  <summary> Install using standalone installer (Darwin and Linux) </summary>
+
+  ```sh
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+  ```
+</details>
+
+Once you have `pyenv` Python version manager installed, you can
+install any version of Python above version 3.9 for this project.
+The following commands help you set up and activate a Python virtual
+environment where `uv` can download project dependencies from the `PyPI`
+open-sourced registry defined under `pyproject.toml` file.
+
+<details>
+  <summary> Set up environment and synchronize project dependencies </summary>
+
+  ```sh
+  pyenv shell 3.11.9
+  uv venv  --python-preference system
+  source .venv/bin/activate
+  uv sync --dev
+  ```
+</details>
+
+Now you have the entire project set-up and ready to be tinkered with. Try out the
+standard `arise` command which brings up a help menu.
+
+### Getting started
 To contribute to the project, fork the repository and clone to your local device and install preferred testing dependency [pytest](https://github.com/pytest-dev/pytest)
 Alternatively, run the following command on your terminal to do so:
 
 ```bash
-pip install -U poetry
-poetry install
+uv sync --dev
 ```
 
 Testing can be done by the following command post-installation:
 
 ```bash
-poetry install --with test
+uv sync --dev --extras test
 pytest
 ```
 
@@ -132,7 +198,7 @@ To run the provided examples, first you must install extra dependencies [uvicorn
 Alternatively, run the following command on your terminal to do so
 
 ```bash
-poetry install --with examples
+uv sync --extras examples
 ```
 
 Running the example utilizing form submission
