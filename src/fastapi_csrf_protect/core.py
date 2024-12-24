@@ -13,21 +13,23 @@
 from hashlib import sha1
 from re import match
 from os import urandom
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Dict, Optional, Tuple, Union
 from warnings import warn
 
 ### Third-party packages ###
 from fastapi.requests import Request
 from fastapi.responses import Response
+from itsdangerous import BadData, SignatureExpired, URLSafeTimedSerializer
+from pydantic import create_model
+from starlette.datastructures import Headers, UploadFile
+
+### Local modules ###
 from fastapi_csrf_protect.csrf_config import CsrfConfig
 from fastapi_csrf_protect.exceptions import (
   InvalidHeaderError,
   MissingTokenError,
   TokenValidationError,
 )
-from itsdangerous import BadData, SignatureExpired, URLSafeTimedSerializer
-from pydantic import create_model
-from starlette.datastructures import Headers
 
 
 class CsrfProtect(CsrfConfig):
@@ -178,8 +180,10 @@ class CsrfProtect(CsrfConfig):
       if hasattr(request, "_json"):
         token = request._json.get(self._token_key, "")
       elif hasattr(request, "_form") and request._form is not None:
-        form_data: UploadFile | str = request._form.get(self._token_key)
-        token = request._form.get(self._token_key, "")
+        form_data: Union[None, UploadFile, str] = request._form.get(self._token_key)
+        if not form_data or isinstance(form_data, UploadFile):
+          raise MissingTokenError("Form data must be of type string")
+        token = form_data
       else:
         token = self.get_csrf_from_body(await request.body())
     serializer = URLSafeTimedSerializer(secret_key, salt="fastapi-csrf-token")
