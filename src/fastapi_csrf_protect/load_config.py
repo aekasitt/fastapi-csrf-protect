@@ -8,7 +8,11 @@
 #
 # HISTORY:
 # *************************************************************
+
+### Standard packages ###
 from typing import Literal, Optional, Set
+
+### Third-party packages ###
 from pydantic import (
   BaseModel,
   Field,

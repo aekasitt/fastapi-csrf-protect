@@ -8,6 +8,15 @@
 #
 # HISTORY:
 # *************************************************************
+
+### Standard packages ###
+from hashlib import sha1
+from re import match
+from os import urandom
+from typing import Any, Dict, Optional, Tuple
+from warnings import warn
+
+### Third-party packages ###
 from fastapi.requests import Request
 from fastapi.responses import Response
 from fastapi_csrf_protect.csrf_config import CsrfConfig
@@ -17,13 +26,8 @@ from fastapi_csrf_protect.exceptions import (
   TokenValidationError,
 )
 from itsdangerous import BadData, SignatureExpired, URLSafeTimedSerializer
-from hashlib import sha1
-from re import match
-from os import urandom
 from pydantic import create_model
 from starlette.datastructures import Headers
-from typing import Any, Dict, Optional, Tuple
-from warnings import warn
 
 
 class CsrfProtect(CsrfConfig):
@@ -174,6 +178,7 @@ class CsrfProtect(CsrfConfig):
       if hasattr(request, "_json"):
         token = request._json.get(self._token_key, "")
       elif hasattr(request, "_form") and request._form is not None:
+        form_data: UploadFile | str = request._form.get(self._token_key)
         token = request._form.get(self._token_key, "")
       else:
         token = self.get_csrf_from_body(await request.body())

@@ -12,7 +12,7 @@
 ### Standard packages ###
 from time import sleep
 
-### Third-Party packages ###
+### Third-party packages ###
 from fastapi.testclient import TestClient
 
 ### Local modules ###

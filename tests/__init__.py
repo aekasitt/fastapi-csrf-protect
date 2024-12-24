@@ -8,15 +8,16 @@
 #
 # HISTORY:
 # *************************************************************
-### Standard Packages ###
+
+### Standard packages ###
 from pytest import fixture
 
-### Third-Party Packages ###
+### Third-party packages ###
 from fastapi import Depends, FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.testclient import TestClient
 
-### Local Modules ###
+### Local modules ###
 from fastapi_csrf_protect import CsrfProtect
 from fastapi_csrf_protect.exceptions import CsrfProtectError
 

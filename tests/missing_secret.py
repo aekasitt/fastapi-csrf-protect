@@ -9,7 +9,7 @@
 # HISTORY:
 # *************************************************************
 
-### Third-Party packages ###
+### Third-party packages ###
 from fastapi.testclient import TestClient
 from pytest import raises
 

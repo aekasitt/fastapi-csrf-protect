@@ -9,14 +9,14 @@
 # HISTORY:
 # *************************************************************
 
-### Standard Packages ###
+### Standard packages ###
 from typing import Any, Callable, List, Literal, Optional, Set, Tuple
 
-### Third-Party Modules ###
+### Third-party packages ###
 from pydantic import ValidationError
 from pydantic_settings import BaseSettings
 
-### Local Modules ###
+### Local modules ###
 from fastapi_csrf_protect.load_config import LoadConfig
 
 
@@ -47,7 +47,7 @@ class CsrfConfig(object):
       cls._cookie_key = config.cookie_key or cls._cookie_key
       cls._cookie_path = config.cookie_path or cls._cookie_path
       cls._cookie_domain = config.cookie_domain
-      cls._cookie_samesite = config.cookie_samesite  # type: ignore[assignment]
+      cls._cookie_samesite = config.cookie_samesite
       cls._cookie_secure = config.cookie_secure or cls._cookie_secure
       cls._header_name = config.header_name or cls._header_name
       cls._header_type = config.header_type

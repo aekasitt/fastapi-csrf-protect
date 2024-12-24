@@ -10,7 +10,6 @@
 # *************************************************************
 
 ### Third-party packages ###
-from . import test_client
 from fastapi.testclient import TestClient
 
 ### Local modules ###
@@ -19,7 +18,7 @@ from fastapi_csrf_protect import CsrfProtect
 
 
 def test_disallow_token_reuse(test_client: TestClient, max_age: int = 2):
-  ### Loads Config ###
+  ### Loads config ###
   @CsrfProtect.load_config
   def get_configs():
     return [("secret_key", "secret"), ("max_age", max_age)]
