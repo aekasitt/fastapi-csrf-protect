@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (C) 2020-2024 All rights reserved.
 # FILENAME:    ~~/src/fastapi_csrf_protect/csrf_config.py
-# VERSION:     0.3.7
+# VERSION:     1.0.0
 # CREATED:     2020-11-25 14:35
 # AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:

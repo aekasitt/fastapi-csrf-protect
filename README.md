@@ -190,6 +190,11 @@ pytest
   setting `cookie_samesite` in settings
 * Fixed in version `0.3.6`
 
+### Version 1.0
+
+* Remove deprecated method `generate_csrf`, please use `generate_csrf_tokens`.
+* Validate `FormData` value received for given `token_key` is in fact a string, not `UploadFile`
+
 ### Run Examples
 
 To run the provided examples, first you must install extra dependencies [uvicorn](https://github.com/encode/uvicorn) and [jinja2](https://github.com/pallets/jinja/)
