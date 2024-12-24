@@ -14,7 +14,6 @@ from hashlib import sha1
 from re import match
 from os import urandom
 from typing import Any, Dict, Optional, Tuple, Union
-from warnings import warn
 
 ### Third-party packages ###
 from fastapi.requests import Request
@@ -33,17 +32,6 @@ from fastapi_csrf_protect.exceptions import (
 
 
 class CsrfProtect(CsrfConfig):
-  def generate_csrf(self, secret_key: Optional[str] = None) -> Tuple[str, str]:
-    """
-    Deprecated. Please use `generate_csrf_tokens` method instead.
-
-    ---
-    :param secret_key: (Optional) the secret key used when generating tokens for users
-    :type secret_key: (str | None) Defaults to None.
-    """
-    warn("This is deprecated; version=0.3.6", DeprecationWarning, stacklevel=2)
-    return self.generate_csrf_tokens(secret_key)
-
   def generate_csrf_tokens(self, secret_key: Optional[str] = None) -> Tuple[str, str]:
     """
     Generate a CSRF token and a signed CSRF token using server's secret key to be stored in
