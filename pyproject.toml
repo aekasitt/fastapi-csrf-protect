@@ -45,7 +45,7 @@ readme = 'README.md'
 name = 'fastapi-csrf-protect'
 repository = 'https://github.com/aekasitt/fastapi-csrf-protect'
 requires-python = '>=3.8'
-version = '0.3.7'
+version = '1.0.0'
 
 
 [project.optional-dependencies]
