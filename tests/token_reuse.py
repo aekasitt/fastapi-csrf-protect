@@ -33,7 +33,7 @@ def test_disallow_token_reuse(test_client: TestClient, max_age: int = 2):
   csrf_token: str = response.json().get("csrf_token", None)
   headers: dict = {"X-CSRF-Token": csrf_token} if csrf_token is not None else {}
 
-  ### Get protected contents ###
+  ### Post to protected endpoint ###
   response = test_client.post("/protected", headers=headers)
 
   ### Assertions ###

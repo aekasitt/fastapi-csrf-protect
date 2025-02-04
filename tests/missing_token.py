@@ -31,7 +31,7 @@ def test_validate_missing_cookie_token_request(test_client: TestClient):
   ### Clear previously received cookies ###
   test_client.cookies = None  # type: ignore
 
-  ### Get protected contents ###
+  ### Post to protected endpoint ###
   response = test_client.post("/protected", headers=headers)
 
   ### Assertions ###

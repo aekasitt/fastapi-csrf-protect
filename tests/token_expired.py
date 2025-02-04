@@ -36,10 +36,10 @@ def test_validate_token_expired(test_client: TestClient, max_age: int = 2):
   csrf_token: str = response.json().get("csrf_token", None)
   headers: dict = {"X-CSRF-Token": csrf_token} if csrf_token is not None else {}
 
-  ### Delays ###
+  ### Delay until expiry ###
   sleep(max_age + 1)
 
-  ### Get protected contents ###
+  ### Post to protected endpoint ###
   response = test_client.post("/protected", headers=headers)
 
   ### Assertions ###
