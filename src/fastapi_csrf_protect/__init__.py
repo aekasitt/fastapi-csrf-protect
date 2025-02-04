@@ -4,7 +4,7 @@
 # VERSION:     1.0.0
 # CREATED:     2020-11-25 14:35
 # AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
-# DESCRIPTION:
+# DESCRIPTION: https://www.w3docs.com/snippets/python/what-is-init-py-for.html
 #
 # HISTORY:
 # *************************************************************
