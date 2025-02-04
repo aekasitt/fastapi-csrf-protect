@@ -10,21 +10,41 @@
 # *************************************************************
 
 ### Standard packages ###
-from typing import Dict, Optional
+from typing import Dict, Optional, Tuple
 
 ### Third-party packages ###
 from fastapi.testclient import TestClient
+from pytest import mark
 
 ### Local modules ###
 from . import test_client
 from fastapi_csrf_protect import CsrfProtect
 
 
-def test_submit_csrf_token_in_header_and_cookie(test_client: TestClient):
+@mark.parametrize(
+  "csrf_settings",
+  (
+    (("secret_key", "secret"), ("token_location", "header")),
+    (
+      ("cookie_samesite", "lax"),
+      ("secret_key", "secret"),
+      ("token_location", "header"),
+    ),
+    (
+      ("cookie_samesite", "strict"),
+      ("secret_key", "secret"),
+      ("token_location", "header"),
+    ),
+  ),
+  ids=("cookie-headers", "cookie-headers-samesite-lax", "cookie-headers-samesite-strict"),
+)
+def test_submit_csrf_token_in_headers_and_cookie(
+  csrf_settings: Tuple[Tuple[str, str], ...], test_client: TestClient
+):
   ### Load config ###
   @CsrfProtect.load_config
   def get_configs():
-    return [("secret_key", "secret"), ("token_location", "header")]
+    return csrf_settings
 
   ### Generate token ###
   response = test_client.get("/gen-token")
@@ -45,85 +65,6 @@ def test_submit_csrf_token_in_header_and_cookie(test_client: TestClient):
   ### Assertions ###
   csrf_token = response.json().get("fastapi-csrf-token")
   assert csrf_token is None
-  assert response.status_code == 200
-  assert response.json() == {"detail": "OK"}
-  cookie_token = test_client.cookies.get("fastapi-csrf-token", None)
-  assert cookie_token is None
-
-  ### Immediately get protected contents again ###
-  response = test_client.post("/protected", headers=headers)
-
-  ### Assertions ###
-  assert response.status_code == 400
-  assert response.json() == {"detail": "Missing Cookie: `fastapi-csrf-token`."}
-
-def test_submit_csrf_token_in_header_and_cookies_with_lax_cookie_samesite(test_client: TestClient):
-  ### Load config ###
-  @CsrfProtect.load_config
-  def get_configs():
-    return [
-      ("cookie_samesite", "lax"),
-      ("secret_key", "secret"),
-      ("token_key", "csrf-token"),
-      ("token_location", "header"),
-    ]
-
-  ### Generate token ###
-  response = test_client.get("/gen-token")
-  assert response.status_code == 200
-
-  ### Asserts that `cookie_token` is present
-  cookie_token: Optional[str] = test_client.cookies.get("fastapi-csrf-token", None)
-  assert cookie_token is not None
-
-  ### Extract `csrf_token` from response to be set as next request's headers ###
-  csrf_token: Optional[str] = response.json().get("csrf_token", None)
-  headers: Dict[str, str] = {"X-CSRF-Token": csrf_token} if csrf_token is not None else {}
-
-  ### Post to protected endpoint ###
-  response = test_client.post("/protected", headers=headers)
-
-  ### Assertions ###
-  assert response.status_code == 200
-  assert response.json() == {"detail": "OK"}
-  cookie_token = test_client.cookies.get("fastapi-csrf-token", None)
-  assert cookie_token is None
-
-  ### Immediately get protected contents again ###
-  response = test_client.post("/protected", headers=headers)
-
-  ### Assertions ###
-  assert response.status_code == 400
-  assert response.json() == {"detail": "Missing Cookie: `fastapi-csrf-token`."}
-
-
-def test_submit_csrf_token_in_header_and_cookies_with_strict_cookie_samesite(test_client: TestClient):
-  ### Load config ###
-  @CsrfProtect.load_config
-  def get_configs():
-    return [
-      ("cookie_samesite", "strict"),
-      ("secret_key", "secret"),
-      ("token_key", "csrf-token"),
-      ("token_location", "header"),
-    ]
-
-  ### Generate token ###
-  response = test_client.get("/gen-token")
-  assert response.status_code == 200
-
-  ### Asserts that `cookie_token` is present
-  cookie_token: Optional[str] = test_client.cookies.get("fastapi-csrf-token", None)
-  assert cookie_token is not None
-
-  ### Extract `csrf_token` from response to be set as next request's headers ###
-  csrf_token: Optional[str] = response.json().get("csrf_token", None)
-  headers: Dict[str, str] = {"X-CSRF-Token": csrf_token} if csrf_token is not None else {}
-
-  ### Post to protected endpoint ###
-  response = test_client.post("/protected", headers=headers)
-
-  ### Assertions ###
   assert response.status_code == 200
   assert response.json() == {"detail": "OK"}
   cookie_token = test_client.cookies.get("fastapi-csrf-token", None)
