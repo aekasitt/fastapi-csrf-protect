@@ -28,7 +28,7 @@ def test_validate_token_invalid_request(test_client: TestClient):
 
   ### Get protected contents ###
   headers: dict = {"X-CSRF-Token": "invalid"}
-  response = test_client.get(
+  response = test_client.post(
     "/protected", cookies={"fastapi-csrf-token": "invalid"}, headers=headers
   )
 

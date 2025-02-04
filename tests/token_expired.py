@@ -21,7 +21,7 @@ from fastapi_csrf_protect import CsrfProtect
 
 
 def test_validate_token_expired(test_client: TestClient, max_age: int = 2):
-  ### Loads Config ###
+  ### Loads config ###
   @CsrfProtect.load_config
   def get_configs():
     return [("secret_key", "secret"), ("max_age", max_age)]
@@ -40,7 +40,7 @@ def test_validate_token_expired(test_client: TestClient, max_age: int = 2):
   sleep(max_age + 1)
 
   ### Get protected contents ###
-  response = test_client.get("/protected", headers=headers)
+  response = test_client.post("/protected", headers=headers)
 
   ### Assertions ###
   assert response.status_code == 400

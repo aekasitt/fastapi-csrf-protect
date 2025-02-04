@@ -32,7 +32,7 @@ def test_validate_missing_cookie_token_request(test_client: TestClient):
   test_client.cookies = None  # type: ignore
 
   ### Get protected contents ###
-  response = test_client.get("/protected", headers=headers)
+  response = test_client.post("/protected", headers=headers)
 
   ### Assertions ###
   assert response.status_code == 400
@@ -49,7 +49,7 @@ def test_validate_missing_header_token_request(test_client: TestClient):
   response = test_client.get("/gen-token")
 
   ### Get protected contents ###
-  response = test_client.get("/protected")
+  response = test_client.post("/protected")
 
   ### Assertions ###
   assert response.status_code == 422

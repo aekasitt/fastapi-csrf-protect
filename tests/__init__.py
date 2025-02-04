@@ -9,13 +9,11 @@
 # HISTORY:
 # *************************************************************
 
-### Standard packages ###
-from pytest import fixture
-
 ### Third-party packages ###
 from fastapi import Depends, FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.testclient import TestClient
+from pytest import fixture
 
 ### Local modules ###
 from fastapi_csrf_protect import CsrfProtect
@@ -29,12 +27,13 @@ def test_client() -> TestClient:
   Context and Headers extension pattern
 
   ---
-  :returns: TestClient
+  :return: test client fixture used for local testing
+  :rtype: fastapi.testclient.TestClient
   """
   app = FastAPI()
 
   @app.get("/gen-token", response_class=JSONResponse)
-  def generate(csrf_protect: CsrfProtect = Depends()):
+  def read_resource(csrf_protect: CsrfProtect = Depends()):
     csrf_token, signed_token = csrf_protect.generate_csrf_tokens()
     response: JSONResponse = JSONResponse(
       status_code=200, content={"detail": "OK", "csrf_token": csrf_token}
@@ -42,8 +41,8 @@ def test_client() -> TestClient:
     csrf_protect.set_csrf_cookie(signed_token, response)
     return response
 
-  @app.get("/protected", response_class=JSONResponse)
-  async def protected(request: Request, csrf_protect: CsrfProtect = Depends()):
+  @app.post("/protected", response_class=JSONResponse)
+  async def update_resource(request: Request, csrf_protect: CsrfProtect = Depends()):
     await csrf_protect.validate_csrf(request)
     response: JSONResponse = JSONResponse(status_code=200, content={"detail": "OK"})
     csrf_protect.unset_csrf_cookie(response)  # prevent token reuse
@@ -54,3 +53,6 @@ def test_client() -> TestClient:
     return JSONResponse(status_code=exc.status_code, content={"detail": exc.message})
 
   return TestClient(app)
+
+
+__all__ = ("test_client",)
