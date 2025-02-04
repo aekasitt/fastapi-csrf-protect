@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (C) 2020-2024 All rights reserved.
+# Copyright (C) 2020-2025 All rights reserved.
 # FILENAME:    ~~/tests/load_config.py
 # VERSION:     1.0.0
 # CREATED:     2020-11-26 16:14

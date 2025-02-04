@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (C) 2020-2024 All rights reserved.
+# Copyright (C) 2020-2025 All rights reserved.
 # FILENAME:    ~~/src/fastapi_csrf_protect/exceptions.py
 # VERSION:     1.0.0
 # CREATED:     2020-11-25 14:35
