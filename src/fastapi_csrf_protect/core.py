@@ -126,7 +126,14 @@ class CsrfProtect(CsrfConfig):
     """
     if not isinstance(response, Response):
       raise TypeError("The response must be an object response FastAPI")
-    response.delete_cookie(self._cookie_key, path=self._cookie_path, domain=self._cookie_domain)
+    response.delete_cookie(
+      self._cookie_key,
+      path=self._cookie_path,
+      domain=self._cookie_domain,
+      secure=self._cookie_secure,
+      httponly=self._httponly,
+      samesite=self._cookie_samesite,
+    )
 
   async def validate_csrf(
     self,
