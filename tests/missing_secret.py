@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (C) 2020-2025 All rights reserved.
 # FILENAME:    ~~/tests/missing_secret.py
-# VERSION:     1.0.0
+# VERSION:     1.0.1
 # CREATED:     2021-08-18 23:58
 # AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:

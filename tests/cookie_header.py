@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (C) 2020-2025 All rights reserved.
 # FILENAME:    ~~/tests/cookie_header.py
-# VERSION:     1.0.0
+# VERSION:     1.0.1
 # CREATED:     2025-02-04 11:14
 # AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:
