@@ -48,7 +48,7 @@ class CsrfConfig(object):
       cls._cookie_path = config.cookie_path or cls._cookie_path
       cls._cookie_domain = config.cookie_domain
       cls._cookie_samesite = config.cookie_samesite
-      cls._cookie_secure = config.cookie_secure or cls._cookie_secure
+      cls._cookie_secure = False if config.cookie_secure is None else config.cookie_secure
       cls._header_name = config.header_name or cls._header_name
       cls._header_type = config.header_type
       cls._httponly = config.httponly or cls._httponly
