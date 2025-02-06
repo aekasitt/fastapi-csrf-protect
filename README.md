@@ -195,6 +195,13 @@ pytest
 * Remove deprecated method `generate_csrf`, please use `generate_csrf_tokens`.
 * Validate `FormData` value received for given `token_key` is in fact a string, not `UploadFile`
 
+### Version 1.0.1
+
+* Fix cookie unsetting when configuring library with cookie `Secure` and / or `SameSite=None`
+* Test cookie settings covering `SameSite` options and `Secure` usage
+* Bypass `https` tests using manual `test_client.base_url = 'https://testserver'`
+
+
 ### Run Examples
 
 To run the provided examples, first you must install extra dependencies [uvicorn](https://github.com/encode/uvicorn) and [jinja2](https://github.com/pallets/jinja/)
