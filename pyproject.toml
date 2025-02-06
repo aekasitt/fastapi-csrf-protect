@@ -44,7 +44,7 @@ license = 'MIT'
 readme = 'README.md'
 name = 'fastapi-csrf-protect'
 repository = 'https://github.com/aekasitt/fastapi-csrf-protect'
-requires-python = '>=3.8'
+requires-python = '>=3.9'
 version = '1.0.1'
 
 
