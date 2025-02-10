@@ -51,7 +51,7 @@ class CsrfConfig(object):
       cls._cookie_secure = False if config.cookie_secure is None else config.cookie_secure
       cls._header_name = config.header_name or cls._header_name
       cls._header_type = config.header_type
-      cls._httponly = config.httponly or cls._httponly
+      cls._httponly = True if config.httponly is None else config.httponly
       cls._max_age = config.max_age or cls._max_age
       cls._methods = config.methods or cls._methods
       cls._secret_key = config.secret_key
