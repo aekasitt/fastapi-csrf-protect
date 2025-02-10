@@ -178,7 +178,7 @@ def test_load_config_with_invalid_csrf_settings(
     (("cookie_secure", True),),
   ),
 )
-def test_valid_load_config(
+def test_load_config_with_valid_csrf_settings(
   csrf_settings: Tuple[Tuple[str, Union[None, bool, bytes, int, float, str]], ...],
 ):
   @CsrfProtect.load_config
