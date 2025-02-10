@@ -37,6 +37,11 @@ from fastapi_csrf_protect import CsrfProtect
     ((("header_type", "header_type"),), True),
     ((("header_type", []),), False),
     ((("header_type", {}),), False),
+    ((("httponly", False),), True),
+    ((("httponly", None),), True),
+    ((("httponly", True),), True),
+    ((("httponly", "false"),), False),
+    ((("httponly", b"true"),), False),
     ((("methods", 2),), False),
     ((("methods", 1.0),), False),
     ((("methods", True),), False),
@@ -89,6 +94,11 @@ from fastapi_csrf_protect import CsrfProtect
     ((("cookie_samesite", [1.0, 2.0, 3.0]),), False),
     ((("cookie_samesite", ["1", "2", "3"]),), False),
     ((("cookie_samesite", {"key": "value"}),), False),
+    ((("cookie_secure", False),), True),
+    ((("cookie_secure", None),), True),
+    ((("cookie_secure", True),), True),
+    ((("cookie_secure", "false"),), False),
+    ((("cookie_secure", b"true"),), False),
   ),
 )
 def test_load_config(
