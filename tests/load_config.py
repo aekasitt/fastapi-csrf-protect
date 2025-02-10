@@ -77,7 +77,7 @@ from fastapi_csrf_protect import CsrfProtect
     ((("secret_key", b"secret"),), "string_type"),
     ((("secret_key", []),), "string_type"),
     ((("secret_key", {}),), "string_type"),
-    ((("token_location", "body"),), "value_error"),  # missing token_key
+    ((("token_location", "body"),), "value_error"),
     ((("token_location", b"body"), ("token_key", "csrf-token")), "literal_error"),
     ((("token_location", b"header"),), "literal_error"),
   ),
