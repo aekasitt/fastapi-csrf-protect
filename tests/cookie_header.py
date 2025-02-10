@@ -106,10 +106,10 @@ def test_submit_csrf_token_in_headers_and_cookies_secure_but_using_http(
 
   ### Extract `csrf_token` from response to be set as next request's body ###
   csrf_token: Optional[str] = response.json().get("csrf_token", None)
-  payload: Dict[str, str] = {"csrf-token": csrf_token} if csrf_token is not None else {}
+  headers: Dict[str, str] = {"X-CSRF-Token": csrf_token} if csrf_token is not None else {}
 
   ### Post to protected endpoint but fails because TestClients defaults to http ###
-  response = test_client.post("/protected", data=payload)
+  response = test_client.post("/protected", headers=headers)
 
   ### Assertions ###
   assert response.status_code == 400
