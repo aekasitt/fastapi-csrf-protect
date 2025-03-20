@@ -10,12 +10,11 @@
 # *************************************************************
 
 ### Standard packages ###
-from typing import Literal, Optional, Set
+from typing import Literal, Optional, Set, Tuple
 
 ### Third-party packages ###
 from pydantic import (
   BaseModel,
-  Field,
   StrictBool,
   StrictInt,
   StrictStr,
@@ -33,9 +32,12 @@ class LoadConfig(BaseModel):
   header_type: Optional[StrictStr] = None
   httponly: Optional[StrictBool] = True
   max_age: Optional[StrictInt] = 3600
-  methods: Optional[Set[Literal["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]]] = Field(
-    {"DELETE", "PATCH", "POST", "PUT"}, validate_default=True
-  )
+  methods: Optional[Set[Literal["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]]] = {
+    "DELETE",
+    "PATCH",
+    "POST",
+    "PUT",
+  }
   secret_key: Optional[StrictStr] = None
   token_location: Optional[Literal["body", "header"]] = "header"
   token_key: Optional[StrictStr] = None
@@ -55,4 +57,4 @@ class LoadConfig(BaseModel):
     return self
 
 
-__all__ = ("LoadConfig",)
+__all__: Tuple[str, ...] = ("LoadConfig",)

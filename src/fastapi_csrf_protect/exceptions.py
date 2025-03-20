@@ -8,6 +8,11 @@
 #
 # HISTORY:
 # *************************************************************
+
+### Standard packages ###
+from typing import Tuple
+
+
 class CsrfProtectError(Exception):
   def __init__(self, status_code: int, message: str):
     self.status_code = status_code
@@ -29,4 +34,9 @@ class TokenValidationError(CsrfProtectError):
     super().__init__(401, message)
 
 
-__all__ = ("CsrfProtectError", "InvalidHeaderError", "MissingTokenError", "TokenValidationError")
+__all__: Tuple[str, ...] = (
+  "CsrfProtectError",
+  "InvalidHeaderError",
+  "MissingTokenError",
+  "TokenValidationError",
+)

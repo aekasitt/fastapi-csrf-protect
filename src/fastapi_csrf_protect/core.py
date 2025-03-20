@@ -192,4 +192,4 @@ class CsrfProtect(CsrfConfig):
       raise TokenValidationError("The CSRF token is invalid.")
 
 
-__all__ = ("CsrfProtect",)
+__all__: Tuple[str, ...] = ("CsrfProtect",)

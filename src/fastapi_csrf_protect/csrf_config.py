@@ -10,7 +10,7 @@
 # *************************************************************
 
 ### Standard packages ###
-from typing import Any, Callable, Literal, Optional, Sequence, Set, Tuple
+from typing import Any, ClassVar, Callable, Literal, Optional, Sequence, Set, Tuple
 
 ### Third-party packages ###
 from pydantic import ValidationError
@@ -21,24 +21,24 @@ from fastapi_csrf_protect.load_config import LoadConfig
 
 
 class CsrfConfig(object):
-  _cookie_key: str = "fastapi-csrf-token"
-  _cookie_path: str = "/"
-  _cookie_domain: Optional[str] = None
-  _cookie_samesite: Optional[Literal["lax", "strict", "none"]] = None
-  _cookie_secure: bool = False
-  _header_name: str = "X-CSRF-Token"
-  _header_type: Optional[str] = None
-  _httponly: bool = True
-  _max_age: int = 3600
-  _methods: Set[Literal["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]] = {
+  _cookie_key: ClassVar[str] = "fastapi-csrf-token"
+  _cookie_path: ClassVar[str] = "/"
+  _cookie_domain: ClassVar[Optional[str]] = None
+  _cookie_samesite: ClassVar[Optional[Literal["lax", "strict", "none"]]] = None
+  _cookie_secure: ClassVar[bool] = False
+  _header_name: ClassVar[str] = "X-CSRF-Token"
+  _header_type: ClassVar[Optional[str]] = None
+  _httponly: ClassVar[bool] = True
+  _max_age: ClassVar[int] = 3600
+  _methods: ClassVar[Set[Literal["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]]] = {
     "POST",
     "PUT",
     "PATCH",
     "DELETE",
   }
-  _secret_key: Optional[str] = None
-  _token_location: str = "header"
-  _token_key: str = "csrf-token"
+  _secret_key: ClassVar[Optional[str]] = None
+  _token_location: ClassVar[str] = "header"
+  _token_key: ClassVar[str] = "csrf-token"
 
   @classmethod
   def load_config(cls, settings: Callable[..., Sequence[Tuple[str, Any]] | BaseSettings]) -> None:
@@ -64,4 +64,4 @@ class CsrfConfig(object):
       raise TypeError('CsrfConfig must be pydantic "BaseSettings" or list of tuple')
 
 
-__all__ = ("CsrfConfig",)
+__all__: Tuple[str, ...] = ("CsrfConfig",)
