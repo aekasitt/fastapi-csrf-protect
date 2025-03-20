@@ -14,6 +14,7 @@ from typing import Dict, Optional, Tuple
 
 ### Third-party packages ###
 from fastapi.testclient import TestClient
+from httpx import Response, URL
 from pytest import mark
 
 ### Local modules ###
@@ -42,14 +43,14 @@ from fastapi_csrf_protect import CsrfProtect
 )
 def test_submit_csrf_token_in_body_and_cookies(
   csrf_settings: Tuple[Tuple[str, str], ...], test_client: TestClient
-):
+) -> None:
   ### Load config ###
   @CsrfProtect.load_config
-  def get_configs():
+  def parametrized() -> Tuple[Tuple[str, str], ...]:
     return csrf_settings
 
   ### Generate token ###
-  response = test_client.get("/gen-token")
+  response: Response = test_client.get("/gen-token")
   assert response.status_code == 200
 
   ### Asserts that `cookie_token` is present
@@ -90,14 +91,14 @@ def test_submit_csrf_token_in_body_and_cookies(
 )
 def test_submit_csrf_token_in_body_and_cookies_secure_but_using_http(
   csrf_settings: Tuple[Tuple[str, str], ...], test_client: TestClient
-):
+) -> None:
   ### Load config ###
   @CsrfProtect.load_config
-  def get_configs():
+  def parametrized() -> Tuple[Tuple[str, str], ...]:
     return csrf_settings
 
   ### Generate token ###
-  response = test_client.get("/gen-token")
+  response: Response = test_client.get("/gen-token")
   assert response.status_code == 200
 
   ### Asserts that `cookie_token` is present
@@ -156,17 +157,17 @@ def test_submit_csrf_token_in_body_and_cookies_secure_but_using_http(
 )
 def test_submit_csrf_token_in_body_and_cookies_secure(
   csrf_settings: Tuple[Tuple[str, str], ...], test_client: TestClient
-):
+) -> None:
   ### Bypass TestClient base_url to https for `Secure` cookies ###
-  test_client.base_url = "https://testserver"
+  test_client.base_url = URL("https://testserver")
 
   ### Load config ###
   @CsrfProtect.load_config
-  def get_configs():
+  def parametrized() -> Tuple[Tuple[str, str], ...]:
     return csrf_settings
 
   ### Generate token ###
-  response = test_client.get("/gen-token")
+  response: Response = test_client.get("/gen-token")
   assert response.status_code == 200
 
   ### Asserts that `cookie_token` is present

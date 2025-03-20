@@ -9,6 +9,9 @@
 # HISTORY:
 # *************************************************************
 
+### Standard packages ###
+from typing import List, Tuple
+
 ### Third-party packages ###
 from fastapi.testclient import TestClient
 from pytest import raises
@@ -18,11 +21,11 @@ from . import test_client
 from fastapi_csrf_protect import CsrfProtect
 
 
-def test_validate_missing_secret_key(test_client: TestClient):
+def test_validate_missing_secret_key(test_client: TestClient) -> None:
   with raises(RuntimeError) as err:
 
     @CsrfProtect.load_config
-    def load_secret_key():
+    def csrf_settings() -> List[Tuple[str, None]]:
       return [("secret_key", None)]
 
     test_client.get("/gen-token")

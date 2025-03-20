@@ -9,6 +9,9 @@
 # HISTORY:
 # *************************************************************
 
+### Standard packages ###
+from typing import Tuple
+
 ### Third-party packages ###
 from fastapi import Depends, FastAPI, Request
 from fastapi.responses import JSONResponse
@@ -33,7 +36,7 @@ def test_client() -> TestClient:
   app = FastAPI()
 
   @app.get("/gen-token", response_class=JSONResponse)
-  def read_resource(csrf_protect: CsrfProtect = Depends()):
+  def read_resource(csrf_protect: CsrfProtect = Depends()) -> JSONResponse:
     csrf_token, signed_token = csrf_protect.generate_csrf_tokens()
     response: JSONResponse = JSONResponse(
       status_code=200, content={"detail": "OK", "csrf_token": csrf_token}
@@ -42,17 +45,19 @@ def test_client() -> TestClient:
     return response
 
   @app.post("/protected", response_class=JSONResponse)
-  async def update_resource(request: Request, csrf_protect: CsrfProtect = Depends()):
+  async def update_resource(
+    request: Request, csrf_protect: CsrfProtect = Depends()
+  ) -> JSONResponse:
     await csrf_protect.validate_csrf(request)
     response: JSONResponse = JSONResponse(status_code=200, content={"detail": "OK"})
     csrf_protect.unset_csrf_cookie(response)  # prevent token reuse
     return response
 
   @app.exception_handler(CsrfProtectError)
-  def csrf_protect_error_handler(request: Request, exc: CsrfProtectError):
+  def csrf_protect_error_handler(request: Request, exc: CsrfProtectError) -> JSONResponse:
     return JSONResponse(status_code=exc.status_code, content={"detail": exc.message})
 
   return TestClient(app)
 
 
-__all__ = ("test_client",)
+__all__: Tuple[str, ...] = ("test_client",)

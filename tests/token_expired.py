@@ -11,6 +11,7 @@
 
 ### Standard packages ###
 from time import sleep
+from typing import Dict, List, Tuple, Union
 
 ### Third-party packages ###
 from fastapi.testclient import TestClient
@@ -20,10 +21,10 @@ from . import test_client
 from fastapi_csrf_protect import CsrfProtect
 
 
-def test_validate_token_expired(test_client: TestClient, max_age: int = 2):
+def test_validate_token_expired(test_client: TestClient, max_age: int = 2) -> None:
   ### Load config ###
   @CsrfProtect.load_config
-  def get_configs():
+  def csrf_settings() -> List[Tuple[str, Union[int, str]]]:
     return [("secret_key", "secret"), ("max_age", max_age)]
 
   ### Generate token ###
@@ -34,7 +35,7 @@ def test_validate_token_expired(test_client: TestClient, max_age: int = 2):
 
   ### Extract `csrf_token` from response to be set as next request's header ###
   csrf_token: str = response.json().get("csrf_token", None)
-  headers: dict = {"X-CSRF-Token": csrf_token} if csrf_token is not None else {}
+  headers: Dict[str, str] = {"X-CSRF-Token": csrf_token} if csrf_token is not None else {}
 
   ### Delay until expiry ###
   sleep(max_age + 1)

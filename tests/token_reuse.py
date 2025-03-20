@@ -9,29 +9,33 @@
 # HISTORY:
 # *************************************************************
 
+### Standard packages ###
+from typing import Dict, List, Tuple, Union
+
 ### Third-party packages ###
 from fastapi.testclient import TestClient
+from httpx import Response
 
 ### Local modules ###
 from . import test_client
 from fastapi_csrf_protect import CsrfProtect
 
 
-def test_disallow_token_reuse(test_client: TestClient, max_age: int = 2):
+def test_disallow_token_reuse(test_client: TestClient, max_age: int = 2) -> None:
   ### Loads config ###
   @CsrfProtect.load_config
-  def get_configs():
+  def csrf_settings() -> List[Tuple[str, Union[int, str]]]:
     return [("secret_key", "secret"), ("max_age", max_age)]
 
   ### Generate token ###
-  response = test_client.get("/gen-token")
+  response: Response = test_client.get("/gen-token")
 
   ### Assertion ###
   assert response.status_code == 200
 
   ### Extract `csrf_token` from response to be set as next request's header ###
   csrf_token: str = response.json().get("csrf_token", None)
-  headers: dict = {"X-CSRF-Token": csrf_token} if csrf_token is not None else {}
+  headers: Dict[str, str] = {"X-CSRF-Token": csrf_token} if csrf_token is not None else {}
 
   ### Post to protected endpoint ###
   response = test_client.post("/protected", headers=headers)
