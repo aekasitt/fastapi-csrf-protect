@@ -23,7 +23,7 @@ from fastapi_csrf_protect import CsrfProtect
 
 def test_validate_token_invalid_request(test_client: TestClient) -> None:
   @CsrfProtect.load_config
-  def csrf_settings() -> List[Tuple[str, str]]:
+  def _() -> List[Tuple[str, str]]:
     return [("secret_key", "secret"), ("cookie-key", "fastapi-csrf-token")]
 
   ### Ignore DeprecationWarnings when setting cookie manually with FastAPI TestClient ###

@@ -44,7 +44,7 @@ def test_submit_csrf_token_in_headers_and_cookie(
 ) -> None:
   ### Load config ###
   @CsrfProtect.load_config
-  def parametrized() -> Tuple[Tuple[str, str], ...]:
+  def _() -> Tuple[Tuple[str, str], ...]:
     return csrf_settings
 
   ### Generate token ###
@@ -94,7 +94,7 @@ def test_submit_csrf_token_in_headers_and_cookies_secure_but_using_http(
 ) -> None:
   ### Load config ###
   @CsrfProtect.load_config
-  def parametrized() -> Tuple[Tuple[str, str], ...]:
+  def _() -> Tuple[Tuple[str, str], ...]:
     return csrf_settings
 
   ### Generate token ###
@@ -155,7 +155,7 @@ def test_submit_csrf_token_in_headers_and_cookie_secure(
 
   ### Load config ###
   @CsrfProtect.load_config
-  def parametrized() -> Tuple[Tuple[str, str], ...]:
+  def _() -> Tuple[Tuple[str, str], ...]:
     return csrf_settings
 
   ### Generate token ###

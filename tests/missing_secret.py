@@ -25,7 +25,7 @@ def test_validate_missing_secret_key(test_client: TestClient) -> None:
   with raises(RuntimeError) as err:
 
     @CsrfProtect.load_config
-    def csrf_settings() -> List[Tuple[str, None]]:
+    def _() -> List[Tuple[str, None]]:
       return [("secret_key", None)]
 
     test_client.get("/gen-token")

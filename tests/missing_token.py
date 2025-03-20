@@ -24,7 +24,7 @@ from fastapi_csrf_protect import CsrfProtect
 def test_validate_missing_cookie_token_request(test_client: TestClient) -> None:
   ### Loads config ###
   @CsrfProtect.load_config
-  def csrf_settings() -> List[Tuple[str, str]]:
+  def _() -> List[Tuple[str, str]]:
     return [("secret_key", "secret")]
 
   ### Generate token ###
@@ -46,7 +46,7 @@ def test_validate_missing_cookie_token_request(test_client: TestClient) -> None:
 def test_validate_missing_header_token_request(test_client: TestClient) -> None:
   ### Loads Config ###
   @CsrfProtect.load_config
-  def csrf_settings() -> List[Tuple[str, str]]:
+  def _() -> List[Tuple[str, str]]:
     return [("secret_key", "secret")]
 
   ### Get CSRF Tokens ###

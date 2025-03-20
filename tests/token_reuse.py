@@ -24,7 +24,7 @@ from fastapi_csrf_protect import CsrfProtect
 def test_disallow_token_reuse(test_client: TestClient, max_age: int = 2) -> None:
   ### Loads config ###
   @CsrfProtect.load_config
-  def csrf_settings() -> List[Tuple[str, Union[int, str]]]:
+  def _() -> List[Tuple[str, Union[int, str]]]:
     return [("secret_key", "secret"), ("max_age", max_age)]
 
   ### Generate token ###

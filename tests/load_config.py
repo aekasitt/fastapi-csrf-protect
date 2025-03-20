@@ -147,7 +147,7 @@ def test_load_config_with_invalid_csrf_settings(
   with raises(ValidationError) as exc_info:
 
     @CsrfProtect.load_config
-    def parametrized() -> Tuple[Tuple[str, Union[None, bool, bytes, int, float, str]], ...]:
+    def _() -> Tuple[Tuple[str, Union[None, bool, bytes, int, float, str]], ...]:
       return csrf_settings
 
   assert exc_info is not None
@@ -182,5 +182,5 @@ def test_load_config_with_valid_csrf_settings(
   csrf_settings: Tuple[Tuple[str, Union[None, bool, bytes, int, float, str]], ...],
 ) -> None:
   @CsrfProtect.load_config
-  def parametrized() -> Tuple[Tuple[str, Union[None, bool, bytes, int, float, str]], ...]:
+  def _() -> Tuple[Tuple[str, Union[None, bool, bytes, int, float, str]], ...]:
     return csrf_settings
