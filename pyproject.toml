@@ -61,6 +61,7 @@ examples = [
 disallow_incomplete_defs = true
 disallow_untyped_calls = true
 disallow_untyped_defs = true
+exclude = [ 'examples' ]
 ignore_missing_imports = true
 strict = true
 
