@@ -10,7 +10,7 @@
 # *************************************************************
 
 ### Standard packages ###
-from typing import Any, ClassVar, Callable, Literal, Optional, Sequence, Set, Tuple
+from typing import Any, ClassVar, Callable, Literal, Optional, Sequence, Set, Tuple, Union
 
 ### Third-party packages ###
 from pydantic import ValidationError
@@ -41,7 +41,7 @@ class CsrfConfig(object):
   _token_key: ClassVar[str] = "csrf-token"
 
   @classmethod
-  def load_config(cls, settings: Callable[..., Sequence[Tuple[str, Any]] | BaseSettings]) -> None:
+  def load_config(cls, settings: Callable[..., Union[Sequence[Tuple[str, Any]], BaseSettings]]) -> None:
     try:
       config = LoadConfig(**{key.lower(): value for key, value in settings()})
       cls._cookie_key = config.cookie_key or cls._cookie_key
