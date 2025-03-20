@@ -61,7 +61,8 @@ class CsrfProtect(CsrfConfig):
     Body = create_model("Body", **fields)
     content: str = '{"' + data.decode("utf-8").replace("&", '","').replace("=", '":"') + '"}'
     body = Body.model_validate_json(content)
-    return body.model_dump()[self._token_key]
+    token: str = body.model_dump()[self._token_key]
+    return token
 
   def get_csrf_from_headers(self, headers: Headers) -> str:
     """
