@@ -57,6 +57,14 @@ examples = [
 ]
 
 
+[tool.mypy]
+disallow_incomplete_defs = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+strict = true
+
+
 [tool.pytest.ini_options]
 addopts = [
   '--capture=sys',  # capture sysout messages
