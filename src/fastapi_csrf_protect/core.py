@@ -141,7 +141,7 @@ class CsrfProtect(CsrfConfig):
     cookie_key: Optional[str] = None,
     secret_key: Optional[str] = None,
     time_limit: Optional[int] = None,
-  ):
+  ) -> None:
     """
     Check if the given data is a valid CSRF token. This compares the given
     signed token to the one stored in the session.
