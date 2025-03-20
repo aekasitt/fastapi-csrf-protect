@@ -58,7 +58,11 @@ examples = [
 
 
 [tool.pytest.ini_options]
-addopts = '--strict-markers --tb=short -s'
+addopts = [
+  '--capture=sys',  # capture sysout messages
+  '--strict-markers',
+  '--tb=short',  # traceback
+]
 testpaths = [ 'tests' ]
 python_files = '*.py'
 
