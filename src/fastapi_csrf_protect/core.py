@@ -16,11 +16,11 @@ from os import urandom
 from typing import Any, Dict, Optional, Tuple, Union
 
 ### Third-party packages ###
-from fastapi.requests import Request
-from fastapi.responses import Response
 from itsdangerous import BadData, SignatureExpired, URLSafeTimedSerializer
 from pydantic import create_model
 from starlette.datastructures import Headers, UploadFile
+from starlette.requests import Request
+from starlette.responses import Response
 
 ### Local modules ###
 from fastapi_csrf_protect.csrf_config import CsrfConfig
