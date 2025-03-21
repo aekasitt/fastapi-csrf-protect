@@ -41,7 +41,9 @@ class CsrfConfig(object):
   _token_key: ClassVar[str] = "csrf-token"
 
   @classmethod
-  def load_config(cls, settings: Callable[..., Union[Sequence[Tuple[str, Any]], BaseSettings]]) -> None:
+  def load_config(
+    cls, settings: Callable[..., Union[Sequence[Tuple[str, Any]], BaseSettings]]
+  ) -> None:
     try:
       config = LoadConfig(**{key.lower(): value for key, value in settings()})
       cls._cookie_key = config.cookie_key or cls._cookie_key
