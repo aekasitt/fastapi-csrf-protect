@@ -32,12 +32,7 @@ class LoadConfig(BaseModel):
   header_type: Optional[StrictStr] = None
   httponly: Optional[StrictBool] = True
   max_age: Optional[StrictInt] = 3600
-  methods: Optional[Set[Literal["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]]] = {
-    "DELETE",
-    "PATCH",
-    "POST",
-    "PUT",
-  }
+  methods: Optional[Set[Literal["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]]] = None
   secret_key: Optional[StrictStr] = None
   token_location: Optional[Literal["body", "header"]] = "header"
   token_key: Optional[StrictStr] = None
