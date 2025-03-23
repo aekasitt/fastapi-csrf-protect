@@ -1,6 +1,6 @@
 [build-system]
 build-backend = 'hatchling.build'
-requires = ['hatchling']
+requires = [ 'hatchling >=1.27.0' ]
 
 
 [project]
@@ -92,7 +92,7 @@ target-version = 'py39'
 [tool.uv]
 dev-dependencies = [
   'httpx >=0.24.1',
-  'mypy >=1.3.0',
+  'mypy >=1.15.0',
   'pdoc >=14.7.0',
   'pytest >=7.3.1',
   'ruff >=0.4.7',
