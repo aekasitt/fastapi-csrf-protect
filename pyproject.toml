@@ -62,6 +62,7 @@ disallow_incomplete_defs = true
 disallow_untyped_calls = true
 disallow_untyped_defs = true
 exclude = [ 'examples', 'tests' ]
+strict = true
 
 
 [tool.pytest.ini_options]
