@@ -11,8 +11,32 @@
 """Stub file containing a skeleton of the public interface of `pydantic` library"""
 
 from abc import ABCMeta
-from typing import Any, Literal, Generator, Mapping, Set, Tuple, TypeAlias, Union
-from typing_extensions import Annotated, Self
+from typing import (
+  Any,
+  Callable,
+  Literal,
+  Generator,
+  Mapping,
+  Protocol,
+  Set,
+  Tuple,
+  TypeAlias,
+  TypeVar,
+  Union,
+)
+from typing_extensions import Annotated, Generic, Self
+
+_ModelType = TypeVar("_ModelType")
+IncEx: TypeAlias = Union[
+  Set[int], Set[str], Mapping[int, Union["IncEx", bool]], Mapping[str, Union["IncEx", bool]]
+]
+ModelAfterValidator = Callable[[_ModelType, ValidationInfo], _ModelType]
+ModelAfterValidatorWithoutInfo = Callable[[_ModelType], _ModelType]
+StrictBool = Annotated[bool, ...]
+StrictInt = Annotated[int, ...]
+StrictStr = Annotated[str, ...]
+ReturnType = TypeVar("ReturnType")
+TupleGenerator: TypeAlias = Generator[Tuple[str, Any], None, None]
 
 class BaseModel(metaclass=ABCMeta):
   def __iter__(self) -> TupleGenerator: ...
@@ -40,15 +64,18 @@ class BaseModel(metaclass=ABCMeta):
     context: Any | None = None,
   ) -> Self: ...
 
-IncEx: TypeAlias = Union[
-  Set[int], Set[str], Mapping[int, Union["IncEx", bool]], Mapping[str, Union["IncEx", bool]]
-]
-StrictBool = Annotated[bool, ...]
-StrictInt = Annotated[int, ...]
-StrictStr = Annotated[str, ...]
-TupleGenerator: TypeAlias = Generator[Tuple[str, Any], None, None]
-
+class ModelValidatorDecoratorInfo(metaclass=ABCMeta): ...
+class PydanticDescriptorProxy(Generic[ReturnType], metaclass=ABCMeta): ...
 class ValidationError(ValueError, metaclass=ABCMeta): ...
+class ValidationInfo(Protocol, metaclass=ABCMeta): ...
+
+_AnyModelAfterValidator = Union[
+  ModelAfterValidator[_ModelType], ModelAfterValidatorWithoutInfo[_ModelType]
+]
 
 def create_model(model_name: str) -> type[BaseModel]: ...
-def model_validator(*, mode: Literal["wrap", "before", "after"]) -> Any: ...
+def model_validator(
+  *, mode: Literal["after"]
+) -> Callable[
+  [_AnyModelAfterValidator[_ModelType]], PydanticDescriptorProxy[ModelValidatorDecoratorInfo]
+]: ...
