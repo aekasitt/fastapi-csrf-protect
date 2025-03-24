@@ -10,17 +10,16 @@
 # *************************************************************
 """Stub file containing a skeleton of the public interface of `starlette.requests` module"""
 
-from abc import ABCMeta, abstractmethod
 from typing import Any, Dict, Mapping
 
 from starlette.datastructures import MutableHeaders
 
-class Request(Mapping[str, Any], metaclass=ABCMeta):
-  @abstractmethod
+class Request(Mapping[str, Any]):
+  def __getitem__(self, args: Any) -> Any: ...
+  def __iter__(self) -> Any: ...
+  def __len__(self) -> int: ...
   async def body(self) -> bytes: ...
   @property
-  @abstractmethod
   def cookies(self) -> Dict[str, str]: ...
   @property
-  @abstractmethod
   def headers(self) -> MutableHeaders: ...

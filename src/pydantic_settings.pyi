@@ -10,7 +10,6 @@
 # *************************************************************
 """Stub file containing a skeleton of the public interface of `pydantic_settings` library"""
 
-from abc import ABCMeta
 from pydantic import BaseModel
 
-class BaseSettings(BaseModel, metaclass=ABCMeta): ...
+class BaseSettings(BaseModel): ...
