@@ -8,10 +8,6 @@ __pycache__/
 *.so
 
 
-### chaindata ###
-.bitcoin
-
-
 ### distribution / packaging ###
 .Python
 build/
