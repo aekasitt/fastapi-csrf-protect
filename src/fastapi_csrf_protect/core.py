@@ -34,8 +34,7 @@ from fastapi_csrf_protect.exceptions import (
 class CsrfProtect(CsrfConfig):
   def generate_csrf_tokens(self, secret_key: Optional[str] = None) -> Tuple[str, str]:
     """
-    Generate a CSRF token and a signed CSRF token using server's secret key to be stored in
-    cookie. R
+    Generate a CSRF token and a signed CSRF token using server's secret key to be stored in cookie.
 
     ---
     :param secret_key: (Optional) the secret key used when generating tokens for users
