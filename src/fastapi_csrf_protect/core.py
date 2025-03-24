@@ -180,7 +180,8 @@ class CsrfProtect(CsrfConfig):
           raise MissingTokenError("Form data must be of type string")
         token = form_data
       else:
-        token = self.get_csrf_from_body(await request.body())
+        body: bytes = await request.body()
+        token = self.get_csrf_from_body(body)
     serializer = URLSafeTimedSerializer(secret_key, salt="fastapi-csrf-token")
     try:
       signature: str = serializer.loads(signed_token, max_age=time_limit)
