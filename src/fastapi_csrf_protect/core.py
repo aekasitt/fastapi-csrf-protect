@@ -13,7 +13,7 @@
 from hashlib import sha1
 from re import match
 from os import urandom
-from typing import Any, Dict, Optional, Tuple, Union
+from typing import Dict, Optional, Tuple, Union
 
 ### Third-party packages ###
 from itsdangerous import BadData, SignatureExpired, URLSafeTimedSerializer
@@ -56,7 +56,7 @@ class CsrfProtect(CsrfConfig):
     :param data: attached request body containing cookie data with configured `token_key`
     :type data: bytes
     """
-    fields: Dict[str, Any] = {self._token_key: (str, "csrf-token")}
+    fields: Dict[str, Tuple[type, str]] = {self._token_key: (str, "csrf-token")}
     Body = create_model("Body", **fields)
     content: str = '{"' + data.decode("utf-8").replace("&", '","').replace("=", '":"') + '"}'
     body = Body.model_validate_json(content)
