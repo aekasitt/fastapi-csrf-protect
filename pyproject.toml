@@ -57,6 +57,22 @@ examples = [
 ]
 
 
+[tool.hatch.build.targets.wheel.hooks.mypyc]
+dependencies = [
+  'hatch-mypyc >=0.16.0',
+  'mypy >=1.15.0',
+]
+include = [ '/src' ]
+enable-by-default = true
+mypy-args = [
+  '--disallow-untyped-calls',
+  '--disallow-untyped-defs',
+  '--disallow-incomplete-defs',
+  '--exclude="/examples,/tests"',
+  '--strict',
+]
+
+
 [tool.mypy]
 disallow_incomplete_defs = true
 disallow_untyped_calls = true
