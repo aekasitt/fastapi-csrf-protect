@@ -108,6 +108,7 @@ target-version = 'py39'
 
 [tool.uv]
 dev-dependencies = [
+  'fastapi >=0',
   'httpx >=0.24.1',
   'mypy >=1.15.0',
   'pdoc >=14.7.0',
