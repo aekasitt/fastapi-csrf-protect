@@ -59,3 +59,6 @@ class CsrfConfig(object):
     except Exception as err:
       print(err)
       raise TypeError("CsrfConfig must be a sequence of tuples")
+
+
+__all__: Tuple[str, ...] = ("CsrfConfig",)

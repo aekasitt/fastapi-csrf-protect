@@ -193,3 +193,6 @@ class CsrfProtect(CsrfConfig):
       raise TokenValidationError("The CSRF token has expired.")
     except BadData:
       raise TokenValidationError("The CSRF token is invalid.")
+
+
+__all__: Tuple[str, ...] = ("CsrfProtect",)
