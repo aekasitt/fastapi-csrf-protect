@@ -54,35 +54,39 @@ class LoadConfig:
             typed.append(isinstance(getattr(self, name), subscripted))
             # TODO: subtypes
         if not any(typed):
-          raise TypeError(f"The field `{name}` was not correctly assigned as `{field_type}`.")
+          raise TypeError(f'Field "{name}" was not correctly assigned as "{field_type}".')
       elif not isinstance(getattr(self, name), field_type):
         current_type = type(getattr(self, name))
         raise TypeError(
-          f"The field `{name}` was assigned by `{current_type}` instead of `{field_type}`"
+          f'Field "{name}" was assigned by "{current_type}" instead of "{field_type}".'
         )
 
   def validate_methods(self) -> None:
     if self.methods is not None and isinstance(self.methods, set):
       for method in self.methods:
         if method not in {"DELETE", "GET", "PATCH", "POST", "PUT"}:
-          raise TypeError("lol")
+          raise TypeError(
+            f'Field "methods" must consist only of "DELETE", "GET", "PATCH", "POST", or "PUT".'
+          )
 
   def validate_cookie_samesite(self) -> None:
     if self.cookie_samesite is not None and self.cookie_samesite not in {"lax", "none", "strict"}:
-      raise TypeError("lol")
+      raise TypeError(
+        'Field "cookie_samesite" when present must be either "lax", "none", or "strict".'
+      )
 
   def validate_cookie_samesite_none_secure(self) -> None:
     if self.cookie_samesite in {None, "none"} and self.cookie_secure is not True:
-      raise TypeError('The "cookie_secure" must be True if "cookie_samesite" set to "none".')
+      raise TypeError('Field "cookie_secure" must be True if "cookie_samesite" set to "none".')
 
   def validate_token_key(self) -> None:
     token_location: str = self.token_location if self.token_location is not None else "header"
     if token_location == "body" and self.token_key is None:
-      raise TypeError('The "token_key" must be present when "token_location" is "body"')
+      raise TypeError('Field "token_key" must be present when "token_location" is "body"')
 
   def validate_token_location(self) -> None:
     if self.token_location not in {"body", "header"}:
-      raise TypeError("lol")
+      raise TypeError('Field "token_location" must be either "body" or "header".')
 
 
 __all__: Tuple[str, ...] = ("LoadConfig",)
