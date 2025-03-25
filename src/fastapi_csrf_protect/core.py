@@ -11,13 +11,13 @@
 
 ### Standard packages ###
 from hashlib import sha1
+from json import loads
 from re import match
 from os import urandom
 from typing import Dict, Optional, Tuple, Union
 
 ### Third-party packages ###
 from itsdangerous import BadData, SignatureExpired, URLSafeTimedSerializer
-from pydantic import create_model
 from starlette.datastructures import Headers, UploadFile
 from starlette.requests import Request
 from starlette.responses import Response
@@ -56,11 +56,13 @@ class CsrfProtect(CsrfConfig):
     :param data: attached request body containing cookie data with configured `token_key`
     :type data: bytes
     """
-    fields: Dict[str, Tuple[type, str]] = {self._token_key: (str, "csrf-token")}
-    Body = create_model("Body", **fields)
     content: str = '{"' + data.decode("utf-8").replace("&", '","').replace("=", '":"') + '"}'
-    body = Body.model_validate_json(content)
-    token: str = body.model_dump()[self._token_key]
+    body: Dict[str, str] = loads(content)
+    token: str = ""
+    try:
+      token = body[self._token_key]
+    except AttributeError:
+      pass
     return token
 
   def get_csrf_from_headers(self, headers: Headers) -> str:

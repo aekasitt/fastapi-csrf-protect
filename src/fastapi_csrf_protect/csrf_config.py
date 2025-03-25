@@ -10,11 +10,7 @@
 # *************************************************************
 
 ### Standard packages ###
-from typing import Any, ClassVar, Callable, Literal, Optional, Sequence, Set, Tuple, Union
-
-### Third-party packages ###
-from pydantic import ValidationError
-from pydantic_settings import BaseSettings
+from typing import Any, ClassVar, Callable, Literal, Optional, Sequence, Set, Tuple, cast
 
 ### Local modules ###
 from fastapi_csrf_protect.load_config import LoadConfig
@@ -30,7 +26,7 @@ class CsrfConfig(object):
   _header_type: ClassVar[Optional[str]] = None
   _httponly: ClassVar[bool] = True
   _max_age: ClassVar[int] = 3600
-  _methods: ClassVar[Set[Literal["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]]] = {
+  _methods: ClassVar[Set[str]] = {
     "POST",
     "PUT",
     "PATCH",
@@ -41,15 +37,14 @@ class CsrfConfig(object):
   _token_key: ClassVar[str] = "csrf-token"
 
   @classmethod
-  def load_config(
-    cls, settings: Callable[..., Union[Sequence[Tuple[str, Any]], BaseSettings]]
-  ) -> None:
+  def load_config(cls, settings: Callable[..., Sequence[Tuple[str, Any]]]) -> None:
     try:
       config = LoadConfig(**{key.lower(): value for key, value in settings()})
       cls._cookie_key = config.cookie_key or cls._cookie_key
       cls._cookie_path = config.cookie_path or cls._cookie_path
       cls._cookie_domain = config.cookie_domain
-      cls._cookie_samesite = config.cookie_samesite
+      if config.cookie_samesite in {"lax", "strict", "none"}:
+        cls._cookie_samesite = cast(Literal["lax", "strict", "none"], config.cookie_samesite)
       cls._cookie_secure = False if config.cookie_secure is None else config.cookie_secure
       cls._header_name = config.header_name or cls._header_name
       cls._header_type = config.header_type
@@ -59,11 +54,11 @@ class CsrfConfig(object):
       cls._secret_key = config.secret_key
       cls._token_location = config.token_location or cls._token_location
       cls._token_key = config.token_key or cls._token_key
-    except ValidationError:
+    except ValueError:
       raise
     except Exception as err:
       print(err)
-      raise TypeError('CsrfConfig must be pydantic "BaseSettings" or list of tuple')
+      raise TypeError("CsrfConfig must be a sequence of tuples")
 
 
 __all__: Tuple[str, ...] = ("CsrfConfig",)
