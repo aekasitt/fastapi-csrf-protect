@@ -10,7 +10,7 @@
 # *************************************************************
 
 ### Standard packages ###
-from typing import Optional, List, Set, Tuple, Union, get_args, get_origin
+from typing import Optional, List, Set, Union, get_args, get_origin
 
 ### Third-party packages ###
 from dataclasses import dataclass
@@ -87,6 +87,3 @@ class LoadConfig:
   def validate_token_location(self) -> None:
     if self.token_location not in {"body", "header"}:
       raise TypeError('Field "token_location" must be either "body" or "header".')
-
-
-__all__: Tuple[str, ...] = ("LoadConfig",)
