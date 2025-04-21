@@ -10,13 +10,14 @@
 # *************************************************************
 """Stub file containing a skeleton of the public interface of `starlette.responses` module"""
 
+from abc import ABCMeta, abstractmethod
 from datetime import datetime
 from typing import Any, Literal, Mapping
 
-class Response(Mapping[str, Any]):
-  def __getitem__(self, args: Any) -> Any: ...
-  def __iter__(self) -> Any: ...
-  def __len__(self) -> int: ...
+class HTTPConnection(Mapping[str, Any], metaclass=ABCMeta): ...
+
+class Response(HTTPConnection, metaclass=ABCMeta):
+  @abstractmethod
   def delete_cookie(
     self,
     key: str,
@@ -25,8 +26,8 @@ class Response(Mapping[str, Any]):
     secure: bool = False,
     httponly: bool = False,
     samesite: Literal["lax", "strict", "none"] | None = "lax",
-  ) -> None:
-    return None
+  ) -> None: ...
+  @abstractmethod
   def set_cookie(
     self,
     key: str,
@@ -38,5 +39,4 @@ class Response(Mapping[str, Any]):
     secure: bool = False,
     httponly: bool = False,
     samesite: Literal["lax", "strict", "none"] | None = "lax",
-  ) -> None:
-    return None
+  ) -> None: ...
