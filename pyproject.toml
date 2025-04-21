@@ -60,23 +60,15 @@ dependencies = [
   'hatch-mypyc >=0.16.0',
   'mypy >=1.15.0',
 ]
+include = [ '/src' ]
 enable-by-default = true
-exclude = [
-  '/examples',
-  '/tests',
-]
 mypy-args = [
   '--disallow-untyped-calls',
   '--disallow-untyped-defs',
   '--disallow-incomplete-defs',
+  '--exclude="/examples,/tests"',
   '--strict',
 ]
-only-include = [ '/src' ]
-
-
-[tool.hatch.build.targets.wheel.hooks.mypyc.options]
-debug_level = '0'
-opt_level = '3'
 
 
 [tool.mypy]
