@@ -10,7 +10,7 @@
 # *************************************************************
 
 ### Standard packages ###
-from typing import Any, ClassVar, Callable, Literal, Optional, Sequence, Set, Tuple, Union
+from typing import Any, ClassVar, Callable, Literal, Optional, Sequence, Set, Tuple, Union, cast
 
 ### Third-party packages ###
 from pydantic import ValidationError
@@ -49,7 +49,8 @@ class CsrfConfig(object):
       cls._cookie_key = config.cookie_key or cls._cookie_key
       cls._cookie_path = config.cookie_path or cls._cookie_path
       cls._cookie_domain = config.cookie_domain
-      cls._cookie_samesite = config.cookie_samesite
+      if config.cookie_samesite in {"lax", "none", "strict"}:
+        cls._cookie_samesite = cast(Literal["lax", "none", "strict"], config.cookie_samesite)
       cls._cookie_secure = False if config.cookie_secure is None else config.cookie_secure
       cls._header_name = config.header_name or cls._header_name
       cls._header_type = config.header_type

@@ -10,7 +10,7 @@
 # *************************************************************
 
 ### Standard packages ###
-from typing import Optional, List, Set, Tuple, Union, get_args, get_origin
+from typing import Optional, List, Literal, Set, Tuple, Union, get_args, get_origin
 
 ### Third-party packages ###
 from dataclasses import dataclass
@@ -27,7 +27,7 @@ class LoadConfig:
   header_type: Optional[str] = None
   httponly: Optional[bool] = True
   max_age: Optional[int] = 3600
-  methods: Optional[Set[str]] = None
+  methods: Optional[Set[Literal["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]]] = None
   secret_key: Optional[str] = None
   token_location: Optional[str] = "header"
   token_key: Optional[str] = None
