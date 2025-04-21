@@ -71,12 +71,7 @@ mypy-args = [
   '--disallow-incomplete-defs',
   '--strict',
 ]
-only-include = [
-  '/src/fastapi_csrf_protect/core.py',
-  '/src/fastapi_csrf_protect/csrf_config.py',
-  '/src/fastapi_csrf_protect/exceptions.py',
-  '/src/fastapi_csrf_protect/load_config.py',
-]
+only-include = [ '/src' ]
 
 
 [tool.hatch.build.targets.wheel.hooks.mypyc.options]
