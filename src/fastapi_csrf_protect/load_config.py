@@ -66,7 +66,7 @@ class LoadConfig:
       for method in self.methods:
         if method not in {"DELETE", "GET", "PATCH", "POST", "PUT"}:
           raise TypeError(
-            f'Field "methods" must consist only of "DELETE", "GET", "PATCH", "POST", or "PUT".'
+            'Field "methods" must consist only of "DELETE", "GET", "PATCH", "POST", or "PUT".'
           )
 
   def validate_cookie_samesite(self) -> None:
