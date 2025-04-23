@@ -201,6 +201,14 @@ pytest
 * Test cookie settings covering `SameSite` options and `Secure` usage
 * Bypass `https` tests using manual `test_client.base_url = 'https://testserver'`
 
+### Version 1.0.2
+
+* Improve boolean handling for `LoadConfig`
+
+### Version 1.0.3
+
+* Attempted to make `mypyc` compilation; Failed due to dependency injection pattern
+* Add `py.typed` to project
 
 ### Run Examples
 
