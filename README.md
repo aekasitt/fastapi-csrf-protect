@@ -161,7 +161,7 @@ uv sync --dev
 Testing can be done by the following command post-installation:
 
 ```bash
-uv sync --dev --group=test
+uv sync --dev --group=tests
 pytest
 ```
 
