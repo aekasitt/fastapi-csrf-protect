@@ -3,6 +3,23 @@ build-backend = 'hatchling.build'
 requires = [ 'hatchling >=1.27.0' ]
 
 
+[dependency-groups]
+dev = [
+  'fastapi >=0',
+  'httpx >=0.24.1',
+  'mypy >=1.15.0',
+  'pdoc >=14.7.0',
+  'pytest >=7.3.1',
+  'ruff >=0.4.7',
+]
+examples = [
+  'Jinja2 >=3.0.1',
+  'python-multipart >=0.0.6',
+  'pydantic[email] >=1.7.2,<3.0.0',
+  'uvicorn >=0.15.0',
+]
+
+
 [project]
 authors = [
   {name='Sitt Guruvanich', email='aekazitt+github@gmail.com'},
@@ -49,15 +66,6 @@ requires-python = '>=3.9'
 version = '1.0.3'
 
 
-[project.optional-dependencies]
-examples = [
-  'Jinja2 >=3.0.1',
-  'python-multipart >=0.0.6',
-  'pydantic[email] >=1.7.2,<3.0.0',
-  'uvicorn >=0.15.0',
-]
-
-
 [tool.mypy]
 disallow_incomplete_defs = true
 disallow_untyped_calls = true
@@ -88,15 +96,4 @@ target-version = 'py39'
   'F401',  # Ignore unused imports
   'F811',  # Ignore redefinition of unused variable
   'F841',  # Ignore local variable assigned but never used
-]
-
-
-[tool.uv]
-dev-dependencies = [
-  'fastapi >=0',
-  'httpx >=0.24.1',
-  'mypy >=1.15.0',
-  'pdoc >=14.7.0',
-  'pytest >=7.3.1',
-  'ruff >=0.4.7',
 ]

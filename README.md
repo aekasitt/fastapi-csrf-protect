@@ -161,7 +161,7 @@ uv sync --dev
 Testing can be done by the following command post-installation:
 
 ```bash
-uv sync --dev --extras test
+uv sync --dev --group=test
 pytest
 ```
 
@@ -216,7 +216,7 @@ To run the provided examples, first you must install extra dependencies [uvicorn
 Alternatively, run the following command on your terminal to do so
 
 ```bash
-uv sync --extras examples
+uv sync --group=examples
 ```
 
 Running the example utilizing form submission
