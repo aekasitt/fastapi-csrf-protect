@@ -8,7 +8,7 @@
 #
 # HISTORY:
 # *************************************************************
-
+from functools import partial
 ### Standard packages ###
 from hashlib import sha1
 from re import match
@@ -17,7 +17,7 @@ from typing import Dict, Optional, Tuple, Union
 
 ### Third-party packages ###
 from itsdangerous import BadData, SignatureExpired, URLSafeTimedSerializer
-from pydantic import create_model
+from pydantic import create_model, ValidationError
 from starlette.datastructures import Headers, UploadFile
 from starlette.requests import Request
 from starlette.responses import Response
@@ -103,13 +103,35 @@ class CsrfProtect(CsrfConfig):
       token = form_data
     return token
 
-  async def get_csrf_token_from_request(self, request: Request) -> str | None:
+  async def get_csrf_from_request(self, request: Request) -> str | None:
+    token = None
+    request_body = await request.body()
+    extractors = [
+      partial(self.get_csrf_from_headers, request.headers),
+      partial(self.get_csrf_from_form, request),
+      partial(self.get_csrf_from_body, request_body),
+    ]
+    for extractor in extractors:
+      try:
+        token = extractor()
+        if token:
+          return token
+      except (InvalidHeaderError, MissingTokenError, ValidationError):
+
+        continue
+    raise MissingTokenError("Token must be provided.")
+
+  async def get_csrf_token(self, request: Request):
+    if self._token_location == "header_or_body":
+      return await self.get_csrf_from_request(request)
+
     if self._token_location == "header":
-      token = self.get_csrf_from_headers(request.headers)
-    else:
-      token = self.get_csrf_from_form(request)
-      if not token:
-        token = self.get_csrf_from_body(await request.body())
+      return self.get_csrf_from_headers(request.headers)
+
+    token = self.get_csrf_from_form(request)
+    if token is None:
+      token = self.get_csrf_from_body(await request.body())
+
     return token
 
   def set_csrf_cookie(self, csrf_signed_token: str, response: Response) -> None:
@@ -187,7 +209,7 @@ class CsrfProtect(CsrfConfig):
     if signed_token is None:
       raise MissingTokenError(f"Missing Cookie: `{cookie_key}`.")
 
-    token = await self.get_csrf_token_from_request(request)
+    token = await self.get_csrf_token(request)
 
     self._validate_csrf_token(token, signed_token, time_limit=time_limit, secret_key=secret_key)
 
