@@ -105,21 +105,23 @@ class CsrfProtect(CsrfConfig):
 
   async def get_csrf_from_request(self, request: Request) -> str | None:
     token = None
-    request_body = await request.body()
     extractors = [
       partial(self.get_csrf_from_headers, request.headers),
       partial(self.get_csrf_from_form, request),
-      partial(self.get_csrf_from_body, request_body),
     ]
+
     for extractor in extractors:
       try:
         token = extractor()
         if token:
-          return token
+          break
       except (InvalidHeaderError, MissingTokenError, ValidationError):
-
         continue
-    raise MissingTokenError("Token must be provided.")
+
+    token = token or self.get_csrf_from_body(await request.body())
+    if token is None:
+      raise MissingTokenError("Token must be provided.")
+    return token
 
   async def get_csrf_token(self, request: Request):
     if self._token_location == "header_or_body":
