@@ -13,11 +13,12 @@ from functools import partial
 from hashlib import sha1
 from re import match
 from os import urandom
-from typing import Dict, Optional, Tuple, Union
+from typing import Dict, Optional, Tuple, Union, Callable, Sequence, Any
 
 ### Third-party packages ###
 from itsdangerous import BadData, SignatureExpired, URLSafeTimedSerializer
 from pydantic import create_model, ValidationError
+from pydantic_settings import BaseSettings
 from starlette.datastructures import Headers, UploadFile
 from starlette.requests import Request
 from starlette.responses import Response
@@ -31,7 +32,13 @@ from fastapi_csrf_protect.exceptions import (
 )
 
 
-class CsrfProtect(CsrfConfig):
+class CsrfProtect:
+  csrf_config: CsrfConfig = CsrfConfig()
+
+  @classmethod
+  def load_config(cls, settings: Callable[..., Union[Sequence[Tuple[str, Any]], BaseSettings]]):
+    cls.csrf_config.load_config(settings)
+
   def generate_csrf_tokens(self, secret_key: Optional[str] = None) -> Tuple[str, str]:
     """
     Generate a CSRF token and a signed CSRF token using server's secret key to be stored in cookie.
@@ -40,7 +47,7 @@ class CsrfProtect(CsrfConfig):
     :param secret_key: (Optional) the secret key used when generating tokens for users
     :type secret_key: (str | None) Defaults to None.
     """
-    secret_key = secret_key or self._secret_key
+    secret_key = secret_key or self.csrf_config._secret_key
     if secret_key is None:
       raise RuntimeError("A secret key is required to use CsrfProtect extension.")
     serializer = URLSafeTimedSerializer(secret_key, salt="fastapi-csrf-token")
@@ -56,11 +63,11 @@ class CsrfProtect(CsrfConfig):
     :param data: attached request body containing cookie data with configured `token_key`
     :type data: bytes
     """
-    fields: Dict[str, Tuple[type, str]] = {self._token_key: (str, "csrf-token")}
+    fields: Dict[str, Tuple[type, str]] = {self.csrf_config._token_key: (str, "csrf-token")}
     Body = create_model("Body", **fields)
     content: str = '{"' + data.decode("utf-8").replace("&", '","').replace("=", '":"') + '"}'
     body = Body.model_validate_json(content)
-    token: str = body.model_dump()[self._token_key]
+    token: str = body.model_dump()[self.csrf_config._token_key]
     return token
 
   def get_csrf_from_headers(self, headers: Headers) -> str:
@@ -71,7 +78,7 @@ class CsrfProtect(CsrfConfig):
     :param headers: Headers containing header with configured `header_name`
     :type headers: starlette.datastructures.Headers
     """
-    header_name, header_type = self._header_name, self._header_type
+    header_name, header_type = self.csrf_config._header_name, self.csrf_config._header_type
     header_parts = None
     try:
       header_parts = headers[header_name].split()
@@ -94,40 +101,17 @@ class CsrfProtect(CsrfConfig):
     return token
 
   def get_csrf_from_form(self, request: Request) -> str | None:
-    token = request._json.get(self._token_key, "") if hasattr(request, "_json") else None
+    token = request._json.get(self.csrf_config._token_key, "") if hasattr(request, "_json") else None
 
     if not token and hasattr(request, "_form") and request._form is not None:
-      form_data: Union[None, UploadFile, str] = request._form.get(self._token_key)
+      form_data: Union[None, UploadFile, str] = request._form.get(self.csrf_config._token_key)
       if not form_data or isinstance(form_data, UploadFile):
         raise MissingTokenError("Form data must be of type string")
       token = form_data
     return token
 
-  async def get_csrf_from_request(self, request: Request) -> str | None:
-    token = None
-    extractors = [
-      partial(self.get_csrf_from_headers, request.headers),
-      partial(self.get_csrf_from_form, request),
-    ]
-
-    for extractor in extractors:
-      try:
-        token = extractor()
-        if token:
-          break
-      except (InvalidHeaderError, MissingTokenError, ValidationError):
-        continue
-
-    token = token or self.get_csrf_from_body(await request.body())
-    if token is None:
-      raise MissingTokenError("Token must be provided.")
-    return token
-
   async def get_csrf_token(self, request: Request):
-    if self._token_location == "header_or_body":
-      return await self.get_csrf_from_request(request)
-
-    if self._token_location == "header":
+    if self.csrf_config._token_location == "header":
       return self.get_csrf_from_headers(request.headers)
 
     token = self.get_csrf_from_form(request)
@@ -149,14 +133,14 @@ class CsrfProtect(CsrfConfig):
     if not isinstance(response, Response):
       raise TypeError("The response must be an object response FastAPI")
     response.set_cookie(
-      self._cookie_key,
+      self.csrf_config._cookie_key,
       csrf_signed_token,
-      max_age=self._max_age,
-      path=self._cookie_path,
-      domain=self._cookie_domain,
-      secure=self._cookie_secure,
-      httponly=self._httponly,
-      samesite=self._cookie_samesite,
+      max_age=self.csrf_config._max_age,
+      path=self.csrf_config._cookie_path,
+      domain=self.csrf_config._cookie_domain,
+      secure=self.csrf_config._cookie_secure,
+      httponly=self.csrf_config._httponly,
+      samesite=self.csrf_config._cookie_samesite,
     )
 
   def unset_csrf_cookie(self, response: Response) -> None:
@@ -170,12 +154,12 @@ class CsrfProtect(CsrfConfig):
     if not isinstance(response, Response):
       raise TypeError("The response must be an object response FastAPI")
     response.delete_cookie(
-      self._cookie_key,
-      path=self._cookie_path,
-      domain=self._cookie_domain,
-      secure=self._cookie_secure,
-      httponly=self._httponly,
-      samesite=self._cookie_samesite,
+      self.csrf_config._cookie_key,
+      path=self.csrf_config._cookie_path,
+      domain=self.csrf_config._cookie_domain,
+      secure=self.csrf_config._cookie_secure,
+      httponly=self.csrf_config._httponly,
+      samesite=self.csrf_config._cookie_samesite,
     )
 
   async def validate_csrf(
@@ -203,10 +187,10 @@ class CsrfProtect(CsrfConfig):
     :type time_limit: int
     :raises TokenValidationError: Contains the reason that validation failed.
     """
-    secret_key = secret_key or self._secret_key
+    secret_key = secret_key or self.csrf_config._secret_key
     if secret_key is None:
       raise RuntimeError("A secret key is required to use CsrfProtect extension.")
-    cookie_key = cookie_key or self._cookie_key
+    cookie_key = cookie_key or self.csrf_config._cookie_key
     signed_token = request.cookies.get(cookie_key)
     if signed_token is None:
       raise MissingTokenError(f"Missing Cookie: `{cookie_key}`.")
@@ -216,7 +200,7 @@ class CsrfProtect(CsrfConfig):
     self._validate_csrf_token(token, signed_token, time_limit=time_limit, secret_key=secret_key)
 
   def _validate_csrf_token(self, token: str, signed_token: str, *, secret_key: str |None=None, time_limit: int|None=None) -> None:
-    time_limit = time_limit or self._max_age
+    time_limit = time_limit or self.csrf_config._max_age
 
     serializer = URLSafeTimedSerializer(secret_key, salt="fastapi-csrf-token")
     try:

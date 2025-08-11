@@ -46,25 +46,29 @@ class CsrfConfig(object):
   ) -> None:
     try:
       config = LoadConfig(**{key.lower(): value for key, value in settings()})
-      cls._cookie_key = config.cookie_key or cls._cookie_key
-      cls._cookie_path = config.cookie_path or cls._cookie_path
-      cls._cookie_domain = config.cookie_domain
-      if config.cookie_samesite in {"lax", "none", "strict"}:
-        cls._cookie_samesite = cast(Literal["lax", "none", "strict"], config.cookie_samesite)
-      cls._cookie_secure = False if config.cookie_secure is None else config.cookie_secure
-      cls._header_name = config.header_name or cls._header_name
-      cls._header_type = config.header_type
-      cls._httponly = True if config.httponly is None else config.httponly
-      cls._max_age = config.max_age or cls._max_age
-      cls._methods = config.methods or cls._methods
-      cls._secret_key = config.secret_key
-      cls._token_location = config.token_location or cls._token_location
-      cls._token_key = config.token_key or cls._token_key
+      cls._load_config(config)
     except ValidationError:
       raise
     except Exception as err:
       print(err)
       raise TypeError('CsrfConfig must be pydantic "BaseSettings" or list of tuple')
+
+  @classmethod
+  def _load_config(cls, config: LoadConfig) -> None:
+    cls._cookie_key = config.cookie_key or cls._cookie_key
+    cls._cookie_path = config.cookie_path or cls._cookie_path
+    cls._cookie_domain = config.cookie_domain
+    if config.cookie_samesite in {"lax", "none", "strict"}:
+      cls._cookie_samesite = cast(Literal["lax", "none", "strict"], config.cookie_samesite)
+    cls._cookie_secure = False if config.cookie_secure is None else config.cookie_secure
+    cls._header_name = config.header_name or cls._header_name
+    cls._header_type = config.header_type
+    cls._httponly = True if config.httponly is None else config.httponly
+    cls._max_age = config.max_age or cls._max_age
+    cls._methods = config.methods or cls._methods
+    cls._secret_key = config.secret_key
+    cls._token_location = config.token_location or cls._token_location
+    cls._token_key = config.token_key or cls._token_key
 
 
 __all__: Tuple[str, ...] = ("CsrfConfig",)

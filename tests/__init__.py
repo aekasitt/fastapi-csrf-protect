@@ -19,12 +19,11 @@ from fastapi.testclient import TestClient
 from pytest import fixture
 
 ### Local modules ###
-from fastapi_csrf_protect import CsrfProtect
 from fastapi_csrf_protect.exceptions import CsrfProtectError
 
 
 @fixture
-def test_client() -> TestClient:
+def test_client(request) -> TestClient:
   """
   Sets up a FastAPI TestClient wrapped around an application implementing both
   Context and Headers extension pattern
@@ -33,6 +32,11 @@ def test_client() -> TestClient:
   :return: test client fixture used for local testing
   :rtype: fastapi.testclient.TestClient
   """
+  if getattr(request, "param", None) == "flexible":
+    from fastapi_csrf_protect.flexible import CsrfProtect
+  else:
+    from fastapi_csrf_protect import CsrfProtect
+
   app = FastAPI()
 
   @app.get("/gen-token", response_class=JSONResponse)
