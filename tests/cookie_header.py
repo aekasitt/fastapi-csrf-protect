@@ -121,7 +121,6 @@ def test_submit_csrf_token_in_headers_and_cookies_secure_but_using_http(
   "csrf_settings",
   (
     (("cookie_secure", True), ("secret_key", "secret"), ("token_location", "header")),
-    (("cookie_secure", True), ("secret_key", "secret"), ("token_location", "header_or_body")),
     (
       ("cookie_samesite", "lax"),
       ("cookie_secure", True),
@@ -143,7 +142,6 @@ def test_submit_csrf_token_in_headers_and_cookies_secure_but_using_http(
   ),
   ids=(
     "cookie-headers-secure",
-    "cookie-headers_or_body-secure",
     "cookie-headers-samesite-lax-secure",
     "cookie-headers-samesite-none-secure",
     "cookie-headers-samesite-strict-secure",

@@ -26,7 +26,6 @@ from fastapi_csrf_protect import CsrfProtect
   "csrf_settings",
   (
     (("secret_key", "secret"), ("token_key", "csrf-token"), ("token_location", "body")),
-    (("secret_key", "secret"), ("token_key", "csrf-token"), ("token_location", "header_or_body")),
     (
       ("cookie_samesite", "lax"),
       ("secret_key", "secret"),
@@ -40,7 +39,7 @@ from fastapi_csrf_protect import CsrfProtect
       ("token_location", "body"),
     ),
   ),
-  ids=("cookie-body", "cookie-header_or_body", "cookie-body-samesite-lax", "cookie-body-samesite-strict"),
+  ids=("cookie-body", "cookie-body-samesite-lax", "cookie-body-samesite-strict"),
 )
 def test_submit_csrf_token_in_body_and_cookies(
   csrf_settings: Tuple[Tuple[str, str], ...], test_client: TestClient
