@@ -85,8 +85,8 @@ class LoadConfig:
       raise TypeError('Field "token_key" must be present when "token_location" is "body"')
 
   def validate_token_location(self) -> None:
-    if self.token_location not in {"body", "header", "header_or_body"}:
-      raise TypeError('Field "token_location" must be either "body", "header" or "header_or_body".')
+    if self.token_location not in {"body", "header"}:
+      raise TypeError('Field "token_location" must be either "body" or "header".')
 
 
 __all__: Tuple[str, ...] = ("LoadConfig",)
