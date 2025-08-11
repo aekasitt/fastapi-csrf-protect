@@ -84,6 +84,56 @@ def csrf_protect_exception_handler(request: Request, exc: CsrfProtectError):
 
 ```
 
+### 📌 Flexible Mode (fastapi_csrf_protect.flexible)
+
+Some applications combine **Server-Side Rendering (SSR)** with **API endpoints** in the same project.
+For example:
+  - **SSR pages** rendered with Jinja2 templates that use HTML forms (CSRF token in **form body**)
+  - **AJAX / API calls** (e.g. DELETE, PUT, PATCH) that pass the CSRF token in the **HTTP header**
+
+The main fastapi-csrf-protect package is **opinionated** and expects the CSRF token in **one location only** (either header or body).
+For hybrid apps, this can be inconvenient.
+
+The **flexible sub-package** provides a drop-in replacement for CsrfProtect that **always accepts CSRF tokens from either the header or the form body**, with the following priority:
+  - **Header**: X-CSRFToken
+  - **Body**: token_key (form-data)
+
+### When to use flexible
+
+Use fastapi_csrf_protect.flexible if:
+  - You have both SSR pages and API endpoints in the same project.
+  - Some requests (like DELETE) cannot send a body but still require CSRF validation.
+  - You want to avoid maintaining two different CSRF configurations.
+
+If your app only uses **one** method to send CSRF tokens, stick to the **core package** for a stricter policy.
+
+### How to send the CSRF token in your client code
+
+#### HTML Form (SSR)
+
+```html
+<form method="post" action="/login">
+    <input type="hidden" name="token_key" value="{{ csrf_token }}">
+    <!-- other fields -->
+</form>
+```
+#### AJAX (JavaScript)
+
+```javascript
+fetch("/items/123", {
+    method: "DELETE",
+    headers: {
+        "X-CSRFToken": getCookie("csrftoken")
+    },
+    credentials: "include"
+});
+```
+
+> [!IMPORTANT]
+> - The flexible sub-package ignores the token_location setting — tokens from either header or body are always accepted.
+> - CSRF token validation still requires a matching CSRF cookie as in the base package.
+> - Priority is given to header over body when both are present.
+
 ## Contributions
 
 ### Prerequisites
