@@ -8,9 +8,3 @@ class LoadConfig(BaseLoadConfig):
 
             Header/Form body.
         """
-
-    def validate_token_key(self) -> None:
-        """Ignore token key validation since we will be checking both locations:
-
-            Header/Form body.
-        """
