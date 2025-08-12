@@ -15,7 +15,7 @@ class CsrfProtect(BaseCsrfProtect):
       1. Header
       2. Body
   """
-  _csrf_config: CsrfConfig = CsrfConfig()
+  csrf_config: CsrfConfig = CsrfConfig()
 
   async def get_csrf_from_request(self, request: Request) -> str | None:
     token = None
