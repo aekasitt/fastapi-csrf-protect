@@ -8,7 +8,7 @@
 #
 # HISTORY:
 # *************************************************************
-from functools import partial
+
 ### Standard packages ###
 from hashlib import sha1
 from re import match
@@ -17,7 +17,7 @@ from typing import Dict, Optional, Tuple, Union, Callable, Sequence, Any
 
 ### Third-party packages ###
 from itsdangerous import BadData, SignatureExpired, URLSafeTimedSerializer
-from pydantic import create_model, ValidationError
+from pydantic import create_model
 from pydantic_settings import BaseSettings
 from starlette.datastructures import Headers, UploadFile
 from starlette.requests import Request
