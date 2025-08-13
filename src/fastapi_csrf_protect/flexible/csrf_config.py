@@ -26,7 +26,7 @@ class CsrfConfig(BaseCsrfConfig):
 
   @classmethod
   def load_config(
-      cls, settings: Callable[..., Union[Sequence[Tuple[str, Any]], BaseSettings]]
+    cls, settings: Callable[..., Union[Sequence[Tuple[str, Any]], BaseSettings]]
   ) -> None:
     try:
       config = LoadConfig(**{key.lower(): value for key, value in settings()})

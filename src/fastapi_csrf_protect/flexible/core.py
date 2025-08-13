@@ -26,10 +26,11 @@ from fastapi_csrf_protect.flexible.csrf_config import CsrfConfig
 class CsrfProtect(BaseCsrfProtect):
   """Flexible CSRF validation: accepts token from either header or form body.
 
-    Priority:
-      1. Header
-      2. Body
+  Priority:
+    1. Header
+    2. Body
   """
+
   csrf_config: CsrfConfig = CsrfConfig()
 
   async def get_csrf_from_request(self, request: Request) -> str | None:
