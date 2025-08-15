@@ -3,7 +3,7 @@
 # FILENAME:    ~~/src/fastapi_csrf_protect/flexible/core.py
 # VERSION:     1.0.3
 # CREATED:     2025-08-11 16:02:06+02:00
-# AUTHOR:      Elliam Lotonga <e.m.lotonga@gmail.com>
+# AUTHOR:      Eliam Lotonga <e.m.lotonga@gmail.com>
 # DESCRIPTION: https://www.w3docs.com/snippets/python/what-is-init-py-for.html
 #
 # HISTORY:

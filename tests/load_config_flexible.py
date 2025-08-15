@@ -2,8 +2,8 @@
 # Copyright (C) 2020-2025 All rights reserved.
 # FILENAME:    ~~/tests/load_config.py
 # VERSION:     1.0.2
-# CREATED:     2020-11-26 16:14
-# AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
+# CREATED:     2025-08-11 16:02:06+02:00
+# AUTHOR:      Eliam Lotonga <e.m.lotonga@gmail.com>
 # DESCRIPTION:
 #
 # HISTORY:
