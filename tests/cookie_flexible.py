@@ -99,10 +99,10 @@ def test_submit_csrf_token_in_headers_or_body_and_cookie_secure(
   (
     ((("secret_key", "secret"), ("token_key", "csrf-token")), "flexible"),
     (
-        (
-      ("cookie_samesite", "lax"),
-      ("secret_key", "secret"),
-      ("token_key", "csrf-token"),
+      (
+        ("cookie_samesite", "lax"),
+        ("secret_key", "secret"),
+        ("token_key", "csrf-token"),
       ),
       "flexible"
     ),
