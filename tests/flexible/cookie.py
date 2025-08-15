@@ -1,3 +1,14 @@
+#!/usr/bin/env python3
+# Copyright (C) 2020-2025 All rights reserved.
+# FILENAME:    ~~/tests/flexible/cookie.py
+# VERSION:     1.0.3
+# CREATED:     2025-08-11 16:02:06+02:00
+# AUTHOR:      Eliam Lotonga <e.m.lotonga@gmail.com>
+# DESCRIPTION:
+#
+# HISTORY:
+# *************************************************************
+
 ### Standard packages ###
 from typing import Dict, Optional, Tuple
 
@@ -7,7 +18,7 @@ from httpx import Response, URL
 from pytest import mark
 
 ### Local modules ###
-from . import test_client
+from tests.flexible import test_client
 from fastapi_csrf_protect.flexible import CsrfProtect
 
 

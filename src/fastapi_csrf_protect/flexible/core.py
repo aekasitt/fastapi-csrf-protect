@@ -14,16 +14,15 @@ from functools import partial
 from typing import Tuple
 
 ### Third-party packages ###
-from starlette.requests import Request
 from pydantic import ValidationError
+from starlette.requests import Request
 
 ### Local modules ###
-from fastapi_csrf_protect.core import CsrfProtect as BaseCsrfProtect
 from fastapi_csrf_protect.exceptions import InvalidHeaderError, MissingTokenError
 from fastapi_csrf_protect.flexible.csrf_config import CsrfConfig
 
 
-class CsrfProtect(BaseCsrfProtect):
+class CsrfProtect(CsrfConfig):
   """Flexible CSRF validation: accepts token from either header or form body.
 
   Priority:
@@ -31,15 +30,12 @@ class CsrfProtect(BaseCsrfProtect):
     2. Body
   """
 
-  csrf_config: CsrfConfig = CsrfConfig()
-
   async def get_csrf_from_request(self, request: Request) -> str | None:
-    token = None
+    token: None | str = None
     extractors = [
       partial(self.get_csrf_from_headers, request.headers),
-      partial(self.get_csrf_from_form, request),
+      partial(self.get_csrf_from_body, request),
     ]
-
     for extractor in extractors:
       try:
         token = extractor()
@@ -47,8 +43,7 @@ class CsrfProtect(BaseCsrfProtect):
           break
       except (InvalidHeaderError, MissingTokenError, ValidationError):
         continue
-
-    token = token or self.get_csrf_from_body(await request.body())
+    # token = token or self.get_csrf_from_body(await request.body())
     if token is None:
       raise MissingTokenError("Token must be provided.")
     return token

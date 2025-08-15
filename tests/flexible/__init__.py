@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # Copyright (C) 2020-2025 All rights reserved.
-# FILENAME:    ~~/tests/__init__.py
+# FILENAME:    ~~/tests/flexible/__init__.py
 # VERSION:     1.0.2
-# CREATED:     2020-11-26 18:50
+# CREATED:     2025-08-15 16:13
 # AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION: https://www.w3docs.com/snippets/python/what-is-init-py-for.html
 #
@@ -19,8 +19,8 @@ from fastapi.testclient import TestClient
 from pytest import fixture
 
 ### Local modules ###
-from fastapi_csrf_protect import CsrfProtect
 from fastapi_csrf_protect.exceptions import CsrfProtectError
+from fastapi_csrf_protect.flexible import CsrfProtect
 
 
 @fixture
