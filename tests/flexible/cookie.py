@@ -115,7 +115,7 @@ def test_submit_csrf_token_in_headers_or_body_and_cookie_secure(
         ("secret_key", "secret"),
         ("token_key", "csrf-token"),
       ),
-      "flexible"
+      "flexible",
     ),
     (
       (
@@ -123,8 +123,8 @@ def test_submit_csrf_token_in_headers_or_body_and_cookie_secure(
         ("secret_key", "secret"),
         ("token_key", "csrf-token"),
       ),
-      "flexible"
-    )
+      "flexible",
+    ),
   ),
   ids=("cookie-body", "cookie-body-samesite-lax", "cookie-body-samesite-strict"),
   indirect=["test_client"],
