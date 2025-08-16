@@ -13,6 +13,6 @@
 from typing import Tuple
 
 ### Local modules ###
-from fastapi_csrf_protect.core import CsrfProtect
+from fastapi_csrf_protect.flexible.core import CsrfProtect
 
 __all__: Tuple[str, ...] = ("CsrfProtect",)
