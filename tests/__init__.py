@@ -10,6 +10,7 @@
 # *************************************************************
 
 ### Standard packages ###
+from collections.abc import Generator
 from typing import Tuple
 
 ### Third-party packages ###
@@ -24,7 +25,7 @@ from fastapi_csrf_protect.exceptions import CsrfProtectError
 
 
 @fixture
-def test_client(request) -> TestClient:
+def test_client(request) -> Generator[TestClient, None, None]:
   """
   Sets up a FastAPI TestClient wrapped around an application implementing both
   Context and Headers extension pattern
@@ -57,7 +58,8 @@ def test_client(request) -> TestClient:
   def csrf_protect_error_handler(request: Request, exc: CsrfProtectError) -> JSONResponse:
     return JSONResponse(status_code=exc.status_code, content={"detail": exc.message})
 
-  return TestClient(app)
+  with TestClient(app) as client:
+    yield client
 
 
 __all__: Tuple[str, ...] = ("test_client",)

@@ -10,7 +10,8 @@
 # *************************************************************
 
 ### Standard packages ###
-from typing import Tuple
+from collections.abc import Generator
+from typing import Annotated, Tuple
 
 ### Third-party packages ###
 from fastapi import Depends, FastAPI, Request
@@ -24,7 +25,7 @@ from fastapi_csrf_protect.flexible import CsrfProtect
 
 
 @fixture
-def test_client(request) -> TestClient:
+def flexible_client(request) -> Generator[TestClient, None, None]:
   """
   Sets up a FastAPI TestClient wrapped around an application implementing both
   Context and Headers extension pattern
@@ -36,7 +37,7 @@ def test_client(request) -> TestClient:
   app: FastAPI = FastAPI()
 
   @app.get("/gen-token", response_class=JSONResponse)
-  def read_resource(csrf_protect: CsrfProtect = Depends()) -> JSONResponse:
+  def read_resource(csrf_protect: Annotated[CsrfProtect, Depends(CsrfProtect)]) -> JSONResponse:
     csrf_token, signed_token = csrf_protect.generate_csrf_tokens()
     response: JSONResponse = JSONResponse(
       status_code=200, content={"detail": "OK", "csrf_token": csrf_token}
@@ -46,7 +47,7 @@ def test_client(request) -> TestClient:
 
   @app.post("/protected", response_class=JSONResponse)
   async def update_resource(
-    request: Request, csrf_protect: CsrfProtect = Depends()
+    request: Request, csrf_protect: Annotated[CsrfProtect, Depends(CsrfProtect)],
   ) -> JSONResponse:
     await csrf_protect.validate_csrf(request)
     response: JSONResponse = JSONResponse(status_code=200, content={"detail": "OK"})
@@ -57,7 +58,8 @@ def test_client(request) -> TestClient:
   def csrf_protect_error_handler(request: Request, exc: CsrfProtectError) -> JSONResponse:
     return JSONResponse(status_code=exc.status_code, content={"detail": exc.message})
 
-  return TestClient(app)
+  with TestClient(app) as client:
+    yield client
 
 
-__all__: Tuple[str, ...] = ("test_client",)
+__all__: Tuple[str, ...] = ("flexible_client",)
