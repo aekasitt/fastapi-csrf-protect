@@ -1,34 +1,34 @@
 #!/usr/bin/env python3
 # Copyright (C) 2020-2025 All rights reserved.
-# FILENAME:    ~~/tests/token_reuse.py
+# FILENAME:    ~~/tests/flexible/token_expired.py
 # VERSION:     1.0.4
-# CREATED:     2023-06-18 15:07
-# AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
+# CREATED:     2025-08-18 08:53:00+02:00
+# AUTHOR:      Eliam Lotonga <e.m.lotonga@gmail.com>
 # DESCRIPTION:
 #
 # HISTORY:
 # *************************************************************
 
 ### Standard packages ###
+from time import sleep
 from typing import Dict, List, Tuple, Union
 
 ### Third-party packages ###
 from fastapi.testclient import TestClient
-from httpx import Response
 
 ### Local modules ###
-from . import test_client
-from fastapi_csrf_protect import CsrfProtect
+from . import flexible_client
+from fastapi_csrf_protect.flexible import CsrfProtect
 
 
-def test_disallow_token_reuse(test_client: TestClient, max_age: int = 2) -> None:
-  ### Loads config ###
+def test_validate_token_expired(flexible_client: TestClient, max_age: int = 2) -> None:
+  ### Load config ###
   @CsrfProtect.load_config
   def _() -> List[Tuple[str, Union[int, str]]]:
     return [("secret_key", "secret"), ("max_age", max_age)]
 
   ### Generate token ###
-  response: Response = test_client.get("/gen-token")
+  response = flexible_client.get("/gen-token")
 
   ### Assertion ###
   assert response.status_code == 200
@@ -37,15 +37,11 @@ def test_disallow_token_reuse(test_client: TestClient, max_age: int = 2) -> None
   csrf_token: str = response.json().get("csrf_token", None)
   headers: Dict[str, str] = {"X-CSRF-Token": csrf_token} if csrf_token is not None else {}
 
+  ### Delay until expiry ###
+  sleep(max_age + 1)
+
   ### Post to protected endpoint ###
-  response = test_client.post("/protected", headers=headers)
-
-  ### Assertions ###
-  assert response.status_code == 200
-  assert response.json() == {"detail": "OK"}
-
-  ### Immediately get protected contents again ###
-  response = test_client.post("/protected", headers=headers)
+  response = flexible_client.post("/protected", headers=headers)
 
   ### Assertions ###
   assert response.status_code == 400

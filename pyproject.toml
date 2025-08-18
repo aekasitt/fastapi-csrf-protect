@@ -66,14 +66,14 @@ readme = 'README.md'
 name = 'fastapi-csrf-protect'
 repository = 'https://github.com/aekasitt/fastapi-csrf-protect'
 requires-python = '>=3.9'
-version = '1.0.3'
+version = '1.0.4'
 
 
 [tool.mypy]
 disallow_incomplete_defs = true
 disallow_untyped_calls = true
 disallow_untyped_defs = true
-exclude = [ 'examples', 'tests' ]
+exclude = [ 'examples' ]
 strict = true
 
 

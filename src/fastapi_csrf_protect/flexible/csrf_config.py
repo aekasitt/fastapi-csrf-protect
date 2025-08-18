@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # Copyright (C) 2020-2025 All rights reserved.
-# FILENAME:    ~~/src/fastapi_csrf_protect/csrf_config.py
+# FILENAME:    ~~/src/fastapi_csrf_protect/flexible/csrf_config.py
 # VERSION:     1.0.4
-# CREATED:     2020-11-25 14:35
-# AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
+# CREATED:     2025-08-11 16:02:06+02:00
+# AUTHOR:      Eliam Lotonga <e.m.lotonga@gmail.com>
 # DESCRIPTION:
 #
 # HISTORY:
@@ -37,7 +37,6 @@ class CsrfConfig(object):
     "DELETE",
   }
   _secret_key: ClassVar[Optional[str]] = None
-  _token_location: ClassVar[str] = "header"
   _token_key: ClassVar[str] = "csrf-token"
 
   @classmethod
@@ -58,7 +57,6 @@ class CsrfConfig(object):
       cls._max_age = config.max_age or cls._max_age
       cls._methods = config.methods or cls._methods
       cls._secret_key = config.secret_key
-      cls._token_location = config.token_location or cls._token_location
       cls._token_key = config.token_key or cls._token_key
     except ValidationError:
       raise

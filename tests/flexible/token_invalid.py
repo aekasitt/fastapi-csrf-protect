@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # Copyright (C) 2020-2025 All rights reserved.
-# FILENAME:    ~~/tests/token_invalid.py
+# FILENAME:    ~~/tests/flexible/token_invalid.py
 # VERSION:     1.0.4
-# CREATED:     2020-11-26 16:14
-# AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
+# CREATED:     2025-08-18 08:53:00+02:00
+# AUTHOR:      Eliam Lotonga <e.m.lotonga@gmail.com>
 # DESCRIPTION:
 #
 # HISTORY:
@@ -17,11 +17,11 @@ from fastapi.testclient import TestClient
 from warnings import filterwarnings
 
 ### Local modules ###
-from . import test_client
-from fastapi_csrf_protect import CsrfProtect
+from . import flexible_client
+from fastapi_csrf_protect.flexible import CsrfProtect
 
 
-def test_validate_token_invalid_request(test_client: TestClient) -> None:
+def test_validate_token_invalid_request(flexible_client: TestClient) -> None:
   @CsrfProtect.load_config
   def _() -> List[Tuple[str, str]]:
     return [("secret_key", "secret"), ("cookie_key", "fastapi-csrf-token")]
@@ -31,7 +31,7 @@ def test_validate_token_invalid_request(test_client: TestClient) -> None:
 
   ### Post to protected endpoint ###
   headers: Dict[str, str] = {"X-CSRF-Token": "invalid"}
-  response = test_client.post(
+  response = flexible_client.post(
     "/protected", cookies={"fastapi-csrf-token": "invalid"}, headers=headers
   )
 

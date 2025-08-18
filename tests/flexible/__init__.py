@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # Copyright (C) 2020-2025 All rights reserved.
-# FILENAME:    ~~/tests/__init__.py
+# FILENAME:    ~~/tests/flexible/__init__.py
 # VERSION:     1.0.4
-# CREATED:     2020-11-26 18:50
+# CREATED:     2025-08-15 16:13
 # AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION: https://www.w3docs.com/snippets/python/what-is-init-py-for.html
 #
@@ -11,7 +11,7 @@
 
 ### Standard packages ###
 from collections.abc import Generator
-from typing import Tuple
+from typing import Annotated, Tuple
 
 ### Third-party packages ###
 from fastapi import Depends, FastAPI, Request
@@ -20,12 +20,12 @@ from fastapi.testclient import TestClient
 from pytest import fixture
 
 ### Local modules ###
-from fastapi_csrf_protect import CsrfProtect
 from fastapi_csrf_protect.exceptions import CsrfProtectError
+from fastapi_csrf_protect.flexible import CsrfProtect
 
 
 @fixture
-def test_client() -> Generator[TestClient, None, None]:
+def flexible_client() -> Generator[TestClient, None, None]:
   """
   Sets up a FastAPI TestClient wrapped around an application implementing both
   Context and Headers extension pattern
@@ -37,7 +37,7 @@ def test_client() -> Generator[TestClient, None, None]:
   app: FastAPI = FastAPI()
 
   @app.get("/gen-token", response_class=JSONResponse)
-  def read_resource(csrf_protect: CsrfProtect = Depends()) -> JSONResponse:
+  def read_resource(csrf_protect: Annotated[CsrfProtect, Depends(CsrfProtect)]) -> JSONResponse:
     csrf_token, signed_token = csrf_protect.generate_csrf_tokens()
     response: JSONResponse = JSONResponse(
       status_code=200, content={"detail": "OK", "csrf_token": csrf_token}
@@ -47,7 +47,8 @@ def test_client() -> Generator[TestClient, None, None]:
 
   @app.post("/protected", response_class=JSONResponse)
   async def update_resource(
-    request: Request, csrf_protect: CsrfProtect = Depends()
+    request: Request,
+    csrf_protect: Annotated[CsrfProtect, Depends(CsrfProtect)],
   ) -> JSONResponse:
     await csrf_protect.validate_csrf(request)
     response: JSONResponse = JSONResponse(status_code=200, content={"detail": "OK"})
@@ -62,4 +63,4 @@ def test_client() -> Generator[TestClient, None, None]:
     yield client
 
 
-__all__: Tuple[str, ...] = ("test_client",)
+__all__: Tuple[str, ...] = ("flexible_client",)

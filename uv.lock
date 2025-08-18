@@ -103,7 +103,7 @@ wheels = [
 
 [[package]]
 name = "fastapi-csrf-protect"
-version = "1.0.3"
+version = "1.0.4"
 source = { editable = "." }
 dependencies = [
     { name = "itsdangerous" },
@@ -114,11 +114,8 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
-    { name = "fastapi" },
-    { name = "httpx" },
     { name = "mypy" },
     { name = "pdoc" },
-    { name = "pytest" },
     { name = "ruff" },
 ]
 examples = [
@@ -128,6 +125,9 @@ examples = [
     { name = "uvicorn" },
 ]
 tests = [
+    { name = "fastapi" },
+    { name = "httpx" },
+    { name = "pytest" },
     { name = "pytest-modern" },
 ]
 
@@ -141,11 +141,8 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "fastapi", specifier = ">=0" },
-    { name = "httpx", specifier = ">=0.24.1" },
     { name = "mypy", specifier = ">=1.15.0" },
     { name = "pdoc", specifier = ">=14.7.0" },
-    { name = "pytest", specifier = ">=7.3.1" },
     { name = "ruff", specifier = ">=0.4.7" },
 ]
 examples = [
@@ -154,7 +151,12 @@ examples = [
     { name = "python-multipart", specifier = ">=0.0.6" },
     { name = "uvicorn", specifier = ">=0.15.0" },
 ]
-tests = [{ name = "pytest-modern", specifier = ">=0.7.3" }]
+tests = [
+    { name = "fastapi", specifier = ">=0" },
+    { name = "httpx", specifier = ">=0.24.1" },
+    { name = "pytest", specifier = ">=7.3.1" },
+    { name = "pytest-modern", specifier = ">=0.7.3" },
+]
 
 [[package]]
 name = "h11"
