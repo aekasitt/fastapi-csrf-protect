@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # Copyright (C) 2020-2025 All rights reserved.
-# FILENAME:    ~~/tests/token_expired.py
-# VERSION:     1.0.2
-# CREATED:     2020-11-26 16:14
-# AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
+# FILENAME:    ~~/tests/flexible/token_expired.py
+# VERSION:     1.0.3
+# CREATED:     2025-08-18 08:53:00+02:00
+# AUTHOR:      Eliam Lotonga <e.m.lotonga@gmail.com>
 # DESCRIPTION:
 #
 # HISTORY:
