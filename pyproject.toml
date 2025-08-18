@@ -73,7 +73,7 @@ version = '1.0.3'
 disallow_incomplete_defs = true
 disallow_untyped_calls = true
 disallow_untyped_defs = true
-exclude = [ 'examples', 'tests' ]
+exclude = [ 'examples' ]
 strict = true
 
 

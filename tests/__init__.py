@@ -25,7 +25,7 @@ from fastapi_csrf_protect.exceptions import CsrfProtectError
 
 
 @fixture
-def test_client(request) -> Generator[TestClient, None, None]:
+def test_client() -> Generator[TestClient, None, None]:
   """
   Sets up a FastAPI TestClient wrapped around an application implementing both
   Context and Headers extension pattern
