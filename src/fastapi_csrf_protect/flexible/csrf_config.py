@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (C) 2020-2025 All rights reserved.
 # FILENAME:    ~~/src/fastapi_csrf_protect/flexible/csrf_config.py
-# VERSION:     1.0.3
+# VERSION:     1.0.4
 # CREATED:     2025-08-11 16:02:06+02:00
 # AUTHOR:      Eliam Lotonga <e.m.lotonga@gmail.com>
 # DESCRIPTION:

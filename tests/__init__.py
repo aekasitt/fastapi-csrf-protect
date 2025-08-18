@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (C) 2020-2025 All rights reserved.
 # FILENAME:    ~~/tests/__init__.py
-# VERSION:     1.0.2
+# VERSION:     1.0.4
 # CREATED:     2020-11-26 18:50
 # AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION: https://www.w3docs.com/snippets/python/what-is-init-py-for.html
