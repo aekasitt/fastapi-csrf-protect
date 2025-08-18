@@ -23,35 +23,23 @@ from tests.flexible import flexible_client
 
 
 @mark.parametrize(
-  "csrf_settings, flexible_client",
+  "csrf_settings",
   (
+    (("cookie_secure", True), ("secret_key", "secret")),
     (
-      (("cookie_secure", True), ("secret_key", "secret")),
-      "flexible",
+      ("cookie_samesite", "lax"),
+      ("cookie_secure", True),
+      ("secret_key", "secret"),
     ),
     (
-      (
-        ("cookie_samesite", "lax"),
-        ("cookie_secure", True),
-        ("secret_key", "secret"),
-      ),
-      "flexible",
+      ("cookie_samesite", "none"),
+      ("cookie_secure", True),
+      ("secret_key", "secret"),
     ),
     (
-      (
-        ("cookie_samesite", "none"),
-        ("cookie_secure", True),
-        ("secret_key", "secret"),
-      ),
-      "flexible",
-    ),
-    (
-      (
-        ("cookie_samesite", "strict"),
-        ("cookie_secure", True),
-        ("secret_key", "secret"),
-      ),
-      "flexible",
+      ("cookie_samesite", "strict"),
+      ("cookie_secure", True),
+      ("secret_key", "secret"),
     ),
   ),
   ids=(
@@ -60,7 +48,6 @@ from tests.flexible import flexible_client
     "cookie-headers-samesite-none-secure",
     "cookie-headers-samesite-strict-secure",
   ),
-  indirect=["flexible_client"],
 )
 def test_submit_csrf_token_in_headers_or_body_and_cookie_secure(
   csrf_settings: Tuple[Tuple[str, str], ...], flexible_client: TestClient
@@ -106,28 +93,21 @@ def test_submit_csrf_token_in_headers_or_body_and_cookie_secure(
 
 
 @mark.parametrize(
-  "csrf_settings, flexible_client",
+  "csrf_settings",
   (
-    ((("secret_key", "secret"), ("token_key", "csrf-token")), "flexible"),
+    (("secret_key", "secret"), ("token_key", "csrf-token")),
     (
-      (
-        ("cookie_samesite", "lax"),
-        ("secret_key", "secret"),
-        ("token_key", "csrf-token"),
-      ),
-      "flexible",
+      ("cookie_samesite", "lax"),
+      ("secret_key", "secret"),
+      ("token_key", "csrf-token"),
     ),
     (
-      (
-        ("cookie_samesite", "strict"),
-        ("secret_key", "secret"),
-        ("token_key", "csrf-token"),
-      ),
-      "flexible",
+      ("cookie_samesite", "strict"),
+      ("secret_key", "secret"),
+      ("token_key", "csrf-token"),
     ),
   ),
   ids=("cookie-body", "cookie-body-samesite-lax", "cookie-body-samesite-strict"),
-  indirect=["flexible_client"],
 )
 def test_submit_csrf_token_in_body_and_cookies(
   csrf_settings: Tuple[Tuple[str, str], ...], flexible_client: TestClient

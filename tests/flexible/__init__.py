@@ -47,7 +47,8 @@ def flexible_client(request) -> Generator[TestClient, None, None]:
 
   @app.post("/protected", response_class=JSONResponse)
   async def update_resource(
-    request: Request, csrf_protect: Annotated[CsrfProtect, Depends(CsrfProtect)],
+    request: Request,
+    csrf_protect: Annotated[CsrfProtect, Depends(CsrfProtect)],
   ) -> JSONResponse:
     await csrf_protect.validate_csrf(request)
     response: JSONResponse = JSONResponse(status_code=200, content={"detail": "OK"})
