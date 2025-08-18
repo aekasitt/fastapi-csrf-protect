@@ -260,6 +260,11 @@ pytest
 * Attempted to make `mypyc` compilation; Failed due to dependency injection pattern
 * Add `py.typed` to project
 
+### Version 1.0.4
+
+* Add submodule `flexible` where `CsrfProtect` does not pre-determine `token_key` & `token_location`
+* Test `fastapi_csrf_protect.flexible.CsrfProtect` with runtime variable `token_location`
+
 ### Run Examples
 
 To run the provided examples, first you must install extra dependencies [uvicorn](https://github.com/encode/uvicorn) and [jinja2](https://github.com/pallets/jinja/)
