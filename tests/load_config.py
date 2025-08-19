@@ -13,6 +13,7 @@
 from typing import Tuple, Union
 
 ### Third-party packages ###
+from pydantic import ValidationError
 from pytest import mark, raises
 
 ### Local modules ###
@@ -22,125 +23,110 @@ from fastapi_csrf_protect import CsrfProtect
 @mark.parametrize(
   "csrf_settings, reason",
   (
-    ((("cookie_samesite", None),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("cookie_samesite", "none"),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("cookie_samesite", b"lax"),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
     (
-      (("cookie_samesite", b"none"),),
-      'CsrfConfig must be pydantic "BaseSettings" or list of tuple',
+      (("cookie_samesite", None),),
+      '1 validation error for LoadConfig\n  Value error, The "cookie_secure" must be True if "cookie_samesite" set to "none"',
     ),
     (
-      (("cookie_samesite", b"strict"),),
-      'CsrfConfig must be pydantic "BaseSettings" or list of tuple',
+      (("cookie_samesite", "none"),),
+      '1 validation error for LoadConfig\n  Value error, The "cookie_secure" must be True if "cookie_samesite" set to "none"',
     ),
-    ((("cookie_samesite", "null"),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    (
-      (("cookie_samesite", b"null"),),
-      'CsrfConfig must be pydantic "BaseSettings" or list of tuple',
-    ),
-    ((("cookie_samesite", 0),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("cookie_samesite", 1),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("cookie_samesite", True),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("cookie_samesite", False),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("cookie_samesite", 2.0),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    (
-      (("cookie_samesite", {1, 2, 3}),),
-      'CsrfConfig must be pydantic "BaseSettings" or list of tuple',
-    ),
+    ((("cookie_samesite", b"lax"),), "1 validation error for LoadConfig\ncookie_samesite\n"),
+    ((("cookie_samesite", b"none"),), "1 validation error for LoadConfig\ncookie_samesite\n"),
+    ((("cookie_samesite", b"strict"),), "1 validation error for LoadConfig\ncookie_samesite\n"),
+    ((("cookie_samesite", "null"),), "1 validation error for LoadConfig\ncookie_samesite\n"),
+    ((("cookie_samesite", b"null"),), "1 validation error for LoadConfig\ncookie_samesite\n"),
+    ((("cookie_samesite", 0),), "1 validation error for LoadConfig\ncookie_samesite\n"),
+    ((("cookie_samesite", 1),), "1 validation error for LoadConfig\ncookie_samesite\n"),
+    ((("cookie_samesite", True),), "1 validation error for LoadConfig\ncookie_samesite\n"),
+    ((("cookie_samesite", False),), "1 validation error for LoadConfig\ncookie_samesite\n"),
+    ((("cookie_samesite", 2.0),), "1 validation error for LoadConfig\ncookie_samesite\n"),
+    ((("cookie_samesite", {1, 2, 3}),), "1 validation error for LoadConfig\ncookie_samesite\n"),
     (
       (("cookie_samesite", {1.0, 2.0, 3.0}),),
-      'CsrfConfig must be pydantic "BaseSettings" or list of tuple',
+      "1 validation error for LoadConfig\ncookie_samesite\n",
     ),
     (
       (("cookie_samesite", {"1", "2", "3"}),),
-      'CsrfConfig must be pydantic "BaseSettings" or list of tuple',
+      "1 validation error for LoadConfig\ncookie_samesite\n",
     ),
     (
       (("cookie_samesite", [1, 2, 3]),),
-      'CsrfConfig must be pydantic "BaseSettings" or list of tuple',
+      "1 validation error for LoadConfig\ncookie_samesite\n",
     ),
     (
       (("cookie_samesite", [1.0, 2.0, 3.0]),),
-      'CsrfConfig must be pydantic "BaseSettings" or list of tuple',
+      "1 validation error for LoadConfig\ncookie_samesite\n",
     ),
     (
       (("cookie_samesite", ["1", "2", "3"]),),
-      'CsrfConfig must be pydantic "BaseSettings" or list of tuple',
+      "1 validation error for LoadConfig\ncookie_samesite\n",
     ),
     (
       (("cookie_samesite", {"key": "value"}),),
-      'CsrfConfig must be pydantic "BaseSettings" or list of tuple',
+      "1 validation error for LoadConfig\ncookie_samesite\n",
     ),
-    ((("cookie_secure", "false"),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("cookie_secure", b"true"),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("header_name", 2),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("header_name", 1.0),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("header_name", True),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    (
-      (("header_name", b"header_name"),),
-      'CsrfConfig must be pydantic "BaseSettings" or list of tuple',
-    ),
-    ((("header_name", []),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("header_name", {}),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("header_type", 2),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("header_type", 1.0),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("header_type", True),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
+    ((("cookie_secure", "false"),), "1 validation error for LoadConfig\ncookie_secure\n"),
+    ((("cookie_secure", b"true"),), "1 validation error for LoadConfig\ncookie_secure\n"),
+    ((("header_name", 2),), "1 validation error for LoadConfig\nheader_name\n"),
+    ((("header_name", 1.0),), "1 validation error for LoadConfig\nheader_name\n"),
+    ((("header_name", True),), "1 validation error for LoadConfig\nheader_name\n"),
+    ((("header_name", b"header_name"),), "1 validation error for LoadConfig\nheader_name\n"),
+    ((("header_name", []),), "1 validation error for LoadConfig\nheader_name\n"),
+    ((("header_name", {}),), "1 validation error for LoadConfig\nheader_name\n"),
+    ((("header_type", 2),), "1 validation error for LoadConfig\nheader_type\n"),
+    ((("header_type", 1.0),), "1 validation error for LoadConfig\nheader_type\n"),
+    ((("header_type", True),), "1 validation error for LoadConfig\nheader_type\n"),
     (
       (("header_type", b"header_type"),),
-      'CsrfConfig must be pydantic "BaseSettings" or list of tuple',
+      "1 validation error for LoadConfig\nheader_type\n",
     ),
-    ((("header_type", []),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("header_type", {}),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("httponly", "false"),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("httponly", b"true"),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("methods", 2),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("methods", 1.0),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("methods", True),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("methods", b"GET, POST"),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("methods", "GET, POST"),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("methods", {}),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("methods", []),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("methods", [1, 2, 3]),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    (
-      (("methods", ["GET", "POST", "DELETE"]),),
-      'CsrfConfig must be pydantic "BaseSettings" or list of tuple',
-    ),
-    ((("methods", (1, 2, 3)),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    (
-      (("methods", ("GET", "POST", "DELETE")),),
-      'CsrfConfig must be pydantic "BaseSettings" or list of tuple',
-    ),
-    ((("methods", {1, 2, 3}),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
+    ((("header_type", []),), "1 validation error for LoadConfig\nheader_type\n"),
+    ((("header_type", {}),), "1 validation error for LoadConfig\nheader_type\n"),
+    ((("httponly", "false"),), "1 validation error for LoadConfig\nhttponly\n"),
+    ((("httponly", b"true"),), "1 validation error for LoadConfig\nhttponly\n"),
+    ((("methods", 2),), "1 validation error for LoadConfig\nmethods\n"),
+    ((("methods", 1.0),), "1 validation error for LoadConfig\nmethods\n"),
+    ((("methods", True),), "1 validation error for LoadConfig\nmethods\n"),
+    ((("methods", b"GET, POST"),), "1 validation error for LoadConfig\nmethods\n"),
+    ((("methods", "GET, POST"),), "1 validation error for LoadConfig\nmethods\n"),
+    ((("methods", {}),), "1 validation error for LoadConfig\nmethods\n"),
+    ((("methods", [1, 2, 3]),), "3 validation errors for LoadConfig"),
+    ((("methods", (1, 2, 3)),), "3 validation errors for LoadConfig"),
+    ((("methods", {1, 2, 3}),), "3 validation errors for LoadConfig"),
     (
       (("methods", ["1", "2", "3"]),),
-      'CsrfConfig must be pydantic "BaseSettings" or list of tuple',
+      "3 validation errors for LoadConfig",
     ),
     (
       (("methods", ("1", "2", "3")),),
-      'CsrfConfig must be pydantic "BaseSettings" or list of tuple',
+      "3 validation errors for LoadConfig",
     ),
     (
       (("methods", {"1", "2", "3"}),),
-      'CsrfConfig must be pydantic "BaseSettings" or list of tuple',
+      "3 validation errors for LoadConfig",
     ),
     (
       (("methods", {"key": "value"}),),
-      'CsrfConfig must be pydantic "BaseSettings" or list of tuple',
+      "1 validation error for LoadConfig\nmethods\n  Input should be a valid set",
     ),
-    ((("secret_key", 2),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("secret_key", 1.0),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("secret_key", True),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("secret_key", b"secret"),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("secret_key", []),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("secret_key", {}),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
-    ((("token_location", "body"),), 'CsrfConfig must be pydantic "BaseSettings" or list of tuple'),
+    ((("secret_key", 2),), "1 validation error for LoadConfig\nsecret_key\n"),
+    ((("secret_key", 1.0),), "1 validation error for LoadConfig\nsecret_key\n"),
+    ((("secret_key", True),), "1 validation error for LoadConfig\nsecret_key\n"),
+    ((("secret_key", b"secret"),), "1 validation error for LoadConfig\nsecret_key\n"),
+    ((("secret_key", []),), "1 validation error for LoadConfig\nsecret_key\n"),
+    ((("secret_key", {}),), "1 validation error for LoadConfig\nsecret_key\n"),
+    (
+      (("token_location", "body"),),
+      '1 validation error for LoadConfig\n  Value error, The "token_key" must be present when "token_location" is "body"',
+    ),
     (
       (("token_location", b"body"), ("token_key", "csrf-token")),
-      'CsrfConfig must be pydantic "BaseSettings" or list of tuple',
+      "1 validation error for LoadConfig\ntoken_location\n",
     ),
     (
       (("token_location", b"header"),),
-      'CsrfConfig must be pydantic "BaseSettings" or list of tuple',
+      "1 validation error for LoadConfig\ntoken_location\n",
     ),
   ),
   ids=[
@@ -185,11 +171,8 @@ from fastapi_csrf_protect import CsrfProtect
     "methods-GET,POST-as-bytes",
     "methods-GET,POST",
     "methods-empty-dict",
-    "methods-empty-list",
     "methods-list-1-2-3",
-    "methods-list-GET-POST-DELETE",
     "methods-tuple-1-2-3",
-    "methods-tuple-GET-POST-DELETE",
     "methods-list-1-2-3-as-strings",
     "methods-tuple-1-2-3-as-strings",
     "methods-set-1-2-3-as-strings",
@@ -209,14 +192,14 @@ from fastapi_csrf_protect import CsrfProtect
 def test_load_config_with_invalid_csrf_settings(
   csrf_settings: Tuple[Tuple[str, Union[None, bool, bytes, float, int, str]], ...], reason: str
 ) -> None:
-  with raises(TypeError) as exc_info:
+  with raises(ValidationError) as exc_info:
 
     @CsrfProtect.load_config
     def _() -> Tuple[Tuple[str, Union[None, bool, bytes, int, float, str]], ...]:
       return csrf_settings
 
   assert exc_info is not None
-  assert reason == str(exc_info.value)
+  assert str(exc_info.value).startswith(reason)
 
 
 @mark.parametrize(
@@ -227,7 +210,10 @@ def test_load_config_with_invalid_csrf_settings(
     (("httponly", False),),
     (("httponly", None),),
     (("httponly", True),),
+    (("methods", []),),
+    (("methods", ["GET", "POST", "DELETE"]),),
     (("methods", {"GET", "POST", "DELETE"}),),
+    (("methods", ("GET", "POST", "DELETE")),),
     (("secret_key", "secret"),),
     (("token_location", "body"), ("token_key", "csrf-token")),
     (("token_location", "header"),),
@@ -245,7 +231,10 @@ def test_load_config_with_invalid_csrf_settings(
     "httponly-False",
     "httponly-None",
     "httponly-True",
+    "methods-empty-list",
+    "methods-list-GET-POST-DELETE",
     "methods-set-GET-POST-DELETE",
+    "methods-tuple-GET-POST-DELETE",
     "secret_key-secret",
     "token_location-body-token_key-csrf-token",
     "token_location-header",
