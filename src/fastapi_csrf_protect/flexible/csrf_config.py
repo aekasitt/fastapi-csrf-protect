@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# coding:utf-8
 # Copyright (C) 2020-2025 All rights reserved.
 # FILENAME:    ~~/src/fastapi_csrf_protect/flexible/csrf_config.py
 # VERSION:     1.0.4
