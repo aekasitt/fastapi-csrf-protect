@@ -63,7 +63,7 @@ class CsrfProtect(CsrfConfig):
     :type data: bytes
     """
     fields: dict[str, tuple[type, str]] = {self._token_key: (str, "csrf-token")}
-    Body = create_model("Body", **fields)
+    Body = create_model("Body", **fields)  # type: ignore[call-overload]
     content: str = '{"' + data.decode("utf-8").replace("&", '","').replace("=", '":"') + '"}'
     body = Body.model_validate_json(content)
     token: str = body.model_dump()[self._token_key]
