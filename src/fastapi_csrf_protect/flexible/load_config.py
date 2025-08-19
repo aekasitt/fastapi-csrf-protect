@@ -10,20 +10,39 @@
 # *************************************************************
 
 ### Standard packages ###
-from typing import Tuple
+from __future__ import annotations
+from typing import Literal, Optional, Set, Tuple
 
-### Local modules ###
-from fastapi_csrf_protect.load_config import LoadConfig as BaseLoadConfig
+### Third-party packages ###
+from pydantic import (
+  BaseModel,
+  StrictBool,
+  StrictInt,
+  StrictStr,
+  model_validator,
+)
 
 
-class LoadConfig(BaseLoadConfig):
+class LoadConfig(BaseModel):
   """Same as the base LoadConfig, but no token_location & token_key validations."""
 
-  def __post_init__(self) -> None:
-    self.validate_attribute_types()
-    self.validate_cookie_samesite()
-    self.validate_cookie_samesite_none_secure()
-    self.validate_methods()
+  cookie_key: Optional[StrictStr] = "fastapi-csrf-token"
+  cookie_path: Optional[StrictStr] = "/"
+  cookie_domain: Optional[StrictStr] = None
+  cookie_samesite: Optional[Literal["lax", "none", "strict"]] = "lax"
+  cookie_secure: Optional[StrictBool] = False
+  header_name: Optional[StrictStr] = "X-CSRF-Token"
+  header_type: Optional[StrictStr] = None
+  httponly: Optional[StrictBool] = True
+  max_age: Optional[StrictInt] = 3600
+  methods: Optional[Set[Literal["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]]] = None
+  secret_key: Optional[StrictStr] = None
+
+  @model_validator(mode="after")
+  def validate_cookie_samesite_none_secure(self) -> LoadConfig:
+    if self.cookie_samesite in {None, "none"} and self.cookie_secure is not True:
+      raise ValueError('The "cookie_secure" must be True if "cookie_samesite" set to "none".')
+    return self
 
 
 __all__: Tuple[str, ...] = ("LoadConfig",)
