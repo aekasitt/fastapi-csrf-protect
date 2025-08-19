@@ -111,6 +111,28 @@ fetch("/items/123", {
 > - CSRF token validation still requires a matching CSRF cookie as in the base package.
 > - Priority is given to header over body when both are present.
 
+### 📌 Flexible Mode (fastapi_csrf_protect.flexible)
+
+Some applications combine **Server-Side Rendering (SSR)** with **API endpoints** in the same project.
+For example:
+  - **SSR pages** rendered with Jinja2 templates that use HTML forms (CSRF token in **form body**)
+  - **AJAX / API calls** (e.g. DELETE, PUT, PATCH) that pass the CSRF token in the **HTTP header**
+
+The main fastapi-csrf-protect package is **opinionated** and expects the CSRF token in **one location only** (either header or body).
+For hybrid apps, this can be inconvenient.
+
+The **flexible sub-package** provides a drop-in replacement for CsrfProtect that **always accepts CSRF tokens from either the header or the form body**, with the following priority:
+  - **Header**: X-CSRFToken
+  - **Body**: token_key (form-data)
+
+### When to use flexible
+
+Use fastapi_csrf_protect.flexible if:
+  - You have both SSR pages and API endpoints in the same project.
+  - Some requests (like DELETE) cannot send a body but still require CSRF validation.
+  - You want to avoid maintaining two different CSRF configurations.
+
+If your app only uses **one** method to send CSRF tokens, stick to the **core package** for a stricter policy.
 ## Contributions
 
 ### Prerequisites
@@ -192,7 +214,7 @@ uv sync --dev --group=tests
 pytest
 ```
 
-## Changelog
+## Change-logs
 
 ### 🚧 Breaking Changes (0.3.0 -> 0.3.1) The double submit update
 
