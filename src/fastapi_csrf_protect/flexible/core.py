@@ -13,7 +13,7 @@
 from hashlib import sha1
 from os import urandom
 from re import match
-from typing import Dict, Tuple, Optional, Union
+from typing import Optional, Union
 
 ### Third-party packages ###
 from itsdangerous import BadData, SignatureExpired, URLSafeTimedSerializer
@@ -38,7 +38,7 @@ class CsrfProtect(CsrfConfig):
     2. Body
   """
 
-  def generate_csrf_tokens(self, secret_key: Optional[str] = None) -> Tuple[str, str]:
+  def generate_csrf_tokens(self, secret_key: Optional[str] = None) -> tuple[str, str]:
     """
     Generate a CSRF token and a signed CSRF token using server's secret key to be stored in cookie.
 
@@ -62,7 +62,7 @@ class CsrfProtect(CsrfConfig):
     :param data: attached request body containing cookie data with configured `token_key`
     :type data: bytes
     """
-    fields: Dict[str, Tuple[type, str]] = {self._token_key: (str, "csrf-token")}
+    fields: dict[str, tuple[type, str]] = {self._token_key: (str, "csrf-token")}
     Body = create_model("Body", **fields)
     content: str = '{"' + data.decode("utf-8").replace("&", '","').replace("=", '":"') + '"}'
     body = Body.model_validate_json(content)
@@ -171,7 +171,7 @@ class CsrfProtect(CsrfConfig):
     if signed_token is None:
       raise MissingTokenError(f"Missing Cookie: `{cookie_key}`.")
     time_limit = time_limit or self._max_age
-    token: None | str = self.get_csrf_from_headers(request.headers)
+    token: Optional[str] = self.get_csrf_from_headers(request.headers)
     if not token:
       token = self.get_csrf_from_body(await request.body())
     serializer = URLSafeTimedSerializer(secret_key, salt="fastapi-csrf-token")
@@ -185,4 +185,4 @@ class CsrfProtect(CsrfConfig):
       raise TokenValidationError("The CSRF token is invalid.")
 
 
-__all__: Tuple[str, ...] = ("CsrfProtect",)
+__all__: tuple[str, ...] = ("CsrfProtect",)

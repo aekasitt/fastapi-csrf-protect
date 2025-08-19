@@ -10,7 +10,7 @@
 # *************************************************************
 
 ### Standard packages ###
-from typing import Dict, Optional, Tuple
+from typing import Optional
 
 ### Third-party packages ###
 from fastapi.testclient import TestClient
@@ -18,8 +18,8 @@ from httpx import Response, URL
 from pytest import mark
 
 ### Local modules ###
-from . import test_client
 from fastapi_csrf_protect import CsrfProtect
+from tests import test_client
 
 
 @mark.parametrize(
@@ -40,11 +40,11 @@ from fastapi_csrf_protect import CsrfProtect
   ids=("cookie-headers", "cookie-headers-samesite-lax", "cookie-headers-samesite-strict"),
 )
 def test_submit_csrf_token_in_headers_and_cookie(
-  csrf_settings: Tuple[Tuple[str, str], ...], test_client: TestClient
+  csrf_settings: tuple[tuple[str, str], ...], test_client: TestClient
 ) -> None:
   ### Load config ###
   @CsrfProtect.load_config
-  def _() -> Tuple[Tuple[str, str], ...]:
+  def _() -> tuple[tuple[str, str], ...]:
     return csrf_settings
 
   ### Generate token ###
@@ -58,7 +58,7 @@ def test_submit_csrf_token_in_headers_and_cookie(
   ### Extract `csrf_token` from response to be set as next request's header ###
   csrf_token: Optional[str] = response.json().get("csrf_token", None)
   assert csrf_token is not None
-  headers: Dict[str, str] = {"X-CSRF-Token": csrf_token}
+  headers: dict[str, str] = {"X-CSRF-Token": csrf_token}
 
   ### Post to protected endpoint ###
   response = test_client.post("/protected", headers=headers)
@@ -90,11 +90,11 @@ def test_submit_csrf_token_in_headers_and_cookie(
   ),
 )
 def test_submit_csrf_token_in_headers_and_cookies_secure_but_using_http(
-  csrf_settings: Tuple[Tuple[str, str], ...], test_client: TestClient
+  csrf_settings: tuple[tuple[str, str], ...], test_client: TestClient
 ) -> None:
   ### Load config ###
   @CsrfProtect.load_config
-  def _() -> Tuple[Tuple[str, str], ...]:
+  def _() -> tuple[tuple[str, str], ...]:
     return csrf_settings
 
   ### Generate token ###
@@ -107,7 +107,7 @@ def test_submit_csrf_token_in_headers_and_cookies_secure_but_using_http(
 
   ### Extract `csrf_token` from response to be set as next request's body ###
   csrf_token: Optional[str] = response.json().get("csrf_token", None)
-  headers: Dict[str, str] = {"X-CSRF-Token": csrf_token} if csrf_token is not None else {}
+  headers: dict[str, str] = {"X-CSRF-Token": csrf_token} if csrf_token is not None else {}
 
   ### Post to protected endpoint but fails because TestClients defaults to http ###
   response = test_client.post("/protected", headers=headers)
@@ -148,14 +148,14 @@ def test_submit_csrf_token_in_headers_and_cookies_secure_but_using_http(
   ),
 )
 def test_submit_csrf_token_in_headers_and_cookie_secure(
-  csrf_settings: Tuple[Tuple[str, str], ...], test_client: TestClient
+  csrf_settings: tuple[tuple[str, str], ...], test_client: TestClient
 ) -> None:
   ### Bypass TestClient base_url to https for `Secure` cookies ###
   test_client.base_url = URL("https://testserver")
 
   ### Load config ###
   @CsrfProtect.load_config
-  def _() -> Tuple[Tuple[str, str], ...]:
+  def _() -> tuple[tuple[str, str], ...]:
     return csrf_settings
 
   ### Generate token ###
@@ -169,7 +169,7 @@ def test_submit_csrf_token_in_headers_and_cookie_secure(
   ### Extract `csrf_token` from response to be set as next request's header ###
   csrf_token: Optional[str] = response.json().get("csrf_token", None)
   assert csrf_token is not None
-  headers: Dict[str, str] = {"X-CSRF-Token": csrf_token}
+  headers: dict[str, str] = {"X-CSRF-Token": csrf_token}
 
   ### Post to protected endpoint ###
   response = test_client.post("/protected", headers=headers)

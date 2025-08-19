@@ -10,7 +10,7 @@
 # *************************************************************
 
 ### Standard packages ###
-from typing import Tuple, Union
+from typing import Union
 
 ### Third-party packages ###
 from pydantic import ValidationError
@@ -190,12 +190,12 @@ from fastapi_csrf_protect import CsrfProtect
   ],
 )
 def test_load_config_with_invalid_csrf_settings(
-  csrf_settings: Tuple[Tuple[str, Union[None, bool, bytes, float, int, str]], ...], reason: str
+  csrf_settings: tuple[tuple[str, Union[None, bool, bytes, float, int, str]], ...], reason: str
 ) -> None:
   with raises(ValidationError) as exc_info:
 
     @CsrfProtect.load_config
-    def _() -> Tuple[Tuple[str, Union[None, bool, bytes, int, float, str]], ...]:
+    def _() -> tuple[tuple[str, Union[None, bool, bytes, int, float, str]], ...]:
       return csrf_settings
 
   assert exc_info is not None
@@ -248,8 +248,8 @@ def test_load_config_with_invalid_csrf_settings(
   ),
 )
 def test_load_config_with_valid_csrf_settings(
-  csrf_settings: Tuple[Tuple[str, Union[None, bool, bytes, int, float, str]], ...],
+  csrf_settings: tuple[tuple[str, Union[None, bool, bytes, int, float, str]], ...],
 ) -> None:
   @CsrfProtect.load_config
-  def _() -> Tuple[Tuple[str, Union[None, bool, bytes, int, float, str]], ...]:
+  def _() -> tuple[tuple[str, Union[None, bool, bytes, int, float, str]], ...]:
     return csrf_settings

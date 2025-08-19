@@ -11,7 +11,7 @@
 
 ### Standard packages ###
 from __future__ import annotations
-from typing import Literal, Optional, Set, Tuple
+from typing import Literal, Optional, Set
 
 ### Third-party packages ###
 from pydantic import (
@@ -45,4 +45,4 @@ class LoadConfig(BaseModel):
     return self
 
 
-__all__: Tuple[str, ...] = ("LoadConfig",)
+__all__: tuple[str, ...] = ("LoadConfig",)

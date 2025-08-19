@@ -9,28 +9,25 @@
 # HISTORY:
 # *************************************************************
 
-### Standard packages ###
-from typing import Dict, List, Tuple
-
 ### Third-party packages ###
 from fastapi.testclient import TestClient
 from warnings import filterwarnings
 
 ### Local modules ###
-from . import flexible_client
 from fastapi_csrf_protect.flexible import CsrfProtect
+from tests.flexible import flexible_client
 
 
 def test_validate_token_invalid_request(flexible_client: TestClient) -> None:
   @CsrfProtect.load_config
-  def _() -> List[Tuple[str, str]]:
-    return [("secret_key", "secret"), ("cookie_key", "fastapi-csrf-token")]
+  def _() -> tuple[tuple[str, str], ...]:
+    return (("secret_key", "secret"), ("cookie_key", "fastapi-csrf-token"))
 
   ### Ignore DeprecationWarnings when setting cookie manually with FastAPI TestClient ###
   filterwarnings("ignore", category=DeprecationWarning)
 
   ### Post to protected endpoint ###
-  headers: Dict[str, str] = {"X-CSRF-Token": "invalid"}
+  headers: dict[str, str] = {"X-CSRF-Token": "invalid"}
   response = flexible_client.post(
     "/protected", cookies={"fastapi-csrf-token": "invalid"}, headers=headers
   )

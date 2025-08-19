@@ -9,10 +9,7 @@
 # HISTORY:
 # *************************************************************
 
-### Standard packages ###
-from typing import Tuple
-
 ### Local modules ###
 from fastapi_csrf_protect.flexible.core import CsrfProtect
 
-__all__: Tuple[str, ...] = ("CsrfProtect",)
+__all__: tuple[str, ...] = ("CsrfProtect",)

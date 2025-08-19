@@ -12,13 +12,10 @@
 FastAPI extension that provides Csrf Protection Token support
 """
 
-### Standard packages ###
-from typing import Tuple
-
 ### Local modules ###
 from fastapi_csrf_protect.core import CsrfProtect
 
-__all__: Tuple[str, ...] = ("CsrfProtect",)
+__all__: tuple[str, ...] = ("CsrfProtect",)
 __name__ = "fastapi-csrf-protect"
 __package__ = "fastapi-csrf-protect"
 __version__ = "1.0.4"

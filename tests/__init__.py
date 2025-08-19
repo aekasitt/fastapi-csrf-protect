@@ -11,7 +11,6 @@
 
 ### Standard packages ###
 from collections.abc import Generator
-from typing import Tuple
 
 ### Third-party packages ###
 from fastapi import Depends, FastAPI, Request
@@ -62,4 +61,4 @@ def test_client() -> Generator[TestClient, None, None]:
     yield client
 
 
-__all__: Tuple[str, ...] = ("test_client",)
+__all__: tuple[str, ...] = ("test_client",)

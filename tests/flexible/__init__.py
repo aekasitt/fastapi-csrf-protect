@@ -11,7 +11,7 @@
 
 ### Standard packages ###
 from collections.abc import Generator
-from typing import Annotated, Tuple
+from typing import Annotated
 
 ### Third-party packages ###
 from fastapi import Depends, FastAPI, Request
@@ -63,4 +63,4 @@ def flexible_client() -> Generator[TestClient, None, None]:
     yield client
 
 
-__all__: Tuple[str, ...] = ("flexible_client",)
+__all__: tuple[str, ...] = ("flexible_client",)
