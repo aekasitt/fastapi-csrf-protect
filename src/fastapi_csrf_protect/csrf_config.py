@@ -43,7 +43,11 @@ class CsrfConfig(object):
   def load_config(
     cls, settings: Callable[..., Union[Sequence[tuple[str, Any]], BaseSettings]]
   ) -> None:
-    """
+    """Load CsrfProtect configurations via decorated method
+
+    ---
+    :param settings: callable returning either sequence of key-value tuples or pydantic BaseSettings
+    :type settings: Callable[..., BaseSettings | Sequence[tuple, Any]]
     :raises pydantic_core.ValidationError: in case of settings' attribute type mismatched
     """
     config = LoadConfig(**{key.lower(): value for key, value in settings()})
