@@ -259,10 +259,15 @@ pytest
 * Attempted to make `mypyc` compilation; Failed due to dependency injection pattern
 * Add `py.typed` to project
 
-### Version 1.0.4
+### Version 1.0.4 (Failed rollout; please use 1.0.5)
 
 * Add submodule `flexible` where `CsrfProtect` does not pre-determine `token_key` & `token_location`
 * Test `fastapi_csrf_protect.flexible.CsrfProtect` with runtime variable `token_location`
+
+### Version 1.0.5
+
+* Remove `@dataclass` code leftover from `mypyc` experiment
+* Clarify failure reasons under `tests/load_config.py` and `tests/flexible/load_config.py`
 
 ### Run Examples
 
