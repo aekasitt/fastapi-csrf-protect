@@ -2,7 +2,7 @@
 # coding:utf-8
 # Copyright (C) 2020-2025 All rights reserved.
 # FILENAME:    ~~/tests/missing_token.py
-# VERSION:     1.0.4
+# VERSION:     1.0.5
 # CREATED:     2020-11-26 16:14
 # AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:
