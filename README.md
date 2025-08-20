@@ -230,7 +230,7 @@ pytest
 * **0.3.2** Add `token_location` config (either `body` or `header`); Unset to prevent token reuse
 
   :construction: **BREAKING CHANGE**
-  0.3.1 -> 0.3.2: `generate_csrf` marked for deprecation; `validate_csrf` is now async
+  0.3.1 -> 0.3.2: `generate_csrf` planned deprecation; `validate_csrf` is now async
 
 * **0.3.5** Introduced Pydantic V2 related bug fixed in version 0.3.6; Affects `cookie_samesite`
 * **0.3.6** Fixed `cookie_samesite` validation bug introduced in previous version
@@ -241,7 +241,7 @@ pytest
 * **1.0.4** Added flexible mode when `token_location` is omitted and multiple location checks
 
   :construction: **FAILED ROLLOUT**
-  1.0.3 -> 1.0.4: Accidentally rolled out with unrelated code; immediately deleted version from PyPI
+  1.0.3 -> 1.0.4: Rolled out with WIP code; immediately deleted version from PyPI
 
 * **1.0.5** Remove `@dataclass` leftover from failed experiment; Clarify failure reasons under tests
 
