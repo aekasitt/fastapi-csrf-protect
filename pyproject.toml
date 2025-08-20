@@ -12,9 +12,9 @@ dev = [
 examples = [
   'python-multipart >=0.0.6',
   'pydantic[email] >=1.7.2,<3.0.0',
-  'uvicorn >=0.15.0',
   'minijinja >=2.11.0',
-  'fastapi >=0.115.12',
+  'fastapi >=0',
+  'granian >=2.5.0',
 ]
 tests = [
   'fastapi >=0',
@@ -26,7 +26,7 @@ tests = [
 
 [project]
 authors = [
-  {name='Sitt Guruvanich', email='aekazitt+github@gmail.com'},
+  {email='aekazitt+github@gmail.com', name='Sitt Guruvanich'},
 ]
 classifiers = [
   'Environment :: Web Environment',
