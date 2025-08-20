@@ -224,9 +224,12 @@ pytest
 
   :warning: **🚧 BREAKING CHANGE**
   0.3.0 -> 0.3.1: `generate_csrf` marked for deprecation
+
 * **0.3.1** Adopt [Double Submit Cookie](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#double-submit-cookie)
+
   :warning: **🚧 BREAKING CHANGE**
   0.3.1 -> 0.3.2: `generate_csrf` marked for deprecation; `validate_csrf` is now async
+
 * **0.3.2** Add `token_location` config (either `body` or `header`); Unset to prevent token reuse
 * **0.3.5** Introduced Pydantic V2 related bug fixed in version 0.3.6; Affects `cookie_samesite`
 * **0.3.6** Fixed `cookie_samesite` validation bug introduced in previous version
@@ -234,8 +237,10 @@ pytest
 * **1.0.1** Fix cookie unsetting when configuring lib with cookie `Secure` and / or `SameSite=None`
 * **1.0.2** Improve boolean handling for `LoadConfig`
 * **1.0.3** Failed experiement to integrate `mypyc` compilation due to dependency injection pattern
+
   :warning: **🚧 FAILED ROLLOUT**
   1.0.3 -> 1.0.4: Accidentally rolled out with unrelated code; immediately deleted version from PyPI
+
 * **1.0.4** Added flexible mode when `token_location` is omitted and multiple location checks
 * **1.0.5** Remove `@dataclass` leftover from failed experiment; Clarify failure reasons under tests
 
