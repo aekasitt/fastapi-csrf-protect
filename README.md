@@ -222,58 +222,22 @@ pytest
 
 ## Change-logs
 
-### 🚧 Breaking Changes (0.3.0 -> 0.3.1) The double submit update
-
-* The `generate_csrf` method has now been marked for deprecation
-* The recommended method is now `generate_csrf_tokens` which returns a tuple of tokens, first unsigned
-  and the latter signed
-* Recommended pattern is for the first token is aimed for returning as part of context
-* Recommended pattern is for the signed token to be set in client's cookie completing [Double Submit Cookie](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#double-submit-cookie)
-* To prevent token reuse, protected endpoint can unset the signed CSRF Token in client's cookies as
-  per example code and recommended pattern.
-
-### 🚧 Breaking Changes (0.3.1 -> 0.3.2) The anti-JavaScript update
-
-* New keys are added at setup `token_location` (either `body` or `header`) and `token_key` is key
-  where form-encoded keeps the csrf token stored, cross-checked with csrf secret in cookies.
-* Asynchronous `validate_csrf` method now needs to be awaited therefore protected endpoints need to
-  be asynchronous as well.
-
-### Error in version 0.3.5 after updating to Pydantic V2
-
-* Made a blunder when updating from Pydantic V1 to Pydantic V2 and caused an error to occur when
-  setting `cookie_samesite` in settings
-* Fixed in version `0.3.6`
-
-### Version 1.0
-
-* Remove deprecated method `generate_csrf`, please use `generate_csrf_tokens`.
-* Validate `FormData` value received for given `token_key` is in fact a string, not `UploadFile`
-
-### Version 1.0.1
-
-* Fix cookie unsetting when configuring library with cookie `Secure` and / or `SameSite=None`
-* Test cookie settings covering `SameSite` options and `Secure` usage
-* Bypass `https` tests using manual `test_client.base_url = 'https://testserver'`
-
-### Version 1.0.2
-
-* Improve boolean handling for `LoadConfig`
-
-### Version 1.0.3
-
-* Attempted to make `mypyc` compilation; Failed due to dependency injection pattern
-* Add `py.typed` to project
-
-### Version 1.0.4 (Failed rollout; please use 1.0.5)
-
-* Add submodule `flexible` where `CsrfProtect` does not pre-determine `token_key` & `token_location`
-* Test `fastapi_csrf_protect.flexible.CsrfProtect` with runtime variable `token_location`
-
-### Version 1.0.5
-
-* Remove `@dataclass` code leftover from `mypyc` experiment
-* Clarify failure reasons under `tests/load_config.py` and `tests/flexible/load_config.py`
+  :warning: **🚧 BREAKING CHANGE**
+  0.3.0 -> 0.3.1: `generate_csrf` marked for deprecation
+* **0.3.1** Adopt [Double Submit Cookie](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#double-submit-cookie)
+  :warning: **🚧 BREAKING CHANGE**
+  0.3.1 -> 0.3.2: `generate_csrf` marked for deprecation; `validate_csrf` is now async
+* **0.3.2** Add `token_location` config (either `body` or `header`); Unset to prevent token reuse
+* **0.3.5** Introduced Pydantic V2 related bug fixed in version 0.3.6; Affects `cookie_samesite`
+* **0.3.6** Fixed `cookie_samesite` validation bug introduced in previous version
+* **1.0.0** Remove deprecated `generate_csrf`, please use `generate_csrf_tokens` returning tuple
+* **1.0.1** Fix cookie unsetting when configuring lib with cookie `Secure` and / or `SameSite=None`
+* **1.0.2** Improve boolean handling for `LoadConfig`
+* **1.0.3** Failed experiement to integrate `mypyc` compilation due to dependency injection pattern
+  :warning: **🚧 FAILED ROLLOUT**
+  1.0.3 -> 1.0.4: Accidentally rolled out with unrelated code; immediately deleted version from PyPI
+* **1.0.4** Added flexible mode when `token_location` is omitted and multiple location checks
+* **1.0.5** Remove `@dataclass` leftover from failed experiment; Clarify failure reasons under tests
 
 ### Run Examples
 
