@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (C) 2020-2025 All rights reserved.
 # FILENAME:    ~~/examples/form_data.py
-# VERSION:     1.0.1
+# VERSION:     1.0.5
 # CREATED:     2023-11-04 14:50
 # AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:
