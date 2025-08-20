@@ -169,7 +169,7 @@ dev = [
     { name = "ruff", specifier = ">=0.4.7" },
 ]
 examples = [
-    { name = "fastapi", specifier = ">=0.115.12" },
+    { name = "fastapi", specifier = ">=0" },
     { name = "granian", specifier = ">=2.5.0" },
     { name = "minijinja", specifier = ">=2.11.0" },
     { name = "pydantic", extras = ["email"], specifier = ">=1.7.2,<3.0.0" },
