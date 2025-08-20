@@ -9,15 +9,31 @@
 # HISTORY:
 # *************************************************************
 from fastapi import FastAPI, Form, Request, Depends
-from fastapi.responses import JSONResponse
-from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi_csrf_protect import CsrfProtect
 from fastapi_csrf_protect.exceptions import CsrfProtectError
+from minijinja import Environment
+from os import path
 from pydantic import EmailStr, StrictStr
 from pydantic_settings import BaseSettings
+from typing import Annotated
+
+
+def loader(name):
+  segments: list[str] = []
+  for segment in name.split("/"):
+    if "\\" in segment or segment in (".", ".."):
+      return None
+    segments.append(segment)
+  try:
+    with open(path.join("templates", *segments)) as file:
+      return file.read()
+  except (IOError, OSError):
+    pass
+
 
 app = FastAPI()
-templates = Jinja2Templates(directory="templates")
+environment = Environment(loader=loader, reload_before_render=True)
 
 
 class CsrfSettings(BaseSettings):
@@ -33,13 +49,16 @@ def get_csrf_config():
   return CsrfSettings()
 
 
-@app.get("/")
-async def form(request: Request, csrf_protect: CsrfProtect = Depends()):
+@app.get("/", response_class=HTMLResponse)
+async def form(
+  request: Request, csrf_protect: Annotated[CsrfProtect, Depends(CsrfProtect)]
+) -> HTMLResponse:
   """
   Returns form template.
   """
   csrf_token, signed_token = csrf_protect.generate_csrf_tokens()
-  response = templates.TemplateResponse("form.html", {"request": request, "csrf_token": csrf_token})
+  content: str = environment.render_template("form.html", csrf_token=csrf_token, request=request)
+  response: HTMLResponse = HTMLResponse(content=content)
   csrf_protect.set_csrf_cookie(signed_token, response)
   return response
 
