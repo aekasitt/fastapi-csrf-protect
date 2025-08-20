@@ -271,7 +271,8 @@ pytest
 
 ### Run Examples
 
-To run the provided examples, first you must install extra dependencies [uvicorn](https://github.com/encode/uvicorn) and [jinja2](https://github.com/pallets/jinja/)
+To run the provided examples, first you must install extra dependencies
+[granian](https://github.com/emmett-framework/granian) and [minijinja](https://github.com/mitsuhiko/minijinja/tree/main/minijinja-py)
 Alternatively, run the following command on your terminal to do so
 
 ```bash
@@ -281,13 +282,13 @@ uv sync --group=examples
 Running the example utilizing form submission
 
 ```bash
-uvicorn examples.body:app
+granian --interface asgi examples.body:app
 ```
 
 Running the example utilizing headers via JavaScript
 
 ```bash
-uvicorn examples.header:app
+granian --interface asgi examples.header:app
 ```
 
 ## License
