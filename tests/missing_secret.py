@@ -2,7 +2,7 @@
 # coding:utf-8
 # Copyright (C) 2020-2025 All rights reserved.
 # FILENAME:    ~~/tests/missing_secret.py
-# VERSION:     1.0.5
+# VERSION:     1.0.6
 # CREATED:     2021-08-18 23:58
 # AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:

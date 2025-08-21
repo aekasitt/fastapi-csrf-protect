@@ -2,7 +2,7 @@
 # coding:utf-8
 # Copyright (C) 2020-2025 All rights reserved.
 # FILENAME:    ~~/tests/flexible/token_invalid.py
-# VERSION:     1.0.5
+# VERSION:     1.0.6
 # CREATED:     2025-08-18 08:53:00+02:00
 # AUTHOR:      Eliam Lotonga <e.m.lotonga@gmail.com>
 # DESCRIPTION:
