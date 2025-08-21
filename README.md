@@ -207,6 +207,9 @@ open-sourced registry defined under `pyproject.toml` file.
 
 * Fix CI/CD and GitHub Pages integration
 * Add code samples when setting up and running tests
+* Drop support for Python 3.9 by October, 2025
+* (Syntax 3.9 -> 3.10) Replace `Optional[...]` with `None | ...`
+* (Syntax 3.9 -> 3.10) Replace `Union[..., ...]` with `... | ...`
 * Correct front-end samples in `README.md`
 * Add `flexible` examples
 * Rewrite `Flexible Mode` section in `README.md`
