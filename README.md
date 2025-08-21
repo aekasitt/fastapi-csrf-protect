@@ -203,6 +203,14 @@ open-sourced registry defined under `pyproject.toml` file.
   ```
 </details>
 
+### Roadmap
+
+* Add code samples when setting up and running tests
+* Correct front-end samples in `README.md`
+* Add `flexible` examples
+* Rewrite `Flexible Mode` section in `README.md`
+* Experiment with `granian[uvloop]` and `granian[rloop]`
+
 ### Getting started
 
 To contribute to the project, fork the repository and clone to your local device
