@@ -205,6 +205,7 @@ open-sourced registry defined under `pyproject.toml` file.
 
 ### Roadmap
 
+* Fix CI/CD and GitHub Pages integration
 * Add code samples when setting up and running tests
 * Correct front-end samples in `README.md`
 * Add `flexible` examples
