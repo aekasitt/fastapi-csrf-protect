@@ -244,6 +244,7 @@ pytest
   1.0.3 -> 1.0.4: Rolled out with WIP code; immediately deleted version from PyPI
 
 * **1.0.5** Remove `@dataclass` leftover from failed experiment; Clarify failure reasons under tests
+* **1.0.6** Fix `Stream consumed` when submitted tokens via form data, `isinstance` consumes body
 
 ### Run Examples
 
