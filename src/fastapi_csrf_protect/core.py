@@ -173,9 +173,9 @@ class CsrfProtect(CsrfConfig):
     if self._token_location == "header":
       token = self.get_csrf_from_headers(request.headers)
     else:
-      if hasattr(request, "_json") and isinstance(request._json, dict):
+      if hasattr(request, "_json") and request._json is not None:
         token = request._json.get(self._token_key, "")
-      elif hasattr(request, "_form") and isinstance(request._form, dict):
+      elif hasattr(request, "_form") and request._form is not None:
         form_data: Union[None, UploadFile, str] = request._form.get(self._token_key)
         if not form_data or isinstance(form_data, UploadFile):
           raise MissingTokenError("Form data must be of type string")
