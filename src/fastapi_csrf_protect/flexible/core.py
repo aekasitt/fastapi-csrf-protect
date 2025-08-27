@@ -9,9 +9,10 @@
 #
 # HISTORY:
 # *************************************************************
-
+import json
 ### Standard packages ###
 from hashlib import sha1
+from json import JSONDecodeError
 from os import urandom
 from re import match
 from typing import Optional, Union
@@ -63,6 +64,12 @@ class CsrfProtect(CsrfConfig):
     :param data: attached request body containing cookie data with configured `token_key`
     :type data: bytes
     """
+    try:
+      json_data = json.loads(data)
+      return json_data[self._token_key]
+    except JSONDecodeError:
+      pass
+
     fields: dict[str, tuple[type, str]] = {self._token_key: (str, "csrf-token")}
     Body = create_model("Body", **fields)  # type: ignore[call-overload]
     content: str = '{"' + data.decode("utf-8").replace("&", '","').replace("=", '":"') + '"}'
