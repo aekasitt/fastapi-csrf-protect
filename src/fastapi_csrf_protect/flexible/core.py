@@ -12,7 +12,6 @@
 import json
 ### Standard packages ###
 from hashlib import sha1
-from http.client import HTTPException
 from json import JSONDecodeError
 from os import urandom
 from re import match
@@ -21,7 +20,7 @@ from typing import Optional, Union
 ### Third-party packages ###
 from itsdangerous import BadData, SignatureExpired, URLSafeTimedSerializer
 from pydantic import create_model
-from starlette.datastructures import Headers, UploadFile
+from starlette.datastructures import Headers
 from starlette.requests import Request
 from starlette.responses import Response
 
@@ -57,49 +56,6 @@ class CsrfProtect(CsrfConfig):
     signed = serializer.dumps(token)
     return token, signed
 
-  async def _get_request_body(self, request: Request) -> bytes:
-    """Get the body of the request.
-
-    Read the raw body of the request and re-inject it into the request._body so that
-     it remains available for further processing.
-     (e.g., request.json(), request.form()).
-
-     :param request: The FastAPI/Starlette request object
-     :return: The raw body of the request as a bytes.
-    """
-    request_body = await request.body()
-    request._body = request_body
-    return request_body
-
-  async def get_csrf_from_request(self, request: Request) -> Optional[str]:
-    """Get token from the request.
-
-    The token can come either from JSON body or form-data body.
-
-    ---
-    :param request: The incoming request containing csrf token with configured `token_key`
-    :type request: starlette.requests.Request
-    :return: The extracted CSRF token, or None if not found
-    """
-    token = None
-    body_byte = await self._get_request_body(request)
-
-    try:
-      json_data = json.loads(body_byte)
-      return json_data.get(self._token_key, "")
-    except JSONDecodeError:
-      pass
-
-    try:
-      form_data = await request.form()
-      token = form_data.get(self._token_key, None)
-      if not token or not isinstance(form_data, UploadFile):
-        token = None
-    except HTTPException:
-      pass
-
-    return token
-
   def get_csrf_from_body(self, data: bytes) -> str:
     """
     Get token from the request body
@@ -108,6 +64,12 @@ class CsrfProtect(CsrfConfig):
     :param data: attached request body containing cookie data with configured `token_key`
     :type data: bytes
     """
+    try:
+      json_data = json.loads(data)
+      return json_data[self._token_key]
+    except JSONDecodeError:
+      pass
+
     fields: dict[str, tuple[type, str]] = {self._token_key: (str, "csrf-token")}
     Body = create_model("Body", **fields)  # type: ignore[call-overload]
     content: str = '{"' + data.decode("utf-8").replace("&", '","').replace("=", '":"') + '"}'
@@ -219,7 +181,7 @@ class CsrfProtect(CsrfConfig):
     time_limit = time_limit or self._max_age
     token: Optional[str] = self.get_csrf_from_headers(request.headers)
     if not token:
-      token = await self.get_csrf_from_request(request) or self.get_csrf_from_body(await request.body())
+      token = self.get_csrf_from_body(await request.body())
     serializer = URLSafeTimedSerializer(secret_key, salt="fastapi-csrf-token")
     try:
       signature: str = serializer.loads(signed_token, max_age=time_limit)
