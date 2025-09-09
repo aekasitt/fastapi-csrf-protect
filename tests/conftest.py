@@ -40,9 +40,9 @@ def pytest_collection_modifyitems(config: Config, items: list[Item]) -> None:
   for item in items:
     posix_path, _, _ = item.reportinfo()
     if config.getoption("--flexible") and "tests/flexible" not in str(posix_path):
-      item.add_marker(mark.skip(reason="Testing only in Flexible mode"))
+      item.add_marker(mark.skip(reason="Tests manually skipped in Flexible Mode"))
     elif config.getoption("--normal") and "tests/flexible" in str(posix_path):
-      item.add_marker(mark.skip(reason="Testing only in Normal mode"))
+      item.add_marker(mark.skip(reason="Tests manually skipped in Normal mode"))
 
 
 def pytest_configure(config: Config) -> None:
