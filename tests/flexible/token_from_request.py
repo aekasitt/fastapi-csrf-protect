@@ -128,4 +128,4 @@ def test_get_csrf_token_from_request_without_token(csrf_settings, flexible_clien
 
   ### Assertions ###
   assert response.status_code == 400
-  assert response.json() == {'detail': 'Missing Cookie: `fastapi-csrf-token`.'}
+  assert response.json() == {"detail": "Missing Cookie: `fastapi-csrf-token`."}

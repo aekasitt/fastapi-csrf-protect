@@ -9,10 +9,10 @@
 #
 # HISTORY:
 # *************************************************************
-import json
+
 ### Standard packages ###
 from hashlib import sha1
-from json import JSONDecodeError
+from json import JSONDecodeError, loads
 from os import urandom
 from re import match
 from typing import Optional, Union
@@ -65,7 +65,7 @@ class CsrfProtect(CsrfConfig):
     :type data: bytes
     """
     try:
-      json_data = json.loads(data)
+      json_data = loads(data)
       return json_data[self._token_key]
     except JSONDecodeError:
       pass
