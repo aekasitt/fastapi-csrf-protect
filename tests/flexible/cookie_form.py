@@ -68,7 +68,7 @@ def test_submit_csrf_token_in_form_and_cookie(
   payload: dict[str, str] = {"csrf-token": csrf_token} if csrf_token is not None else {}
 
   ### Post to protected endpoint ###
-  response = flexible_client.post("/protected", json=payload)
+  response = flexible_client.post("/protected", data=payload, headers=headers)
 
   ### Assertions ###
   assert response.status_code == 200
@@ -77,7 +77,7 @@ def test_submit_csrf_token_in_form_and_cookie(
   assert cookie_token is None
 
   ### Immediately get protected contents again ###
-  response = flexible_client.post("/protected", json=payload, headers=headers)
+  response = flexible_client.post("/protected", data=payload, headers=headers)
 
   ### Assertions ###
   assert response.status_code == 400
@@ -119,7 +119,7 @@ def test_submit_csrf_token_in_form_and_cookies_secure_but_using_http(
   payload: dict[str, str] = {"csrf-token": csrf_token} if csrf_token is not None else {}
 
   ### Post to protected endpoint but fails because TestClients defaults to http ###
-  response = flexible_client.post("/protected", json=payload, headers=headers)
+  response = flexible_client.post("/protected", data=payload, headers=headers)
 
   ### Assertions ###
   assert response.status_code == 400
@@ -187,7 +187,7 @@ def test_submit_csrf_token_in_form_and_cookies_secure(
   payload: dict[str, str] = {"csrf-token": csrf_token} if csrf_token is not None else {}
 
   ### Post to protected endpoint ###
-  response = flexible_client.post("/protected", json=payload, headers=headers)
+  response = flexible_client.post("/protected", data=payload, headers=headers)
 
   ### Assertions ###
   assert response.status_code == 200
@@ -196,7 +196,7 @@ def test_submit_csrf_token_in_form_and_cookies_secure(
   assert cookie_token is None
 
   ### Immediately get protected contents again ###
-  response = flexible_client.post("/protected", json=payload, headers=headers)
+  response = flexible_client.post("/protected", data=payload, headers=headers)
 
   ### Assertions ###
   assert response.status_code == 400
