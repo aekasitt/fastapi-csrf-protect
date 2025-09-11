@@ -89,6 +89,7 @@ def test_submit_csrf_token_in_headers_and_cookie(
       ("token_location", "header"),
     ),
   ),
+  ids=("cookie-header-secure-http",)
 )
 def test_submit_csrf_token_in_headers_and_cookies_secure_but_using_http(
   csrf_settings: tuple[tuple[str, str], ...], test_client: TestClient
@@ -142,10 +143,10 @@ def test_submit_csrf_token_in_headers_and_cookies_secure_but_using_http(
     ),
   ),
   ids=(
-    "cookie-headers-secure",
-    "cookie-headers-samesite-lax-secure",
-    "cookie-headers-samesite-none-secure",
-    "cookie-headers-samesite-strict-secure",
+    "cookie-header-secure-https",
+    "cookie-header-samesite-lax-secure-https",
+    "cookie-header-samesite-none-secure-https",
+    "cookie-header-samesite-strict-secure-https",
   ),
 )
 def test_submit_csrf_token_in_headers_and_cookie_secure(
