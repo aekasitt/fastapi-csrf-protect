@@ -12,6 +12,7 @@
 
 ### Standard packages ###
 from typing import Optional
+from urllib.parse import urlencode
 
 ### Third-party packages ###
 from fastapi.testclient import TestClient
@@ -64,9 +65,10 @@ def test_submit_csrf_token_in_form_and_cookie(
   ### Extract `csrf_token` from response to be set as next request's body ###
   csrf_token: Optional[str] = response.json().get("csrf_token", None)
   payload: dict[str, str] = {"csrf-token": csrf_token} if csrf_token is not None else {}
+  content: bytes = urlencode(payload).encode("utf-8")
 
   ### Post to protected endpoint ###
-  response = test_client.post("/protected", data=payload)
+  response = test_client.post("/protected", content=content, headers=headers)
 
   ### Assertions ###
   assert response.status_code == 200
@@ -75,7 +77,7 @@ def test_submit_csrf_token_in_form_and_cookie(
   assert cookie_token is None
 
   ### Immediately get protected contents again ###
-  response = test_client.post("/protected", data=payload, headers=headers)
+  response = test_client.post("/protected", content=content, headers=headers)
 
   ### Assertions ###
   assert response.status_code == 400
@@ -116,9 +118,10 @@ def test_submit_csrf_token_in_form_and_cookies_secure_but_using_http(
   ### Extract `csrf_token` from response to be set as next request's form ###
   csrf_token: Optional[str] = response.json().get("csrf_token", None)
   payload: dict[str, str] = {"csrf-token": csrf_token} if csrf_token is not None else {}
+  content: bytes = urlencode(payload).encode("utf-8")
 
   ### Post to protected endpoint but fails because TestClients defaults to http ###
-  response = test_client.post("/protected", data=payload, headers=headers)
+  response = test_client.post("/protected", content=content, headers=headers)
 
   ### Assertions ###
   assert response.status_code == 400
@@ -188,9 +191,10 @@ def test_submit_csrf_token_in_form_and_cookies_secure(
   ### Extract `csrf_token` from response to be set as next request's form ###
   csrf_token: Optional[str] = response.json().get("csrf_token", None)
   payload: dict[str, str] = {"csrf-token": csrf_token} if csrf_token is not None else {}
+  content: bytes = urlencode(payload).encode("utf-8")
 
   ### Post to protected endpoint ###
-  response = test_client.post("/protected", data=payload, headers=headers)
+  response = test_client.post("/protected", content=content, headers=headers)
 
   ### Assertions ###
   assert response.status_code == 200
@@ -199,7 +203,7 @@ def test_submit_csrf_token_in_form_and_cookies_secure(
   assert cookie_token is None
 
   ### Immediately get protected contents again ###
-  response = test_client.post("/protected", data=payload, headers=headers)
+  response = test_client.post("/protected", content=content, headers=headers)
 
   ### Assertions ###
   assert response.status_code == 400
