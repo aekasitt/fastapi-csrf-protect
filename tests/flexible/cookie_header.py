@@ -30,12 +30,10 @@ from tests.flexible import flexible_client
     (
       ("cookie_samesite", "lax"),
       ("secret_key", "secret"),
-      ("token_location", "header"),
     ),
     (
       ("cookie_samesite", "strict"),
       ("secret_key", "secret"),
-      ("token_location", "header"),
     ),
   ),
   ids=("cookie-headers", "cookie-headers-samesite-lax", "cookie-headers-samesite-strict"),
