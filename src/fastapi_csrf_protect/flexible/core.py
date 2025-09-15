@@ -19,7 +19,7 @@ from typing import Optional, Union
 ### Third-party packages ###
 from itsdangerous import BadData, SignatureExpired, URLSafeTimedSerializer
 from pydantic import create_model
-from starlette.datastructures import Headers
+from starlette.datastructures import Headers, UploadFile
 from starlette.requests import Request
 from starlette.responses import Response
 
@@ -174,7 +174,15 @@ class CsrfProtect(CsrfConfig):
     time_limit = time_limit or self._max_age
     token: Optional[str] = self.get_csrf_from_headers(request.headers)
     if not token:
-      token = self.get_csrf_from_body(await request.body())
+      if hasattr(request, "_json") and request._json is not None:
+        token = request._json.get(self._token_key, "")
+      elif hasattr(request, "_form") and request._form is not None:
+        form_data: Union[None, UploadFile, str] = request._form.get(self._token_key)
+        if not form_data or isinstance(form_data, UploadFile):
+          raise MissingTokenError("Form data must be of type string")
+        token = form_data
+      else:
+        token = self.get_csrf_from_body(await request.body())
     serializer = URLSafeTimedSerializer(secret_key, salt="fastapi-csrf-token")
     try:
       signature: str = serializer.loads(signed_token, max_age=time_limit)
