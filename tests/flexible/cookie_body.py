@@ -90,7 +90,7 @@ def test_submit_csrf_token_in_body_and_cookie(
       ("token_key", "csrf-token"),
     ),
   ),
-  ids=("cookie-body-secure-http",),
+  ids=("flexible-cookie-body-secure-http",),
 )
 def test_submit_csrf_token_in_body_and_cookies_secure_but_using_http(
   csrf_settings: tuple[tuple[str, str], ...], flexible_client: TestClient
@@ -148,10 +148,10 @@ def test_submit_csrf_token_in_body_and_cookies_secure_but_using_http(
     ),
   ),
   ids=(
-    "cookie-body-secure-https",
-    "cookie-body-samesite-lax-secure-https",
-    "cookie-body-samesite-none-secure-https",
-    "cookie-body-samesite-strict-secure-https",
+    "flexible-cookie-body-secure-https",
+    "flexible-cookie-body-samesite-lax-secure-https",
+    "flexible-cookie-body-samesite-none-secure-https",
+    "flexible-cookie-body-samesite-strict-secure-https",
   ),
 )
 def test_submit_csrf_token_in_body_and_cookies_secure(
