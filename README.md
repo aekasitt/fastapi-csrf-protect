@@ -257,6 +257,7 @@ pytest
 
 * **1.0.5** Remove `@dataclass` leftover from failed experiment; Clarify failure reasons under tests
 * **1.0.6** Fix `Stream consumed` when submitted tokens via form data, `isinstance` consumes body
+* **1.0.7** Fix add preverification content submitted in `Flexible Mode`; Add test selection flags
 
 ### Run Examples
 
