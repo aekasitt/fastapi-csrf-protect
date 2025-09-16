@@ -60,10 +60,6 @@ docs/
 .ruff_cache
 
 
-### security token ###
-pypi-token.pypi
-
-
 ### workspace settings ###
 .idea
 .ignore
