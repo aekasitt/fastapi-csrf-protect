@@ -2,7 +2,7 @@
 # coding:utf-8
 # Copyright (C) 2020-2025 All rights reserved.
 # FILENAME:    ~~/tests/conftest.py
-# VERSION:     1.0.6
+# VERSION:     1.0.7
 # CREATED:     2025-09-09 13:17
 # AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:

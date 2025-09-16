@@ -2,7 +2,7 @@
 # coding:utf-8
 # Copyright (C) 2020-2025 All rights reserved.
 # FILENAME:    ~~/tests/cookie_form.py
-# VERSION:     1.0.6
+# VERSION:     1.0.7
 # CREATED:     2025-09-11 16:09
 # AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:
