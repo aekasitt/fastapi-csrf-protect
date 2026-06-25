@@ -197,7 +197,7 @@ open-sourced registry defined under `pyproject.toml` file.
   ```bash
   git clone git@github.com:aekasitt/fastapi-csrf-protect.git
   cd fastapi-csrf-protect
-  uv venv --python 3.10.4
+  uv venv --python 3.10.18
   source .venv/bin/activate
   uv sync --dev
   ```
