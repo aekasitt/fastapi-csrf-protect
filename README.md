@@ -138,7 +138,7 @@ If your app only uses **one** method to send CSRF tokens, stick to the **core pa
 ### Prerequisites
 
 * [git](https://git-scm.com/) - --fast-version-control
-* [python](https://www.python.org) 3.9 and above - High-level general-purpose programming language
+* [python](https://www.python.org) 3.10 and above - High-level general-purpose programming language
 * [uv](https://docs.astral.sh/uv) - Extremely fast Python package & project manager, written in Rust
 
 The following guide walks through setting up your local working environment using `git`
@@ -187,7 +187,7 @@ If you do not have `uv` installed, run the following command.
 
 Once you have `git` distributed version control system installed, you can
 clone the current repository and  install any version of Python above version
-3.9 for this project. The following commands help you set up and activate a
+3.10 for this project. The following commands help you set up and activate a
 Python virtual environment where `uv` can download project dependencies from the `PyPI`
 open-sourced registry defined under `pyproject.toml` file.
 
@@ -197,7 +197,7 @@ open-sourced registry defined under `pyproject.toml` file.
   ```bash
   git clone git@github.com:aekasitt/fastapi-csrf-protect.git
   cd fastapi-csrf-protect
-  uv venv --python 3.9.6
+  uv venv --python 3.10.4
   source .venv/bin/activate
   uv sync --dev
   ```
@@ -207,9 +207,6 @@ open-sourced registry defined under `pyproject.toml` file.
 
 * Fix CI/CD and GitHub Pages integration
 * Add code samples when setting up and running tests
-* Drop support for Python 3.9 by October, 2025
-* (Syntax 3.9 -> 3.10) Replace `Optional[...]` with `None | ...`
-* (Syntax 3.9 -> 3.10) Replace `Union[..., ...]` with `... | ...`
 * Correct front-end samples in `README.md`
 * Add `flexible` examples
 * Rewrite `Flexible Mode` section in `README.md`

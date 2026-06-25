@@ -10,11 +10,10 @@
 # HISTORY:
 # *************************************************************
 
-### Standard packages ###
+### Standard library ###
 from hashlib import sha1
 from os import urandom
 from re import match
-from typing import Optional, Union
 
 ### Third-party packages ###
 from itsdangerous import BadData, SignatureExpired, URLSafeTimedSerializer
@@ -39,7 +38,7 @@ class CsrfProtect(CsrfConfig):
     2. Body
   """
 
-  def generate_csrf_tokens(self, secret_key: Optional[str] = None) -> tuple[str, str]:
+  def generate_csrf_tokens(self, secret_key: None | str = None) -> tuple[str, str]:
     """
     Generate a CSRF token and a signed CSRF token using server's secret key to be stored in cookie.
 
@@ -70,7 +69,7 @@ class CsrfProtect(CsrfConfig):
     token: str = body.model_dump()[self._token_key]
     return token
 
-  def get_csrf_from_headers(self, headers: Headers) -> Union[None, str]:
+  def get_csrf_from_headers(self, headers: Headers) -> None | str:
     """
     Get token from the request headers
 
@@ -84,7 +83,7 @@ class CsrfProtect(CsrfConfig):
       header_parts = headers[header_name].split()
     except KeyError:
       return None
-    token: Union[None, str] = None
+    token: None | str = None
     if not header_type:
       # <HeaderName>: <Token>
       if len(header_parts) != 1:
@@ -142,9 +141,9 @@ class CsrfProtect(CsrfConfig):
   async def validate_csrf(
     self,
     request: Request,
-    cookie_key: Optional[str] = None,
-    secret_key: Optional[str] = None,
-    time_limit: Optional[int] = None,
+    cookie_key: None | str = None,
+    secret_key: None | str = None,
+    time_limit: None | int = None,
   ) -> None:
     """
     Check if the given data is a valid CSRF token. This compares the given
@@ -172,12 +171,12 @@ class CsrfProtect(CsrfConfig):
     if signed_token is None:
       raise MissingTokenError(f"Missing Cookie: `{cookie_key}`.")
     time_limit = time_limit or self._max_age
-    token: Optional[str] = self.get_csrf_from_headers(request.headers)
+    token: None | str = self.get_csrf_from_headers(request.headers)
     if not token:
       if hasattr(request, "_json") and request._json is not None:
         token = request._json.get(self._token_key, "")
       elif hasattr(request, "_form") and request._form is not None:
-        form_data: Union[None, UploadFile, str] = request._form.get(self._token_key)
+        form_data: None | UploadFile | str = request._form.get(self._token_key)
         if not form_data or isinstance(form_data, UploadFile):
           raise MissingTokenError("Form data must be of type string")
         token = form_data

@@ -10,9 +10,6 @@
 # HISTORY:
 # *************************************************************
 
-### Standard packages ###
-from typing import Union
-
 ### Third-party packages ###
 from fastapi.testclient import TestClient
 from httpx import Response
@@ -25,7 +22,7 @@ from tests import test_client
 def test_disallow_token_reuse(test_client: TestClient, max_age: int = 2) -> None:
   ### Loads config ###
   @CsrfProtect.load_config
-  def _() -> list[tuple[str, Union[int, str]]]:
+  def _() -> list[tuple[str, int | str]]:
     return [("secret_key", "secret"), ("max_age", max_age)]
 
   ### Generate token ###

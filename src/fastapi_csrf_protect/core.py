@@ -10,11 +10,10 @@
 # HISTORY:
 # *************************************************************
 
-### Standard packages ###
+### Standard library ###
 from hashlib import sha1
 from re import match
 from os import urandom
-from typing import Optional, Union
 
 ### Third-party packages ###
 from itsdangerous import BadData, SignatureExpired, URLSafeTimedSerializer
@@ -33,7 +32,7 @@ from fastapi_csrf_protect.exceptions import (
 
 
 class CsrfProtect(CsrfConfig):
-  def generate_csrf_tokens(self, secret_key: Optional[str] = None) -> tuple[str, str]:
+  def generate_csrf_tokens(self, secret_key: None | str = None) -> tuple[str, str]:
     """
     Generate a CSRF token and a signed CSRF token using server's secret key to be stored in cookie.
 
@@ -139,9 +138,9 @@ class CsrfProtect(CsrfConfig):
   async def validate_csrf(
     self,
     request: Request,
-    cookie_key: Optional[str] = None,
-    secret_key: Optional[str] = None,
-    time_limit: Optional[int] = None,
+    cookie_key: None | str = None,
+    secret_key: None | str = None,
+    time_limit: None | int = None,
   ) -> None:
     """
     Check if the given data is a valid CSRF token. This compares the given
@@ -176,7 +175,7 @@ class CsrfProtect(CsrfConfig):
       if hasattr(request, "_json") and request._json is not None:
         token = request._json.get(self._token_key, "")
       elif hasattr(request, "_form") and request._form is not None:
-        form_data: Union[None, UploadFile, str] = request._form.get(self._token_key)
+        form_data: None | UploadFile | str = request._form.get(self._token_key)
         if not form_data or isinstance(form_data, UploadFile):
           raise MissingTokenError("Form data must be of type string")
         token = form_data

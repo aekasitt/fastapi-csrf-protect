@@ -1,14 +1,10 @@
 [build-system]
 build-backend = 'hatchling.build'
-requires = [ 'hatchling >=1.27.0' ]
+requires = ['hatchling >=1.27.0']
 
 
 [dependency-groups]
-dev = [
-  'mypy >=1.15.0',
-  'pdoc >=14.7.0',
-  'ruff >=0.4.7',
-]
+dev = ['mypy >=1.15.0', 'pdoc >=14.7.0', 'ruff >=0.4.7']
 examples = [
   'python-multipart >=0.0.6',
   'pydantic[email] >=1.7.2,<3.0.0',
@@ -25,16 +21,13 @@ tests = [
 
 
 [project]
-authors = [
-  {email='aekazitt+github@gmail.com', name='Sitt Guruvanich'},
-]
+authors = [{ email = 'aekazitt+github@gmail.com', name = 'Sitt Guruvanich' }]
 classifiers = [
   'Environment :: Web Environment',
   'Framework :: AsyncIO',
   'Intended Audience :: Developers',
   'License :: OSI Approved :: MIT License',
   'Programming Language :: Python :: 3',
-  'Programming Language :: Python :: 3.9',
   'Programming Language :: Python :: 3.10',
   'Programming Language :: Python :: 3.11',
   'Programming Language :: Python :: 3.12',
@@ -74,32 +67,32 @@ version = '1.0.7'
 disallow_incomplete_defs = true
 disallow_untyped_calls = true
 disallow_untyped_defs = true
-exclude = [ 'examples' ]
+exclude = ['examples']
 strict = true
 
 
 [tool.pytest.ini_options]
 addopts = [
-  '--capture=sys',  # capture sysout messages
+  '--capture=sys',    # capture sysout messages
   '--strict-markers',
-  '--tb=short',  # traceback
+  '--tb=short',       # traceback
 ]
-testpaths = [ 'tests' ]
+testpaths = ['tests']
 python_files = '*.py'
 
 
 [tool.ruff]
 indent-width = 2
 line-length = 100
-target-version = 'py39'
+target-version = 'py310'
 
 
 [tool.ruff.lint.per-file-ignores]
 '__init__.py' = [
-  'F401',  # Ignore unused imports
+  'F401', # Ignore unused imports
 ]
 'tests/**/*.py' = [
-  'F401',  # Ignore unused imports
-  'F811',  # Ignore redefinition of unused variable
-  'F841',  # Ignore local variable assigned but never used
+  'F401', # Ignore unused imports
+  'F811', # Ignore redefinition of unused variable
+  'F841', # Ignore local variable assigned but never used
 ]

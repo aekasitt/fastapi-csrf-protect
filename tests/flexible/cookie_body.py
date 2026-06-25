@@ -10,9 +10,6 @@
 # HISTORY:
 # *************************************************************
 
-### Standard packages ###
-from typing import Optional
-
 ### Third-party packages ###
 from fastapi.testclient import TestClient
 from httpx import Response, URL
@@ -57,11 +54,11 @@ def test_submit_csrf_token_in_body_and_cookie(
   assert response.status_code == 200
 
   ### Asserts that `cookie_token` is present
-  cookie_token: Optional[str] = flexible_client.cookies.get("fastapi-csrf-token", None)
+  cookie_token: None | str = flexible_client.cookies.get("fastapi-csrf-token", None)
   assert cookie_token is not None
 
   ### Extract `csrf_token` from response to be set as next request's body ###
-  csrf_token: Optional[str] = response.json().get("csrf_token", None)
+  csrf_token: None | str = response.json().get("csrf_token", None)
   payload: dict[str, str] = {"csrf-token": csrf_token} if csrf_token is not None else {}
 
   ### Post to protected endpoint ###
@@ -105,11 +102,11 @@ def test_submit_csrf_token_in_body_and_cookies_secure_but_using_http(
   assert response.status_code == 200
 
   ### Asserts that `cookie_token` is present
-  cookie_token: Optional[str] = flexible_client.cookies.get("fastapi-csrf-token", None)
+  cookie_token: None | str = flexible_client.cookies.get("fastapi-csrf-token", None)
   assert cookie_token is not None
 
   ### Extract `csrf_token` from response to be set as next request's body ###
-  csrf_token: Optional[str] = response.json().get("csrf_token", None)
+  csrf_token: None | str = response.json().get("csrf_token", None)
   payload: dict[str, str] = {"csrf-token": csrf_token} if csrf_token is not None else {}
 
   ### Post to protected endpoint but fails because TestClients defaults to http ###
@@ -170,11 +167,11 @@ def test_submit_csrf_token_in_body_and_cookies_secure(
   assert response.status_code == 200
 
   ### Asserts that `cookie_token` is present
-  cookie_token: Optional[str] = flexible_client.cookies.get("fastapi-csrf-token", None)
+  cookie_token: None | str = flexible_client.cookies.get("fastapi-csrf-token", None)
   assert cookie_token is not None
 
   ### Extract `csrf_token` from response to be set as next request's body ###
-  csrf_token: Optional[str] = response.json().get("csrf_token", None)
+  csrf_token: None | str = response.json().get("csrf_token", None)
   payload: dict[str, str] = {"csrf-token": csrf_token} if csrf_token is not None else {}
 
   ### Post to protected endpoint ###

@@ -10,8 +10,7 @@
 # HISTORY:
 # *************************************************************
 
-### Standard packages ###
-from typing import Optional
+### Standard library ###
 from urllib.parse import urlencode
 
 ### Third-party packages ###
@@ -59,11 +58,11 @@ def test_submit_csrf_token_in_form_and_cookie(
   assert response.status_code == 200
 
   ### Asserts that `cookie_token` is present
-  cookie_token: Optional[str] = test_client.cookies.get("fastapi-csrf-token", None)
+  cookie_token: None | str = test_client.cookies.get("fastapi-csrf-token", None)
   assert cookie_token is not None
 
   ### Extract `csrf_token` from response to be set as next request's body ###
-  csrf_token: Optional[str] = response.json().get("csrf_token", None)
+  csrf_token: None | str = response.json().get("csrf_token", None)
   payload: dict[str, str] = {"csrf-token": csrf_token} if csrf_token is not None else {}
   content: bytes = urlencode(payload).encode("utf-8")
 
@@ -112,11 +111,11 @@ def test_submit_csrf_token_in_form_and_cookies_secure_but_using_http(
   assert response.status_code == 200
 
   ### Asserts that `cookie_token` is present
-  cookie_token: Optional[str] = test_client.cookies.get("fastapi-csrf-token", None)
+  cookie_token: None | str = test_client.cookies.get("fastapi-csrf-token", None)
   assert cookie_token is not None
 
   ### Extract `csrf_token` from response to be set as next request's form ###
-  csrf_token: Optional[str] = response.json().get("csrf_token", None)
+  csrf_token: None | str = response.json().get("csrf_token", None)
   payload: dict[str, str] = {"csrf-token": csrf_token} if csrf_token is not None else {}
   content: bytes = urlencode(payload).encode("utf-8")
 
@@ -185,11 +184,11 @@ def test_submit_csrf_token_in_form_and_cookies_secure(
   assert response.status_code == 200
 
   ### Asserts that `cookie_token` is present
-  cookie_token: Optional[str] = test_client.cookies.get("fastapi-csrf-token", None)
+  cookie_token: None | str = test_client.cookies.get("fastapi-csrf-token", None)
   assert cookie_token is not None
 
   ### Extract `csrf_token` from response to be set as next request's form ###
-  csrf_token: Optional[str] = response.json().get("csrf_token", None)
+  csrf_token: None | str = response.json().get("csrf_token", None)
   payload: dict[str, str] = {"csrf-token": csrf_token} if csrf_token is not None else {}
   content: bytes = urlencode(payload).encode("utf-8")
 

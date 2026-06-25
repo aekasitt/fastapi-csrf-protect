@@ -10,7 +10,7 @@
 # HISTORY:
 # *************************************************************
 
-### Standard packages ###
+### Standard library ###
 from collections.abc import Generator
 from typing import Annotated
 

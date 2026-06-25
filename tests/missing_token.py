@@ -14,7 +14,7 @@
 from fastapi.testclient import TestClient
 from httpx import Response
 
-### Local packages ###
+### Local modules ###
 from fastapi_csrf_protect import CsrfProtect
 from tests import test_client
 

@@ -10,9 +10,8 @@
 # HISTORY:
 # *************************************************************
 
-### Standard packages ###
+### Standard library ###
 from time import sleep
-from typing import Union
 
 ### Third-party packages ###
 from fastapi.testclient import TestClient
@@ -25,7 +24,7 @@ from tests import test_client
 def test_validate_token_expired(test_client: TestClient, max_age: int = 2) -> None:
   ### Load config ###
   @CsrfProtect.load_config
-  def _() -> tuple[tuple[str, Union[int, str]], ...]:
+  def _() -> tuple[tuple[str, int | str], ...]:
     return (("secret_key", "secret"), ("max_age", max_age))
 
   ### Generate token ###
