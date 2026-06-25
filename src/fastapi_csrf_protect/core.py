@@ -44,7 +44,7 @@ class CsrfProtect(CsrfConfig):
     secret_key = secret_key or self._secret_key
     if secret_key is None:
       raise RuntimeError("A secret key is required to use CsrfProtect extension.")
-    serializer = URLSafeTimedSerializer(secret_key, salt="fastapi-csrf-token")
+    serializer = URLSafeTimedSerializer(secret_key, salt=self._salt)
     token = sha1(urandom(64)).hexdigest()
     signed = serializer.dumps(token)
     return token, signed

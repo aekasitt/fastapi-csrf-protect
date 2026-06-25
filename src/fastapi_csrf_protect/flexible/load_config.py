@@ -37,6 +37,7 @@ class LoadConfig(BaseModel):
   httponly: Optional[StrictBool] = True
   max_age: Optional[StrictInt] = 3600
   methods: Optional[Set[Literal["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]]] = None
+  salt: Optional[StrictStr] = None
   secret_key: Optional[StrictStr] = None
 
   @model_validator(mode="after")

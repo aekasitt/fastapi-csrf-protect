@@ -36,6 +36,7 @@ class CsrfConfig(object):
     "PATCH",
     "DELETE",
   }
+  _salt: ClassVar[str] = "fastapi-csrf-token"
   _secret_key: ClassVar[Optional[str]] = None
   _token_location: ClassVar[str] = "header"
   _token_key: ClassVar[str] = "csrf-token"
@@ -62,6 +63,7 @@ class CsrfConfig(object):
     cls._httponly = True if config.httponly is None else config.httponly
     cls._max_age = config.max_age or cls._max_age
     cls._methods = config.methods or cls._methods
+    cls._salt = config.salt or cls._salt
     cls._secret_key = config.secret_key
     cls._token_location = config.token_location or cls._token_location
     cls._token_key = config.token_key or cls._token_key
