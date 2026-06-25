@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # coding:utf-8
-# Copyright (C) 2020-2025 All rights reserved.
+# Copyright (C) 2020-2026 All rights reserved.
 # FILENAME:    ~~/examples/form_data.py
-# VERSION:     1.0.6
+# VERSION:     1.0.7
 # CREATED:     2023-11-04 14:50
 # AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
 # DESCRIPTION:
@@ -21,16 +21,16 @@ from typing import Annotated
 
 
 def loader(name):
-  segments: list[str] = []
-  for segment in name.split("/"):
-    if "\\" in segment or segment in (".", ".."):
-      return None
-    segments.append(segment)
-  try:
-    with open(path.join("templates", *segments)) as file:
-      return file.read()
-  except (IOError, OSError):
-    pass
+    segments: list[str] = []
+    for segment in name.split("/"):
+        if "\\" in segment or segment in (".", ".."):
+            return None
+        segments.append(segment)
+    try:
+        with open(path.join("templates", *segments)) as file:
+            return file.read()
+    except (IOError, OSError):
+        pass
 
 
 app = FastAPI()
@@ -38,49 +38,51 @@ environment = Environment(loader=loader, reload_before_render=True)
 
 
 class CsrfSettings(BaseSettings):
-  secret_key: str = "asecrettoeverybody"
-  cookie_samesite: str = "none"
-  cookie_secure: bool = True
-  token_location: str = "body"
-  token_key: str = "csrf-token"
+    secret_key: str = "asecrettoeverybody"
+    cookie_samesite: str = "none"
+    cookie_secure: bool = True
+    token_location: str = "body"
+    token_key: str = "csrf-token"
 
 
 @CsrfProtect.load_config
 def get_csrf_config():
-  return CsrfSettings()
+    return CsrfSettings()
 
 
 @app.get("/", response_class=HTMLResponse)
 async def form(
-  request: Request, csrf_protect: Annotated[CsrfProtect, Depends(CsrfProtect)]
+    request: Request, csrf_protect: Annotated[CsrfProtect, Depends(CsrfProtect)]
 ) -> HTMLResponse:
-  """
-  Returns form template.
-  """
-  csrf_token, signed_token = csrf_protect.generate_csrf_tokens()
-  content: str = environment.render_template("form.html", csrf_token=csrf_token, request=request)
-  response: HTMLResponse = HTMLResponse(content=content)
-  csrf_protect.set_csrf_cookie(signed_token, response)
-  return response
+    """
+    Returns form template.
+    """
+    csrf_token, signed_token = csrf_protect.generate_csrf_tokens()
+    content: str = environment.render_template(
+        "form.html", csrf_token=csrf_token, request=request
+    )
+    response: HTMLResponse = HTMLResponse(content=content)
+    csrf_protect.set_csrf_cookie(signed_token, response)
+    return response
 
 
 @app.post("/login", response_class=JSONResponse)
 async def login(
-  request: Request,
-  email: EmailStr = Form(),
-  name: StrictStr = Form(),
-  password: StrictStr = Form(),
-  csrf_protect: CsrfProtect = Depends(),
+    request: Request,
+    email: EmailStr = Form(),
+    name: StrictStr = Form(),
+    password: StrictStr = Form(),
+    csrf_protect: CsrfProtect = Depends(),
 ) -> JSONResponse:
-  """
-  Login using form data
-  """
-  await csrf_protect.validate_csrf(request)
-  response: JSONResponse = JSONResponse(status_code=200, content={"detail": "OK"})
-  csrf_protect.unset_csrf_cookie(response)  # prevent token reuse
-  return response
+    """
+    Login using form data
+    """
+    await csrf_protect.validate_csrf(request)
+    response: JSONResponse = JSONResponse(status_code=200, content={"detail": "OK"})
+    csrf_protect.unset_csrf_cookie(response)  # prevent token reuse
+    return response
 
 
 @app.exception_handler(CsrfProtectError)
 def csrf_protect_exception_handler(_: Request, exc: CsrfProtectError):
-  return JSONResponse(status_code=exc.status_code, content={"detail": exc.message})
+    return JSONResponse(status_code=exc.status_code, content={"detail": exc.message})
