@@ -27,41 +27,47 @@ from fastapi_csrf_protect.flexible import CsrfProtect
 
 @fixture
 def flexible_client() -> Generator[TestClient, None, None]:
-  """
-  Sets up a FastAPI TestClient wrapped around an application implementing both
-  Context and Headers extension pattern
+    """
+    Sets up a FastAPI TestClient wrapped around an application implementing both
+    Context and Headers extension pattern
 
-  ---
-  :return: test client fixture used for local testing
-  :rtype: fastapi.testclient.TestClient
-  """
-  app: FastAPI = FastAPI()
+    ---
+    :return: test client fixture used for local testing
+    :rtype: fastapi.testclient.TestClient
+    """
+    app: FastAPI = FastAPI()
 
-  @app.get("/gen-token", response_class=JSONResponse)
-  def read_resource(csrf_protect: Annotated[CsrfProtect, Depends(CsrfProtect)]) -> JSONResponse:
-    csrf_token, signed_token = csrf_protect.generate_csrf_tokens()
-    response: JSONResponse = JSONResponse(
-      status_code=200, content={"detail": "OK", "csrf_token": csrf_token}
-    )
-    csrf_protect.set_csrf_cookie(signed_token, response)
-    return response
+    @app.get("/gen-token", response_class=JSONResponse)
+    def read_resource(
+        csrf_protect: Annotated[CsrfProtect, Depends(CsrfProtect)],
+    ) -> JSONResponse:
+        csrf_token, signed_token = csrf_protect.generate_csrf_tokens()
+        response: JSONResponse = JSONResponse(
+            status_code=200, content={"detail": "OK", "csrf_token": csrf_token}
+        )
+        csrf_protect.set_csrf_cookie(signed_token, response)
+        return response
 
-  @app.post("/protected", response_class=JSONResponse)
-  async def update_resource(
-    request: Request,
-    csrf_protect: Annotated[CsrfProtect, Depends(CsrfProtect)],
-  ) -> JSONResponse:
-    await csrf_protect.validate_csrf(request)
-    response: JSONResponse = JSONResponse(status_code=200, content={"detail": "OK"})
-    csrf_protect.unset_csrf_cookie(response)  # prevent token reuse
-    return response
+    @app.post("/protected", response_class=JSONResponse)
+    async def update_resource(
+        request: Request,
+        csrf_protect: Annotated[CsrfProtect, Depends(CsrfProtect)],
+    ) -> JSONResponse:
+        await csrf_protect.validate_csrf(request)
+        response: JSONResponse = JSONResponse(status_code=200, content={"detail": "OK"})
+        csrf_protect.unset_csrf_cookie(response)  # prevent token reuse
+        return response
 
-  @app.exception_handler(CsrfProtectError)
-  def csrf_protect_error_handler(request: Request, exc: CsrfProtectError) -> JSONResponse:
-    return JSONResponse(status_code=exc.status_code, content={"detail": exc.message})
+    @app.exception_handler(CsrfProtectError)
+    def csrf_protect_error_handler(
+        request: Request, exc: CsrfProtectError
+    ) -> JSONResponse:
+        return JSONResponse(
+            status_code=exc.status_code, content={"detail": exc.message}
+        )
 
-  with TestClient(app) as client:
-    yield client
+    with TestClient(app) as client:
+        yield client
 
 
 __all__: tuple[str, ...] = ("flexible_client",)

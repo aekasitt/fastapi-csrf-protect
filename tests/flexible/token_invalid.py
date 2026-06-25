@@ -20,19 +20,19 @@ from tests.flexible import flexible_client
 
 
 def test_validate_token_invalid_request(flexible_client: TestClient) -> None:
-  @CsrfProtect.load_config
-  def _() -> tuple[tuple[str, str], ...]:
-    return (("secret_key", "secret"), ("cookie_key", "fastapi-csrf-token"))
+    @CsrfProtect.load_config
+    def _() -> tuple[tuple[str, str], ...]:
+        return (("secret_key", "secret"), ("cookie_key", "fastapi-csrf-token"))
 
-  ### Ignore DeprecationWarnings when setting cookie manually with FastAPI TestClient ###
-  filterwarnings("ignore", category=DeprecationWarning)
+    ### Ignore DeprecationWarnings when setting cookie manually with FastAPI TestClient ###
+    filterwarnings("ignore", category=DeprecationWarning)
 
-  ### Post to protected endpoint ###
-  headers: dict[str, str] = {"X-CSRF-Token": "invalid"}
-  response = flexible_client.post(
-    "/protected", cookies={"fastapi-csrf-token": "invalid"}, headers=headers
-  )
+    ### Post to protected endpoint ###
+    headers: dict[str, str] = {"X-CSRF-Token": "invalid"}
+    response = flexible_client.post(
+        "/protected", cookies={"fastapi-csrf-token": "invalid"}, headers=headers
+    )
 
-  ### Assertions ###
-  assert response.status_code == 401
-  assert response.json() == {"detail": "The CSRF token is invalid."}
+    ### Assertions ###
+    assert response.status_code == 401
+    assert response.json() == {"detail": "The CSRF token is invalid."}

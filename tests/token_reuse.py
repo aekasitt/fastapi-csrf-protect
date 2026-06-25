@@ -20,31 +20,33 @@ from tests import test_client
 
 
 def test_disallow_token_reuse(test_client: TestClient, max_age: int = 2) -> None:
-  ### Loads config ###
-  @CsrfProtect.load_config
-  def _() -> list[tuple[str, int | str]]:
-    return [("secret_key", "secret"), ("max_age", max_age)]
+    ### Loads config ###
+    @CsrfProtect.load_config
+    def _() -> list[tuple[str, int | str]]:
+        return [("secret_key", "secret"), ("max_age", max_age)]
 
-  ### Generate token ###
-  response: Response = test_client.get("/gen-token")
+    ### Generate token ###
+    response: Response = test_client.get("/gen-token")
 
-  ### Assertion ###
-  assert response.status_code == 200
+    ### Assertion ###
+    assert response.status_code == 200
 
-  ### Extract `csrf_token` from response to be set as next request's header ###
-  csrf_token: str = response.json().get("csrf_token", None)
-  headers: dict[str, str] = {"X-CSRF-Token": csrf_token} if csrf_token is not None else {}
+    ### Extract `csrf_token` from response to be set as next request's header ###
+    csrf_token: str = response.json().get("csrf_token", None)
+    headers: dict[str, str] = (
+        {"X-CSRF-Token": csrf_token} if csrf_token is not None else {}
+    )
 
-  ### Post to protected endpoint ###
-  response = test_client.post("/protected", headers=headers)
+    ### Post to protected endpoint ###
+    response = test_client.post("/protected", headers=headers)
 
-  ### Assertions ###
-  assert response.status_code == 200
-  assert response.json() == {"detail": "OK"}
+    ### Assertions ###
+    assert response.status_code == 200
+    assert response.json() == {"detail": "OK"}
 
-  ### Immediately get protected contents again ###
-  response = test_client.post("/protected", headers=headers)
+    ### Immediately get protected contents again ###
+    response = test_client.post("/protected", headers=headers)
 
-  ### Assertions ###
-  assert response.status_code == 400
-  assert response.json() == {"detail": "Missing Cookie: `fastapi-csrf-token`."}
+    ### Assertions ###
+    assert response.status_code == 400
+    assert response.json() == {"detail": "Missing Cookie: `fastapi-csrf-token`."}

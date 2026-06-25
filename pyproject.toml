@@ -82,8 +82,8 @@ python_files = '*.py'
 
 
 [tool.ruff]
-indent-width = 2
-line-length = 100
+indent-width = 4
+line-length = 88
 target-version = 'py310'
 
 
