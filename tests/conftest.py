@@ -46,8 +46,8 @@ def pytest_collection_modifyitems(config: Config, items: list[Item]) -> None:
 
 
 def pytest_configure(config: Config) -> None:
-  flexible_mode: bool = config.getoption("flexible")  # type: ignore[assignment]
-  normal_mode: bool = config.getoption("normal")  # type: ignore[assignment]
+  flexible_mode: bool = config.getoption("flexible")
+  normal_mode: bool = config.getoption("normal")
   if flexible_mode is True and normal_mode is True:
     raise UsageError("--flexible and --normal are mutually exclusive flags.")
 
