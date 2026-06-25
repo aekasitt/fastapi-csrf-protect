@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # coding:utf-8
-# Copyright (C) 2020-2025 All rights reserved.
+# Copyright (C) 2020-2026 All rights reserved.
 # FILENAME:    ~~/tests/flexible/load_config.py
 # VERSION:     1.0.7
 # CREATED:     2025-08-11 16:02:06+02:00

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # coding:utf-8
-# Copyright (C) 2020-2025 All rights reserved.
+# Copyright (C) 2020-2026 All rights reserved.
 # FILENAME:    ~~/tests/flexible/token_expired.py
 # VERSION:     1.0.7
 # CREATED:     2025-08-18 08:53:00+02:00
