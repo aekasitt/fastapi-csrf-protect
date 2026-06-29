@@ -187,7 +187,7 @@ class CsrfProtect(CsrfConfig):
                 token = form_data
             else:
                 token = self.get_csrf_from_body(await request.body())
-        serializer = URLSafeTimedSerializer(secret_key, salt="fastapi-csrf-token")
+        serializer = URLSafeTimedSerializer(secret_key, salt=self._salt)
         try:
             signature: str = serializer.loads(signed_token, max_age=time_limit)
             if token != signature:
