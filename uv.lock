@@ -27,6 +27,18 @@ wheels = [
 ]
 
 [[package]]
+name = "cachette"
+version = "0.1.8"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pydantic" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/1b/cb/bc816bfcdef834474373188aa0f0dbf8847496b0730945bcd47ba93faa95/cachette-0.1.8.tar.gz", hash = "sha256:9a28e5c15ef629cb5f466e615af1b29dbf43318628479853968b7096714f23d5", size = 18374, upload-time = "2024-02-02T17:36:11.159Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/81/b0/5a1bcb36b39576ca018fb9f4ed1ef525bcbe1e2944f65199abd79ed01b01/cachette-0.1.8-py3-none-any.whl", hash = "sha256:360825a52f813851a6a46819079127645830bd68f68000693a596143bad16ce9", size = 25459, upload-time = "2024-02-02T17:36:09.228Z" },
+]
+
+[[package]]
 name = "certifi"
 version = "2025.1.31"
 source = { registry = "https://pypi.org/simple" }
@@ -118,6 +130,7 @@ dev = [
     { name = "ruff" },
 ]
 examples = [
+    { name = "cachette" },
     { name = "fastapi" },
     { name = "granian" },
     { name = "minijinja" },
@@ -145,6 +158,7 @@ dev = [
     { name = "ruff", specifier = ">=0.4.7" },
 ]
 examples = [
+    { name = "cachette", specifier = ">=0.1.8" },
     { name = "fastapi", specifier = ">=0" },
     { name = "granian", specifier = ">=2.5.0" },
     { name = "minijinja", specifier = ">=2.11.0" },

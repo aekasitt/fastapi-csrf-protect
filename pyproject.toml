@@ -6,11 +6,12 @@ requires = ['hatchling >=1.27.0']
 [dependency-groups]
 dev = ['pdoc >=14.7.0', 'ruff >=0.4.7']
 examples = [
-  'python-multipart >=0.0.6',
-  'pydantic[email] >=1.7.2,<3.0.0',
-  'minijinja >=2.11.0',
+  'cachette>=0.1.8',
   'fastapi >=0',
   'granian >=2.5.0',
+  'minijinja >=2.11.0',
+  'python-multipart >=0.0.6',
+  'pydantic[email] >=1.7.2,<3.0.0',
 ]
 tests = [
   'fastapi >=0',
